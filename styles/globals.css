@@ -1,0 +1,24 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: Roboto, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-white: #f1f1f1;
+  --color-blue: #197beb;
+  --color-dark-blue: #070723;
+  --color-black: #1e1e1e;
+  --color-white-grey: #f1f1f1;
+  --color-secondary: rgba(7, 7, 35, 0.5);
+}
