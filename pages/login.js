@@ -1,14 +1,19 @@
-import styles from "../styles/Login.module.css";
-
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
-import Link from "next/Link";
 import Cookies from "js-cookie";
 import axios from "axios";
+
+// components
 import ButtonAuth from "../components/ButtonAuth";
 import InputAuth from "../components/InputAuth";
 import ContainerAuth from "../components/ContainerAuth";
+import FormAuth from "../components/FormAuth";
+import LabelAuth from "../components/LabelAuth";
+import ToRegister from "../components/ToRegister";
+import HeaderAuth from "../components/HeaderAuth";
+import BannerAuth from "../components/BannerAuth";
+import ContainerInputAuth from "../components/ContainerInputAuth";
 
 const Login = () => {
   let [email, setEmail] = useState("");
@@ -85,154 +90,27 @@ const Login = () => {
   };
 
   return (
-    // <section className={styles.container}>
     <ContainerAuth>
-      {isTabletOrMobile ? (
-        <>
-        {/* <div className={styles.containerFormMobile}> */}
-          <form
-            className={styles.formMobile}
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            <header className={styles.headerMobile}>
-              <h1>Masuk</h1>
-              {isUserExist === "doesn't exist" && (
-                <p className={styles.validationAlertMobile}>Akun anda belum terdaftar.</p>
-              )}
+      {!isTabletOrMobile && <BannerAuth src="/login.svg" alt="login-photo" />}
 
-              {isAllValid === "not valid" && !isEmailValid && !isPasswordValid && (
-                <p className={styles.validationAlertMobile}>
-                  Masukkan Email dan Password dengan benar.
-                </p>
-              )}
+      <FormAuth onSubmit={handleSubmit}>
+        <HeaderAuth
+          title="Masuk"
+          validator={{ isUserExist, isAllValid, isEmailValid, isPasswordValid }}
+        />
 
-              {isAllValid === "not valid" && !isEmailValid && isPasswordValid && (
-                <p className={styles.validationAlertMobile}>Masukkan Email dengan benar.</p>
-              )}
+        <ContainerInputAuth>
+          <LabelAuth label="email" />
+          <InputAuth type="text" id="email" value={email} placeholder="email" onChange={handleEmail} />
 
-              {isAllValid === "not valid" && !isPasswordValid && isEmailValid && (
-                <p className={styles.validationAlertMobile}>Masukkan Password dengan benar.</p>
-              )}
-            </header>
+          <LabelAuth label="password" />
+          <InputAuth type="password" id="password" value={password} placeholder="password" onChange={handlePassword} />
+        </ContainerInputAuth>
 
-            <label htmlFor="email" className={styles.emailLabelMobile}>
-              Email
-            </label>
-            <input
-              type="text"
-              id="email"
-              placeholder="Email"
-              className={styles.emailMobile}
-              value={email}
-              onChange={(e) => {
-                handleEmail(e);
-              }}
-            />
-
-            <label htmlFor="password" className={styles.passwordLabelMobile}>
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              placeholder="Password"
-              className={styles.passwordMobile}
-              value={password}
-              onChange={(e) => {
-                handlePassword(e);
-              }}
-            />
-
-            <button
-              type="submit"
-              className={`${styles.buttonMobile} ${loading && styles.buttonUnable}`}
-            >
-              Masuk
-            </button>
-          </form>
-
-          <p className={styles.containerToRegisterMobile}>
-            Belum memiliki akun ?{" "}
-            <Link href="/register">
-              <a>Daftar di sini</a>
-            </Link>
-          </p>
-        {/* </div> */}
-        </>
-      ) : (
-        <>
-          <img src="/login.svg" alt="login-photo" />
-          <form
-            className={styles.form}
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            <h1 className={styles.title}>Masuk Akun</h1>
-            {isUserExist === "doesn't exist" && (
-              <p className={styles.validationAlert}>Akun anda belum terdaftar.</p>
-            )}
-
-            {isAllValid === "not valid" && !isEmailValid && !isPasswordValid && (
-              <p className={styles.validationAlert}>Masukkan Email dan Password dengan benar.</p>
-            )}
-
-            {isAllValid === "not valid" && !isEmailValid && isPasswordValid && (
-              <p className={styles.validationAlert}>Masukkan Email dengan benar.</p>
-            )}
-
-            {isAllValid === "not valid" && !isPasswordValid && isEmailValid && (
-              <p className={styles.validationAlert}>Masukkan Password dengan benar.</p>
-            )}
-
-            <div className={styles.containerInput}>
-              <label htmlFor="email" className={styles.emailLabel}>
-                Email
-              </label>
-              {/* <input
-                type="text"
-                className={styles.email}
-                id="email"
-                value={email}
-                onChange={(e) => {
-                  handleEmail(e);
-                }}
-              /> */}
-                <InputAuth type="text" id="email" value={email} onChange={handleEmail} />
-
-              <label htmlFor="password" className={styles.passwordLabel}>
-                Password
-              </label>
-              {/* <input
-                type="password"
-                className={styles.password}
-                id="password"
-                value={password}
-                onChange={(e) => {
-                  handlePassword(e);
-                }}
-              /> */}
-              <InputAuth type="password" id="password" value={password} onChange={handlePassword}/>
-            </div>
-
-            {/* <button type="submit" className={`${styles.button} ${loading && styles.buttonUnable}`}>
-              Masuk
-            </button> */}
-
-            <ButtonAuth label="Masuk" loading={loading} />
-
-            <div className={styles.containerToRegister}>
-              <p>Belum memiliki akun?</p>
-              <Link href="/register">
-                <a>Daftar di sini</a>
-              </Link>
-            </div>
-          </form>
-        </>
-      )}
-    {/* </section> */}
+        <ButtonAuth label="Masuk" loading={loading} />
+        
+        <ToRegister />
+      </FormAuth>
     </ContainerAuth>
   );
 };

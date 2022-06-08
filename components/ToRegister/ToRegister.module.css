@@ -1,0 +1,39 @@
+.containerToRegister {
+  position: absolute;
+  bottom: 50px;
+  text-align: center;
+}
+
+.containerToRegister p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-dark-blue);
+
+  margin: 0 0 5px 0;
+}
+
+.containerToRegister a {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-blue);
+}
+
+.containerToRegisterMobile {
+  /* position: absolute;
+  bottom: 50px; */
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  /* text-align: center; */
+
+  color: var(--color-dark-blue);
+}
+
+
+.containerToRegisterMobile a {
+  color: var(--color-blue);
+  font-weight: 600;
+}
