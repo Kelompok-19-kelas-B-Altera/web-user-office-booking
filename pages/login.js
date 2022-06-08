@@ -3,7 +3,7 @@ import styles from "../styles/Login.module.css";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
-import Link from "next/Link";
+import Link from "next/link";
 import Cookies from "js-cookie";
 import axios from "axios";
 import ButtonAuth from "../components/ButtonAuth";
