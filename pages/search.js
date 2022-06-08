@@ -1,8 +1,9 @@
 import { useState } from "react";
 import {Users} from "../component-search-feature/users";
 import Table from "../component-search-feature/TableSearch"
+import '../styles/search.css'
 
-export default function App() {
+export default function Searchfeature() {
       const [query, setQuery] = useState("");
   const keys = ["first_name", "last_name", "email","gender"];
   const search = (data) => {
