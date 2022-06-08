@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {Users} from "../public/users";
 import Table from "../public/TableSearch"
-import '../styles/search.css'
 
 export default function App() {
       const [query, setQuery] = useState("");
