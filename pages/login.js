@@ -2,30 +2,31 @@ import styles from "../styles/Login.module.css";
 
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useRouter } from "next/router";
 import Link from "next/Link";
 import Cookies from "js-cookie";
 import axios from "axios";
+import ButtonAuth from "../components/ButtonAuth";
+import InputAuth from "../components/InputAuth";
+import ContainerAuth from "../components/ContainerAuth";
 
 const Login = () => {
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
   let [isEmailValid, setEmailValid] = useState(false);
   let [isPasswordValid, setPasswordValid] = useState(false);
+  let [isUserExist, setUserExist] = useState("");
   let [isAllValid, setAllValid] = useState("");
+  let [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1280px)" });
 
   useEffect(() => {
-    if (isAllValid === "valid") {
-      axios
-        .post("http://108.136.240.248/api/v1/auth/login", { email, password })
-        .then((response) => {
-          console.log(response);
-        }).catch((error)=>{
-          console.log(error)
-        });
+    if (isUserExist === "exists") {
+      router.push("/");
     }
-  }, [isAllValid]);
+  }, [isUserExist]);
 
   const handleEmail = (e) => {
     const value = e.target.value;
@@ -56,22 +57,39 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (loading) {
+      return;
+    }
+
     if (isEmailValid && isPasswordValid) {
-      Cookies.set("email", email);
-      setEmail("");
-      setPassword("");
-      setEmailValid(false);
-      setPasswordValid(false);
-      setAllValid("valid");
+      setLoading(true);
+
+      axios
+        .post("http://108.136.240.248/api/v1/auth/login", { email, password })
+        .then((response) => {
+          setUserExist("exists");
+          setAllValid("valid");
+          setLoading(false);
+          Cookies.set("token", response.data.data.token);
+        })
+        .catch((error) => {
+          setUserExist("doesn't exist");
+          setAllValid("valid");
+          setLoading(false);
+          console.log(error);
+        });
     } else {
       setAllValid("not valid");
+      setUserExist("");
     }
   };
 
   return (
-    <section className={styles.container}>
+    // <section className={styles.container}>
+    <ContainerAuth>
       {isTabletOrMobile ? (
-        <div className={styles.containerFormMobile}>
+        <>
+        {/* <div className={styles.containerFormMobile}> */}
           <form
             className={styles.formMobile}
             onSubmit={(e) => {
@@ -80,6 +98,23 @@ const Login = () => {
           >
             <header className={styles.headerMobile}>
               <h1>Masuk</h1>
+              {isUserExist === "doesn't exist" && (
+                <p className={styles.validationAlertMobile}>Akun anda belum terdaftar.</p>
+              )}
+
+              {isAllValid === "not valid" && !isEmailValid && !isPasswordValid && (
+                <p className={styles.validationAlertMobile}>
+                  Masukkan Email dan Password dengan benar.
+                </p>
+              )}
+
+              {isAllValid === "not valid" && !isEmailValid && isPasswordValid && (
+                <p className={styles.validationAlertMobile}>Masukkan Email dengan benar.</p>
+              )}
+
+              {isAllValid === "not valid" && !isPasswordValid && isEmailValid && (
+                <p className={styles.validationAlertMobile}>Masukkan Password dengan benar.</p>
+              )}
             </header>
 
             <label htmlFor="email" className={styles.emailLabelMobile}>
@@ -90,6 +125,7 @@ const Login = () => {
               id="email"
               placeholder="Email"
               className={styles.emailMobile}
+              value={email}
               onChange={(e) => {
                 handleEmail(e);
               }}
@@ -103,27 +139,28 @@ const Login = () => {
               id="password"
               placeholder="Password"
               className={styles.passwordMobile}
+              value={password}
               onChange={(e) => {
                 handlePassword(e);
               }}
             />
 
-            <Link href="/lupa-password">
-              <a className={styles.lupaPasswordMobile}>Lupa Password ?</a>
-            </Link>
-
-            <button type="submit" className={styles.buttonMobile}>
+            <button
+              type="submit"
+              className={`${styles.buttonMobile} ${loading && styles.buttonUnable}`}
+            >
               Masuk
             </button>
           </form>
 
           <p className={styles.containerToRegisterMobile}>
             Belum memiliki akun ?{" "}
-            <Link href="/lupa-password">
-              <a>Lupa Password</a>
+            <Link href="/register">
+              <a>Daftar di sini</a>
             </Link>
           </p>
-        </div>
+        {/* </div> */}
+        </>
       ) : (
         <>
           <img src="/login.svg" alt="login-photo" />
@@ -134,15 +171,27 @@ const Login = () => {
             }}
           >
             <h1 className={styles.title}>Masuk Akun</h1>
-            {isAllValid === "not valid" && (
-              <p className={styles.validationAlert}>Masukkan Username dan Password dengan benar.</p>
+            {isUserExist === "doesn't exist" && (
+              <p className={styles.validationAlert}>Akun anda belum terdaftar.</p>
+            )}
+
+            {isAllValid === "not valid" && !isEmailValid && !isPasswordValid && (
+              <p className={styles.validationAlert}>Masukkan Email dan Password dengan benar.</p>
+            )}
+
+            {isAllValid === "not valid" && !isEmailValid && isPasswordValid && (
+              <p className={styles.validationAlert}>Masukkan Email dengan benar.</p>
+            )}
+
+            {isAllValid === "not valid" && !isPasswordValid && isEmailValid && (
+              <p className={styles.validationAlert}>Masukkan Password dengan benar.</p>
             )}
 
             <div className={styles.containerInput}>
               <label htmlFor="email" className={styles.emailLabel}>
                 Email
               </label>
-              <input
+              {/* <input
                 type="text"
                 className={styles.email}
                 id="email"
@@ -150,12 +199,13 @@ const Login = () => {
                 onChange={(e) => {
                   handleEmail(e);
                 }}
-              />
+              /> */}
+                <InputAuth type="text" id="email" value={email} onChange={handleEmail} />
 
               <label htmlFor="password" className={styles.passwordLabel}>
                 Password
               </label>
-              <input
+              {/* <input
                 type="password"
                 className={styles.password}
                 id="password"
@@ -163,18 +213,15 @@ const Login = () => {
                 onChange={(e) => {
                   handlePassword(e);
                 }}
-              />
-
-              <span className={styles.containerLupaPassword}>
-                <Link href="/lupa-password">
-                  <a>Lupa Password?</a>
-                </Link>
-              </span>
+              /> */}
+              <InputAuth type="password" id="password" value={password} onChange={handlePassword}/>
             </div>
 
-            <button type="submit" className={styles.button}>
+            {/* <button type="submit" className={`${styles.button} ${loading && styles.buttonUnable}`}>
               Masuk
-            </button>
+            </button> */}
+
+            <ButtonAuth label="Masuk" loading={loading} />
 
             <div className={styles.containerToRegister}>
               <p>Belum memiliki akun?</p>
@@ -185,7 +232,8 @@ const Login = () => {
           </form>
         </>
       )}
-    </section>
+    {/* </section> */}
+    </ContainerAuth>
   );
 };
 
