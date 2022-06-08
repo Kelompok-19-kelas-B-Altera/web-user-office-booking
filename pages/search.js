@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {Users} from "../component-search-feature/users";
-import Table from "../component-search-feature/TableSearch"
-import '../styles/search.css'
+import Table from "../component-search-feature/TableSearch";
 
 export default function Searchfeature() {
       const [query, setQuery] = useState("");
