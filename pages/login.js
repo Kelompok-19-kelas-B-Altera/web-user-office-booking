@@ -6,6 +6,9 @@ import { useRouter } from "next/router";
 import Link from "next/Link";
 import Cookies from "js-cookie";
 import axios from "axios";
+import ButtonAuth from "../components/ButtonAuth";
+import InputAuth from "../components/InputAuth";
+import ContainerAuth from "../components/ContainerAuth";
 
 const Login = () => {
   let [email, setEmail] = useState("");
@@ -82,9 +85,11 @@ const Login = () => {
   };
 
   return (
-    <section className={styles.container}>
+    // <section className={styles.container}>
+    <ContainerAuth>
       {isTabletOrMobile ? (
-        <div className={styles.containerFormMobile}>
+        <>
+        {/* <div className={styles.containerFormMobile}> */}
           <form
             className={styles.formMobile}
             onSubmit={(e) => {
@@ -154,7 +159,8 @@ const Login = () => {
               <a>Daftar di sini</a>
             </Link>
           </p>
-        </div>
+        {/* </div> */}
+        </>
       ) : (
         <>
           <img src="/login.svg" alt="login-photo" />
@@ -185,7 +191,7 @@ const Login = () => {
               <label htmlFor="email" className={styles.emailLabel}>
                 Email
               </label>
-              <input
+              {/* <input
                 type="text"
                 className={styles.email}
                 id="email"
@@ -193,12 +199,13 @@ const Login = () => {
                 onChange={(e) => {
                   handleEmail(e);
                 }}
-              />
+              /> */}
+                <InputAuth type="text" id="email" value={email} onChange={handleEmail} />
 
               <label htmlFor="password" className={styles.passwordLabel}>
                 Password
               </label>
-              <input
+              {/* <input
                 type="password"
                 className={styles.password}
                 id="password"
@@ -206,12 +213,15 @@ const Login = () => {
                 onChange={(e) => {
                   handlePassword(e);
                 }}
-              />
+              /> */}
+              <InputAuth type="password" id="password" value={password} onChange={handlePassword}/>
             </div>
 
-            <button type="submit" className={`${styles.button} ${loading && styles.buttonUnable}`}>
+            {/* <button type="submit" className={`${styles.button} ${loading && styles.buttonUnable}`}>
               Masuk
-            </button>
+            </button> */}
+
+            <ButtonAuth label="Masuk" loading={loading} />
 
             <div className={styles.containerToRegister}>
               <p>Belum memiliki akun?</p>
@@ -222,7 +232,8 @@ const Login = () => {
           </form>
         </>
       )}
-    </section>
+    {/* </section> */}
+    </ContainerAuth>
   );
 };
 
