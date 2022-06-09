@@ -2,7 +2,7 @@ import styles from "./FormAuth.module.css";
 import { useMediaQuery } from "react-responsive";
 
 const FormAuth = ({ children, onSubmit }) => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1280px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
   return (
     <>
       <form
