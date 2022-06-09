@@ -1,6 +1,6 @@
 import styles from "./ToRegister.module.css";
 import { useMediaQuery } from "react-responsive";
-import Link from "next/Link";
+import Link from "next/link";
 
 
 const ToRegister = () => {
