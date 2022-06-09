@@ -4,7 +4,7 @@ import Link from "next/link";
 
 
 const ToRegister = () => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1280px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
 
   return (
     <>

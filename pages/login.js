@@ -25,7 +25,7 @@ const Login = () => {
   let [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1280px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
 
   useEffect(() => {
     if (isUserExist === "exists") {
