@@ -2,7 +2,7 @@ import styles from "./InputAuth.module.css";
 import { useMediaQuery } from "react-responsive";
 
 const InputAuth = ({ type, id, placeholder, value, onChange }) => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1280px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
   return (
     <>
       {isTabletOrMobile ? (

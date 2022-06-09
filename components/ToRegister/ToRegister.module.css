@@ -23,6 +23,7 @@
 .containerToRegisterMobile {
   /* position: absolute;
   bottom: 50px; */
+  margin-top: 40px;
 
   font-weight: 400;
   font-size: 14px;

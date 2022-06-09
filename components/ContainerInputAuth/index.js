@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 
 
 const ContainerInputAuth = ({ children }) => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1280px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
 
   return (
     <div className={isTabletOrMobile ? styles.containerInputMobile : styles.containerInput}>

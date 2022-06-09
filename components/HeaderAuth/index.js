@@ -3,7 +3,7 @@ import { useMediaQuery } from "react-responsive";
 import PopupValidation from "../PopupValidation";
 
 const HeaderAuth = ({ title, validator }) => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1280px)" });
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
   const {isAllValid, isUserExist, isEmailValid, isPasswordValid} = validator
 
   return (
