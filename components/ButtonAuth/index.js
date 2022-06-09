@@ -10,6 +10,7 @@ const ButtonAuth = ({ label, loading }) => {
         className={`${isTabletOrMobile ? styles.buttonMobile : styles.button} ${
           loading && styles.buttonUnable
         }`}
+        id="button-submit"
       >
         {label}
       </button>

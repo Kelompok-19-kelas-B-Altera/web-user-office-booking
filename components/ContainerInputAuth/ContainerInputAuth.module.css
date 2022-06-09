@@ -1,0 +1,12 @@
+.containerInput {
+  display: flex;
+  flex-direction: column;
+
+  max-width: 525px;
+  max-height: 205px;
+  height: 100%;
+  width: 100%;
+
+  margin-top: 47px;
+  margin-bottom: 47px;
+}
