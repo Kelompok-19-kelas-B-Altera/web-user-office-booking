@@ -12,14 +12,14 @@ const ToRegister = () => {
         <p className={styles.containerToRegisterMobile}>
           Belum memiliki akun ?{" "}
           <Link href="/register">
-            <a>Daftar di sini</a>
+            <a id="to-register">Daftar di sini</a>
           </Link>
         </p>
       ) : (
         <div className={styles.containerToRegister}>
           <p>Belum memiliki akun?</p>
           <Link href="/register">
-            <a>Daftar di sini</a>
+            <a id="to-register">Daftar di sini</a>
           </Link>
         </div>
       )}
