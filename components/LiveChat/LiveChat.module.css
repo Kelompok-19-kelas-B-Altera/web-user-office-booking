@@ -1,0 +1,67 @@
+.container {
+  width: 872px;
+  height: 567px;
+
+  right: 10%;
+  top: 10%;
+}
+
+.containerButton {
+  width: 141px;
+  height: 65px;
+
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 23px;
+  color: var(--color-dark-blue);
+
+  border-radius: 30px;
+
+  top: 93%;
+}
+
+.containerChatBox {
+  width: 872px;
+  height: 489.41px;
+
+  border-radius: 6px;
+}
+
+.triangle {
+  width: 75px;
+  height: 63px;
+
+  border-radius: 6px;
+
+  transform: rotate(45deg);
+
+  top: 431px;
+  right: 21px;
+}
+
+.buildingBox {
+  width: 264px;
+  height: 76px;
+
+  border-bottom: solid 1px #f5f5f5;
+}
+
+.buildingName {
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.buildingLocation {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.containerButton:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.buildingBox:last-child {
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+}
