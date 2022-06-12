@@ -1,7 +1,7 @@
 import styles from "./InputAuth.module.css";
 import { useMediaQuery } from "react-responsive";
 
-const InputAuth = ({ type, id, placeholder, value, onChange }) => {
+const InputAuth = ({ type, id, placeholder, value, name, onChange }) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
   return (
     <>
@@ -11,6 +11,7 @@ const InputAuth = ({ type, id, placeholder, value, onChange }) => {
           id={id}
           placeholder={placeholder.toLowerCase()}
           className={styles.inputMobile}
+          name={name}
           value={value}
           onChange={(e) => {
             onChange(e);
@@ -21,6 +22,7 @@ const InputAuth = ({ type, id, placeholder, value, onChange }) => {
           type={type}
           id={id}
           className={styles.input}
+          name={name}
           value={value}
           onChange={(e) => {
             onChange(e);

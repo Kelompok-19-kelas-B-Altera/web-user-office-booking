@@ -6,11 +6,12 @@ import { useRouter } from "next/router";
 // components
 import ButtonAuth from "../components/ButtonAuth";
 import InputAuth from "../components/InputAuth";
+import InputAuthPassword from "../components/InputAuthPassword";
 import ContainerAuth from "../components/ContainerAuth";
 import FormAuth from "../components/FormAuth";
 import LabelAuth from "../components/LabelAuth";
-import ToRegister from "../components/ToRegister";
-import HeaderAuth from "../components/HeaderAuth";
+import ToLogin from "../components/ToLogin";
+import HeaderAuthRegister from "../components/HeaderAuthRegister";
 import BannerAuth from "../components/BannerAuth";
 import ContainerInputAuth from "../components/ContainerInputAuth";
 
@@ -32,22 +33,25 @@ const Signup = () => {
       uppercase: false,
       number: false,
   });
-  const [isMessage, setMessage] = useState({
-      message: ""
-  })
+//   const [isMessage, setMessage] = useState({
+//       message: ""
+//   });
+  const [isAllValid, setAllValid] = useState("")
+  const [loading, setLoading] = useState(false)
+  
+  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
 
   const handleChangeEmail = (e) => {
-    const value = e.target.value;
-    const valueWithNoSpace = value.includes(" ") ? false : true;
-    const isThereaddress = value.split("@")[0] ? true : false;
-    const justOneAt = value.match(/@/g)?.length === 1 ? true : false;
-    const isThereDomain = value.split("@")[1]?.split(".")[0] ? true : false;
-    const isThereTopLevelDomain = value.split(".")[1]?.length > 0 ? true : false;
+    const valueWithNoSpace =  e.target.value.includes(" ") ? false : true;
+    const isThereaddress =  e.target.value.split("@")[0] ? true : false;
+    const justOneAt =  e.target.value.match(/@/g)?.length === 1 ? true : false;
+    const isThereDomain =  e.target.value.split("@")[1]?.split(".")[0] ? true : false;
+    const isThereTopLevelDomain =  e.target.value.split(".")[1]?.length > 0 ? true : false;
     setDataForm({
         ...dataForm,
-        value
+        [e.target.name]:[e.target.value]
     })
-    if (value === 'email' ) { 
+    if (e.target.name === 'email' ) { 
         if (valueWithNoSpace && isThereaddress && justOneAt && isThereDomain && isThereTopLevelDomain) {
             setEmailValid(true);
         } else {
@@ -59,7 +63,7 @@ const Signup = () => {
   const handleChangeUsername = (e) => {
     setDataForm({
         ...dataForm,
-        username: e.target.value,
+        [e.target.name]: e.target.value,
     })
   };
 
@@ -229,6 +233,11 @@ const Signup = () => {
         ...isMessage,
         message: "Berhasil",
     });
+    } else {
+       setMessage({
+        ...isMessage,
+        message: "Gagal",
+    }); 
     }
   }
 
@@ -236,39 +245,35 @@ const Signup = () => {
 
   return (
     <ContainerAuth>
-      {/* {!isTabletOrMobile && <BannerAuth src="/login.svg" alt="login-photo" />} */}
+      {!isTabletOrMobile && <BannerAuth src="/login.svg" alt="login-photo" />}
 
       <FormAuth 
       onSubmit={handleSubmit}
       >
-        {/* <HeaderAuth
-          title="Daftar Akun"
-          // validator={{ isUserExist, isAllValid, isEmailValid, isPasswordValid }}
-        /> */}
-        <h1 className={styles.title}>Daftar Akun</h1>
-                    { isMessage.message &&
-                        <div className={styles.message}>
-                            <p className={styles.labelMessage}>{isMessage.message}</p>
-                        </div>
-                    }
+            {/* <HeaderAuthRegister
+            title="Daftar Akun"
+            validator={{ dataForm, isEmailValid, isPasswordValid, isConfirmPasswordValid }}
+            /> */}
+            {isMessage (
+                <>
+                <PopupValidation message="Masukkan email anda dengan benar." />
+                </>
+            )}
+            <ContainerInputAuth>
 
-        <ContainerInputAuth>
           <LabelAuth label="email" />
-          <InputAuth type="text" id="email" 
-          // value={email} 
+          <InputAuth type="text" id="email"  
           placeholder="email" 
           onChange={handleChangeEmail} 
           />
 
-          <LabelAuth label="username" />
+          <LabelAuth label="full name" />
           <InputAuth type="text" id="username" 
-          // value={password} 
           placeholder="username" onChange={handleChangeUsername} 
           />
 
           <LabelAuth label="password" />
-          <InputAuth type="password" id="password" 
-          // value={password} 
+          <InputAuthPassword type="password" id="password" 
           name="password"
           placeholder="password" onChange={(e) => {handleChangePassword(e)}} 
           />
@@ -308,10 +313,9 @@ const Signup = () => {
               }
           </span>
 
-          <LabelAuth label="confirmPassword" />
-          <InputAuth type="password" id="confirmPassword" 
-          // value={password} 
-          placeholder="password" onChange={handleChangeConfirmPassword} 
+          <LabelAuth label="ulangi password" />
+          <InputAuthPassword type="password" id="passwordConfirm" 
+          placeholder="password" name="passwordConfirm" onChange={handleChangeConfirmPassword} 
           />
           <span className={styles.validation}>
               { isConfirmPasswordValid.characters ? 
@@ -348,13 +352,13 @@ const Signup = () => {
                   </div>
               }
           </span>
-        </ContainerInputAuth>
 
-        <ButtonAuth label="Masuk" 
+        <ButtonAuth label="Daftar"
         // loading={loading} 
         />
+        </ContainerInputAuth>
         
-        <ToRegister />
+        <ToLogin />
       </FormAuth>
     </ContainerAuth>
   )
