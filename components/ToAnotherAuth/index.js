@@ -3,23 +3,23 @@ import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
 
 
-const ToRegister = () => {
+const ToRegister = ({label, linkAnother, toAnother}) => {
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
 
   return (
     <>
       {isTabletOrMobile ? (
         <p className={styles.containerToRegisterMobile}>
-          Belum memiliki akun ?{" "}
-          <Link href="/register">
-            <a id="to-register">Daftar di sini</a>
+          {label}{" "}
+          <Link href={linkAnother}>
+            <a id="to-another">{toAnother}</a>
           </Link>
         </p>
       ) : (
         <div className={styles.containerToRegister}>
-          <p>Belum memiliki akun?</p>
-          <Link href="/register">
-            <a id="to-register">Daftar di sini</a>
+          <p>{label}</p>
+          <Link href={linkAnother}>
+            <a id="to-another">{toAnother}</a>
           </Link>
         </div>
       )}
