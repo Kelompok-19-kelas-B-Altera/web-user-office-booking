@@ -1,6 +1,4 @@
 import styles from '../styles/Signup.module.css'
-<<<<<<< Updated upstream
-=======
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
@@ -9,7 +7,7 @@ import { useRouter } from "next/router";
 // components
 import ButtonAuth from "../components/ButtonAuth";
 import InputAuth from "../components/InputAuth";
-import InputAuthPassword from "../components/InputAuthPassword";
+// import InputAuthPassword from "../components/InputAuthPassword";
 import ContainerAuth from "../components/ContainerAuth";
 import FormAuth from "../components/FormAuth";
 import LabelAuth from "../components/LabelAuth";
@@ -17,14 +15,9 @@ import ToAnotherAuth from "../components/ToAnotherAuth";
 import PopupValidation from '../components/PopupValidation';
 import BannerAuth from "../components/BannerAuth";
 import ContainerInputAuth from "../components/ContainerInputAuth";
->>>>>>> Stashed changes
 
 
 const Signup = () => {
-<<<<<<< Updated upstream
-  return (
-    <div>Signup</div>
-=======
   const [dataForm, setDataForm] = useState({
     username: '',
     email: '',
@@ -299,9 +292,9 @@ const Signup = () => {
           />
 
           <LabelAuth label="password" />
-          <InputAuthPassword type="password" id="password" 
+          <InputAuth type="password" id="password" 
           name="password"
-          placeholder="password" onChange={(e) => {handleChangePassword(e)}} 
+          placeholder="password" onChange={handleChangePassword}
           />
           <span className={styles.validation}>
               { isPasswordValid.characters ? 
@@ -340,7 +333,7 @@ const Signup = () => {
           </span>
 
           <LabelAuth label="ulangi password" />
-          <InputAuthPassword type="password" id="passwordConfirm" 
+          <InputAuth type="password" id="passwordConfirm" 
           placeholder="password" name="passwordConfirm" onChange={handleChangeConfirmPassword} 
           />
           <span className={styles.validation}>
@@ -387,7 +380,6 @@ const Signup = () => {
         <ToAnotherAuth label="Sudah Punya Akun ?" linkAnother="/login" toAnother="Masuk Disini" />
       </FormAuth>
     </ContainerAuth>
->>>>>>> Stashed changes
   )
 }
 
