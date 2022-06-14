@@ -11,7 +11,7 @@ import InputAuth from "../components/InputAuth";
 import ContainerAuth from "../components/ContainerAuth";
 import FormAuth from "../components/FormAuth";
 import LabelAuth from "../components/LabelAuth";
-import ToRegister from "../components/ToRegister";
+import ToAnotherAuth from "../components/ToAnotherAuth";
 import HeaderAuth from "../components/HeaderAuth";
 import BannerAuth from "../components/BannerAuth";
 import ContainerInputAuth from "../components/ContainerInputAuth";
@@ -138,7 +138,7 @@ const Login = () => {
 
             <ButtonAuth label="Masuk" loading={loading} />
           </ContainerHeaderInputButton>
-          <ToRegister />
+          <ToAnotherAuth label="Belum memiliki akun?" linkAnother="/signup" toAnother="Daftar di sini" />
         </ContainerHeaderInputButtonToAnotherAuth>
       </FormAuth>
     </ContainerAuth>
