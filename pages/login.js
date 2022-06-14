@@ -15,6 +15,9 @@ import ToRegister from "../components/ToRegister";
 import HeaderAuth from "../components/HeaderAuth";
 import BannerAuth from "../components/BannerAuth";
 import ContainerInputAuth from "../components/ContainerInputAuth";
+import ContainerHeaderInputButtonToAnotherAuth from "../components/ContainerHeaderInputButtonToAnotherAuth";
+import ContainerHeaderInputButton from "../components/ContainerHeaderInputButton";
+import ContainerLabelInput from "../components/ContainerLabelInput";
 
 const Login = () => {
   let [email, setEmail] = useState("");
@@ -96,25 +99,47 @@ const Login = () => {
       {!isTabletOrMobile && <BannerAuth src="/login.svg" alt="login-photo" />}
 
       <FormAuth onSubmit={handleSubmit}>
-        <HeaderAuth
-          title="Masuk Akun"
-          titleMobile="Masuk"
-          validators={[ isUserExist, "doesn't exist" ]}
-          messages={[ "Akun belum memiliki akun", "Signup di sini" ]}
-          linkTo="/register"
-        />
+        <ContainerHeaderInputButtonToAnotherAuth>
+          <ContainerHeaderInputButton>
+            <HeaderAuth
+              title="Masuk Akun"
+              titleMobile="Masuk"
+              validators={[isUserExist, "doesn't exist"]}
+              messages={["Anda belum memiliki akun", "Signup di sini"]}
+              linkTo="/register"
+            />
 
-        <ContainerInputAuth>
-          <LabelAuth label="email" />
-          <InputAuth type="text" id="email" value={email} placeholder="email" onChange={handleEmail} />
+            <ContainerInputAuth>
+              <ContainerLabelInput>
+                <LabelAuth label="email" />
+                <InputAuth
+                  type="text"
+                  id="email"
+                  value={email}
+                  placeholder="email"
+                  onChange={handleEmail}
+                  validators={[isEmailValid, isAllValid]}
+                  alertMessage="Gunakan format email dengan benar"
+                />
+              </ContainerLabelInput>
+              <ContainerLabelInput>
+                <LabelAuth label="password" />
+                <InputAuth
+                  type="password"
+                  id="password"
+                  value={password}
+                  placeholder="password"
+                  onChange={handlePassword}
+                  validators={[isPasswordValid, isAllValid]}
+                  alertMessage="Periksa kembali password anda"
+                />
+              </ContainerLabelInput>
+            </ContainerInputAuth>
 
-          <LabelAuth label="password" />
-          <InputAuth type="password" id="password" value={password} placeholder="password" onChange={handlePassword} />
-        </ContainerInputAuth>
-
-        <ButtonAuth label="Masuk" loading={loading} />
-        
-        <ToRegister />
+            <ButtonAuth label="Masuk" loading={loading} />
+          </ContainerHeaderInputButton>
+          <ToRegister />
+        </ContainerHeaderInputButtonToAnotherAuth>
       </FormAuth>
     </ContainerAuth>
   );
