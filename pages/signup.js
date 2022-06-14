@@ -1,6 +1,4 @@
 import styles from '../styles/Signup.module.css'
-<<<<<<< Updated upstream
-=======
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
@@ -17,14 +15,9 @@ import ToAnotherAuth from "../components/ToAnotherAuth";
 import PopupValidation from '../components/PopupValidation';
 import BannerAuth from "../components/BannerAuth";
 import ContainerInputAuth from "../components/ContainerInputAuth";
->>>>>>> Stashed changes
 
 
 const Signup = () => {
-<<<<<<< Updated upstream
-  return (
-    <div>Signup</div>
-=======
   const [dataForm, setDataForm] = useState({
     username: '',
     email: '',
@@ -387,7 +380,6 @@ const Signup = () => {
         <ToAnotherAuth label="Sudah Punya Akun ?" linkAnother="/login" toAnother="Masuk Disini" />
       </FormAuth>
     </ContainerAuth>
->>>>>>> Stashed changes
   )
 }
 
