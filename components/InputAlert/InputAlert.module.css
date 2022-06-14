@@ -1,0 +1,8 @@
+.container {
+  display: flex;
+}
+
+.icon {
+  width: 19px;
+  height: 19px;
+}

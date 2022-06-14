@@ -1,10 +1,13 @@
 import styles from "./ToRegister.module.css";
 import { useMediaQuery } from "react-responsive";
 import Link from "next/link";
+import { useSelector } from "react-redux";
+
 
 
 const ToRegister = () => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
+  const maxWidth = useSelector((state) => state.mediaQuery.maxWidth);
+  const isTabletOrMobile = useMediaQuery({ query: `(max-width: ${maxWidth}px)` });
 
   return (
     <>

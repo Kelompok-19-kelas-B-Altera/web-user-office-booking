@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import axios from "axios";
@@ -25,7 +26,8 @@ const Login = () => {
   let [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
+  const maxWidth = useSelector((state) => state.mediaQuery.maxWidth);
+  const isTabletOrMobile = useMediaQuery({ query: `(max-width: ${maxWidth}px)` });
 
   useEffect(() => {
     if (isUserExist === "exists") {
@@ -95,8 +97,11 @@ const Login = () => {
 
       <FormAuth onSubmit={handleSubmit}>
         <HeaderAuth
-          title="Masuk"
-          validator={{ isUserExist, isAllValid, isEmailValid, isPasswordValid }}
+          title="Masuk Akun"
+          titleMobile="Masuk"
+          validators={[ isUserExist, "doesn't exist" ]}
+          messages={[ "Akun belum memiliki akun", "Signup di sini" ]}
+          linkTo="/register"
         />
 
         <ContainerInputAuth>
