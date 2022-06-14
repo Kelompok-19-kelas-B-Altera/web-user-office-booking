@@ -38,7 +38,7 @@ const Signup = () => {
   const [isMessage, setMessage] = useState({
       message: ""
   });
-  const [isAllValid, setAllValid] = useState("")
+  const [isAllValid, setAllValid] = useState("A")
   const [loading, setLoading] = useState(false)
   
   const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
@@ -279,6 +279,8 @@ const Signup = () => {
           <InputAuth type="text" id="email" name="email"
           placeholder="email" 
           onChange={handleChangeEmail} 
+          validators={[isEmailValid, isAllValid]}
+          alertMessage="Gunakan format email dengan benar"
           />
           <span>
               {isMessage.message && (
@@ -288,13 +290,17 @@ const Signup = () => {
 
           <LabelAuth label="full name" />
           <InputAuth type="text" id="username" 
-          placeholder="username" onChange={handleChangeUsername} 
+          placeholder="username" onChange={handleChangeUsername}
+          validators={[true, isAllValid]} 
+          alertMessage="Masukkan nama anda"
           />
 
           <LabelAuth label="password" />
           <InputAuth type="password" id="password" 
           name="password"
           placeholder="password" onChange={handleChangePassword}
+          validators={[isPasswordValid, isAllValid]}
+          alertMessage="Gunakan format password dengan benar"
           />
           <span className={styles.validation}>
               { isPasswordValid.characters ? 
@@ -334,7 +340,9 @@ const Signup = () => {
 
           <LabelAuth label="ulangi password" />
           <InputAuth type="password" id="passwordConfirm" 
-          placeholder="password" name="passwordConfirm" onChange={handleChangeConfirmPassword} 
+          placeholder="password" name="passwordConfirm" onChange={handleChangeConfirmPassword}
+          validators={[isConfirmPasswordValid, isAllValid]}
+          alertMessage="Gunakan format password dengan benar" 
           />
           <span className={styles.validation}>
               { isConfirmPasswordValid.characters ? 
