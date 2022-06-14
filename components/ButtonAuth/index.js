@@ -1,8 +1,12 @@
 import styles from "./ButtonAuth.module.css";
 import { useMediaQuery } from "react-responsive";
+import { useSelector } from "react-redux";
+
 
 const ButtonAuth = ({ label, loading }) => {
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
+  const maxWidth = useSelector((state) => state.mediaQuery.maxWidth);
+  const isTabletOrMobile = useMediaQuery({ query: `(max-width: ${maxWidth}px)` });
+
   return (
     <>
       <button
