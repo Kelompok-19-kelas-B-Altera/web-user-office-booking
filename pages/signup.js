@@ -2,12 +2,13 @@ import styles from '../styles/Signup.module.css'
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useRouter } from "next/router";
-// import axios from 'axios';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 // components
 import ButtonAuth from "../components/ButtonAuth";
 import InputAuth from "../components/InputAuth";
-// import InputAuthPassword from "../components/InputAuthPassword";
+import InputAuthPassword from '../components/InputAuthPassword';
 import ContainerAuth from "../components/ContainerAuth";
 import FormAuth from "../components/FormAuth";
 import LabelAuth from "../components/LabelAuth";
@@ -15,16 +16,21 @@ import ToAnotherAuth from "../components/ToAnotherAuth";
 import PopupValidation from '../components/PopupValidation';
 import BannerAuth from "../components/BannerAuth";
 import ContainerInputAuth from "../components/ContainerInputAuth";
+import ContainerHeaderInputButtonToAnotherAuth from '../components/ContainerHeaderInputButtonToAnotherAuth';
+import ContainerHeaderInputButton from '../components/ContainerHeaderInputButton';
+import HeaderAuth from '../components/HeaderAuth';
+import ContainerLabelInput from '../components/ContainerLabelInput';
 
 
 const Signup = () => {
   const [dataForm, setDataForm] = useState({
-    username: '',
+    fullname: '',
     email: '',
     password: '',
     passwordConfirm: '',
   });
   const [isEmailValid, setEmailValid] = useState(false);
+  const [isFullnameValid, setFullnameValid] = useState(false);
   const [isPasswordValid, setPasswordValid] = useState({
       characters: false,
       uppercase: false,
@@ -38,10 +44,19 @@ const Signup = () => {
   const [isMessage, setMessage] = useState({
       message: ""
   });
-  const [isAllValid, setAllValid] = useState("A")
-  const [loading, setLoading] = useState(false)
+  const [isUserExist, setUserExist] = useState("");
+  const [isAllValid, setAllValid] = useState("");
+  const [loading, setLoading] = useState(false);
   
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
+  const router = useRouter();
+  const maxWidth = useSelector((state) => state.mediaQuery.maxWidth);
+  const isTabletOrMobile = useMediaQuery({ query: `(max-width: ${maxWidth}px)` });
+
+  useEffect(() => {
+      if (isUserExist === "doesn't exist") {
+          router.push("/login");
+      }
+  }, [isUserExist])
 
   const handleChangeEmail = (e) => {
     const valueWithNoSpace =  e.target.value.includes(" ") ? false : true;
@@ -54,7 +69,6 @@ const Signup = () => {
         [e.target.name]:e.target.value
     })
     if (e.target.name === 'email' ) { 
-      console.log(isEmailValid)
         if (valueWithNoSpace && isThereaddress && justOneAt && isThereDomain && isThereTopLevelDomain) {
             setEmailValid(true);
         } else {
@@ -63,11 +77,18 @@ const Signup = () => {
       }
   };
 
-  const handleChangeUsername = (e) => {
+  const handleChangeFullname = (e) => {
     setDataForm({
         ...dataForm,
         [e.target.name]: e.target.value,
     })
+    if (e.target.name === 'fullname') {
+        if (e.target.value !== '') {
+            setFullnameValid(true);
+        } else {
+            setFullnameValid(false);
+        }
+    }
   };
 
   const handleChangePassword = (e) => {
@@ -80,7 +101,6 @@ const Signup = () => {
         ...dataForm,
         [e.target.name]: e.target.value,
     })
-    console.log(e.target.name)
     if (e.target.name === 'password') {
         if (e.target.value.length < minLength || e.target.value.length > maxLength || !uppercase || !containsNumber) {
             setPasswordValid({
@@ -89,6 +109,7 @@ const Signup = () => {
                 uppercase: false,
                 number: false,
             });
+            console.log("gagal1")
         }
         if (e.target.value.length >= minLength && e.target.value.length <= maxLength) {
             setPasswordValid({
@@ -228,164 +249,112 @@ const Signup = () => {
   };
 
   const handleSubmit = (e) => {
-    console.log(dataForm.email)
     e.preventDefault();
     if ( isEmailValid && dataForm.password !== dataForm.passwordConfirm ) {
         setMessage({
             ...isMessage,
             message: "Password tidak sama",
         });
-    } else if (!isEmailValid){
-        setMessage({
-            ...isMessage,
-            message: "Gunakan format email dengan benar",
-        });
     } else if ( isEmailValid && isPasswordValid.characters && isPasswordValid.number && isPasswordValid.uppercase && isConfirmPasswordValid.characters && isConfirmPasswordValid.number && isConfirmPasswordValid.uppercase ) {
         setLoading(true);
 
-      // axios
-      // .post("http://108.136.240.248/api/v1/auth/register", {dataForm.email })
-
+      axios
+      .post("http://108.136.240.248/api/v1/auth/register", {email:dataForm.email, fullname:dataForm.fullname, password:dataForm.password})
+      .then((response) => {
+          setUserExist("does't exist");
+          setAllValid("valid");
+          setLoading(false);
+          console.log(response.data.data)
+      })
+      .catch((error) => {
+          setUserExist("exists");
+          setAllValid("valid");
+          setLoading(false);
+          console.log(error);
+      });
         setMessage({
             ...isMessage,
             message: "Berhasil",
     }); 
+    } else {
+        setAllValid("not valid");
+        setUserExist("");
     }
+  };
     
-  }
 
 
 
   return (
     <ContainerAuth>
-      {!isTabletOrMobile && <BannerAuth src="/login.svg" alt="login-photo" />}
-
-      <FormAuth 
-      onSubmit={handleSubmit}
-      >
-            {/* <HeaderAuthRegister
-            title="Daftar Akun"
-            validator={{ dataForm, isEmailValid, isPasswordValid, isConfirmPasswordValid }}
-            /> */}
-            <h1>Daftar Akun</h1>
-            {isMessage.message && (
-                <>
-                <PopupValidation message={isMessage.message} />
-                </>
-            )}
+      {!isTabletOrMobile && <BannerAuth src="/signup.svg" alt="login-photo" />}
+      <FormAuth onSubmit={handleSubmit}>
+        <ContainerHeaderInputButtonToAnotherAuth>
+            <ContainerHeaderInputButton>
+            <HeaderAuth 
+                title="Daftar Akun"
+                titleMobile="Daftar"
+                validators={[isUserExist, "exists"]}
+                messages={["Anda sudah memiliki akun", "Login disini"]}
+                linkTo="/login"
+            />
+    
             <ContainerInputAuth>
-
-          <LabelAuth label="email" />
-          <InputAuth type="text" id="email" name="email"
-          placeholder="email" 
-          onChange={handleChangeEmail} 
-          validators={[isEmailValid, isAllValid]}
-          alertMessage="Gunakan format email dengan benar"
-          />
-          <span>
-              {isMessage.message && (
-                  <p>{isMessage.message}</p>
-              )}
-          </span>
-
-          <LabelAuth label="full name" />
-          <InputAuth type="text" id="username" 
-          placeholder="username" onChange={handleChangeUsername}
-          validators={[true, isAllValid]} 
-          alertMessage="Masukkan nama anda"
-          />
-
-          <LabelAuth label="password" />
-          <InputAuth type="password" id="password" 
-          name="password"
-          placeholder="password" onChange={handleChangePassword}
-          validators={[isPasswordValid, isAllValid]}
-          alertMessage="Gunakan format password dengan benar"
-          />
-          <span className={styles.validation}>
-              { isPasswordValid.characters ? 
-                  <div>
-                  <span className={styles.iconValidationCheck}></span>
-                  <label className={styles.labelValidationCheck}>Minimal 8 Karakter</label>
-                  </div>
-                  :
-                  <div>
-                  <span className={styles.iconValidation}></span>
-                  <label className={styles.labelValidation}>Minimal 8 Karakter</label>
-                  </div>
-              }
-              { isPasswordValid.uppercase ?
-                  <div>
-                  <span className={styles.iconValidationCheck}></span>
-                  <label className={styles.labelValidationCheck}>Minimal 1 Uppercase</label>
-                  </div>
-                  :
-                  <div>
-                  <span className={styles.iconValidation}></span>
-                  <label className={styles.labelValidation}>Minimal 1 Uppercase</label>
-                  </div>
-              }
-              { isPasswordValid.number ?
-                  <div>
-                  <span className={styles.iconValidationCheck}></span>
-                  <label className={styles.labelValidationCheck}>1 Angka</label>
-                  </div>
-                  :
-                  <div>
-                  <span className={styles.iconValidation}></span>
-                  <label className={styles.labelValidation}>1 Angka</label>
-                  </div>
-              }
-          </span>
-
-          <LabelAuth label="ulangi password" />
-          <InputAuth type="password" id="passwordConfirm" 
-          placeholder="password" name="passwordConfirm" onChange={handleChangeConfirmPassword}
-          validators={[isConfirmPasswordValid, isAllValid]}
-          alertMessage="Gunakan format password dengan benar" 
-          />
-          <span className={styles.validation}>
-              { isConfirmPasswordValid.characters ? 
-                  <div>
-                  <span className={styles.iconValidationCheck}></span>
-                  <label className={styles.labelValidationCheck}>Minimal 8 Karakter</label>
-                  </div>
-                  :
-                  <div>
-                  <span className={styles.iconValidation}></span>
-                  <label className={styles.labelValidation}>Minimal 8 Karakter</label>
-                  </div>
-              }
-              { isConfirmPasswordValid.uppercase ?
-                  <div>
-                  <span className={styles.iconValidationCheck}></span>
-                  <label className={styles.labelValidationCheck}>Minimal 1 Uppercase</label>
-                  </div>
-                  :
-                  <div>
-                  <span className={styles.iconValidation}></span>
-                  <label className={styles.labelValidation}>Minimal 1 Uppercase</label>
-                  </div>
-              }
-              { isConfirmPasswordValid.number ?
-                  <div>
-                  <span className={styles.iconValidationCheck}></span>
-                  <label className={styles.labelValidationCheck}>1 Angka</label>
-                  </div>
-                  :
-                  <div>
-                  <span className={styles.iconValidation}></span>
-                  <label className={styles.labelValidation}>1 Angka</label>
-                  </div>
-              }
-          </span>
-
-        <ButtonAuth label="Daftar"
-        // loading={loading} 
-        />
-        </ContainerInputAuth>
-        
+                <ContainerLabelInput>
+                    <LabelAuth label="email" />
+                    <InputAuth 
+                    type="text" 
+                    id="email" 
+                    name="email"
+                    placeholder="email" 
+                    onChange={handleChangeEmail} 
+                    validators={[isEmailValid, isAllValid]}
+                    alertMessage="Gunakan format email dengan benar"
+                    />
+                </ContainerLabelInput>
+                <ContainerLabelInput>
+                    <LabelAuth label="full name" />
+                    <InputAuth 
+                    type="text" 
+                    id="fullname" 
+                    name="fullname"
+                    placeholder="fullname" 
+                    onChange={handleChangeFullname}
+                    validators={[isFullnameValid, isAllValid]} 
+                    alertMessage="Masukkan nama anda"
+                    />
+                </ContainerLabelInput>
+                <ContainerLabelInput>
+                    <LabelAuth label="password" />
+                    <InputAuthPassword
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    placeholder="password" 
+                    onChange={handleChangePassword}
+                    validators={[isPasswordValid.characters, isAllValid] && [isPasswordValid.uppercase, isAllValid] && [isPasswordValid.number, isAllValid]}
+                    subValidators={[isPasswordValid.characters, isPasswordValid.uppercase, isPasswordValid.number]}
+                    alertMessage="Gunakan format password dengan benar"
+                    />
+                </ContainerLabelInput>
+                <ContainerLabelInput>
+                    <LabelAuth label="ulangi password" />
+                    <InputAuthPassword
+                    type="password" 
+                    id="passwordConfirm" 
+                    placeholder="password" 
+                    name="passwordConfirm" 
+                    onChange={handleChangeConfirmPassword}
+                    validators={[isConfirmPasswordValid.characters, isAllValid] && [isConfirmPasswordValid.uppercase, isAllValid] && [isConfirmPasswordValid.number, isAllValid]}
+                    subValidators={[isConfirmPasswordValid.characters, isConfirmPasswordValid.uppercase, isConfirmPasswordValid.number]}
+                    alertMessage="Gunakan format password dengan benar" 
+                    />
+                </ContainerLabelInput>
+            </ContainerInputAuth>
+            <ButtonAuth label="Daftar" loading={loading} />
+        </ContainerHeaderInputButton>
         <ToAnotherAuth label="Sudah Punya Akun ?" linkAnother="/login" toAnother="Masuk Disini" />
+      </ContainerHeaderInputButtonToAnotherAuth>
       </FormAuth>
     </ContainerAuth>
   )
