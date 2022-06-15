@@ -1,9 +1,11 @@
 import styles from '../styles/Home.module.css'
+import CustomCalender from '../components/Calender'
 
 export default function Home() {
   return (
-    <div className={styles.container}>
-      User Office Booking
+    <div>
+      <p>User Office Booking</p>
+      <CustomCalender/>
     </div>
   )
 }
