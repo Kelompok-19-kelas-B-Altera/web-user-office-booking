@@ -18,7 +18,7 @@ import BannerAuth from "../components/BannerAuth";
 import ContainerInputAuth from "../components/ContainerInputAuth";
 import ContainerHeaderInputButtonToAnotherAuth from '../components/ContainerHeaderInputButtonToAnotherAuth';
 import ContainerHeaderInputButton from '../components/ContainerHeaderInputButton';
-import HeaderAuth from '../components/HeaderAuth';
+import HeaderAuth from '../components/HeaderAuthRegister';
 import ContainerLabelInput from '../components/ContainerLabelInput';
 
 
@@ -41,9 +41,7 @@ const Signup = () => {
       uppercase: false,
       number: false,
   });
-  const [isMessage, setMessage] = useState({
-      message: ""
-  });
+  const [isMessage, setMessage] = useState("");
   const [isUserExist, setUserExist] = useState("");
   const [isAllValid, setAllValid] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,15 +76,17 @@ const Signup = () => {
   };
 
   const handleChangeFullname = (e) => {
+    const containsLetter = e.target.value.match(/[a-zA-Z]/) ? true : false;
+    const containsNumber = e.target.value.match(/[1-9]/) ? true : false;
     setDataForm({
         ...dataForm,
         [e.target.name]: e.target.value,
     })
     if (e.target.name === 'fullname') {
-        if (e.target.value !== '') {
-            setFullnameValid(true);
-        } else {
+        if (e.target.value === '' || containsNumber ) {
             setFullnameValid(false);
+        } else if (e.target.value !== '' || containsLetter || !containsNumber) {
+            setFullnameValid(true);
         }
     }
   };
@@ -251,11 +251,9 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if ( isEmailValid && dataForm.password !== dataForm.passwordConfirm ) {
-        setMessage({
-            ...isMessage,
-            message: "Password tidak sama",
-        });
-    } else if ( isEmailValid && isPasswordValid.characters && isPasswordValid.number && isPasswordValid.uppercase && isConfirmPasswordValid.characters && isConfirmPasswordValid.number && isConfirmPasswordValid.uppercase ) {
+        setMessage("Gagal");
+        console.log("Password beda cuy")
+    } else if ( isEmailValid && isFullnameValid && isPasswordValid.characters && isPasswordValid.number && isPasswordValid.uppercase && isConfirmPasswordValid.characters && isConfirmPasswordValid.number && isConfirmPasswordValid.uppercase ) {
         setLoading(true);
 
       axios
@@ -271,6 +269,7 @@ const Signup = () => {
           setAllValid("valid");
           setLoading(false);
           console.log(error);
+          console.log(isUserExist);
       });
         setMessage({
             ...isMessage,
@@ -291,11 +290,11 @@ const Signup = () => {
       <FormAuth onSubmit={handleSubmit}>
         <ContainerHeaderInputButtonToAnotherAuth>
             <ContainerHeaderInputButton>
-            <HeaderAuth 
+            <HeaderAuth
                 title="Daftar Akun"
                 titleMobile="Daftar"
-                validators={[isUserExist, "exists"]}
-                messages={["Anda sudah memiliki akun", "Login disini"]}
+                validators={[isUserExist, isMessage]}
+                // messages={["Anda telah terdaftar", "Login disini"]}
                 linkTo="/login"
             />
     
