@@ -304,6 +304,7 @@ const Signup = () => {
                     type="text" 
                     id="email" 
                     name="email"
+                    value={dataForm.email}
                     placeholder="email" 
                     onChange={handleChangeEmail} 
                     validators={[isEmailValid, isAllValid]}
@@ -316,6 +317,7 @@ const Signup = () => {
                     type="text" 
                     id="fullname" 
                     name="fullname"
+                    value={dataForm.fullname}
                     placeholder="fullname" 
                     onChange={handleChangeFullname}
                     validators={[isFullnameValid, isAllValid]} 
@@ -328,6 +330,7 @@ const Signup = () => {
                     type="password" 
                     id="password" 
                     name="password"
+                    value={dataForm.password}
                     placeholder="password" 
                     onChange={handleChangePassword}
                     validators={[isPasswordValid.characters, isAllValid] && [isPasswordValid.uppercase, isAllValid] && [isPasswordValid.number, isAllValid]}
@@ -342,6 +345,7 @@ const Signup = () => {
                     id="passwordConfirm" 
                     placeholder="password" 
                     name="passwordConfirm" 
+                    value={dataForm.passwordConfirm}
                     onChange={handleChangeConfirmPassword}
                     validators={[isConfirmPasswordValid.characters, isAllValid] && [isConfirmPasswordValid.uppercase, isAllValid] && [isConfirmPasswordValid.number, isAllValid]}
                     subValidators={[isConfirmPasswordValid.characters, isConfirmPasswordValid.uppercase, isConfirmPasswordValid.number]}
