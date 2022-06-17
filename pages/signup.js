@@ -256,7 +256,7 @@ const Signup = () => {
         setLoading(true);
 
       axios
-      .post("http://108.136.240.248/api/v1/auth/register", {email:dataForm.email, fullname:dataForm.fullname, password:dataForm.password})
+      .post("/api/v1/auth/register", {email:dataForm.email, fullname:dataForm.fullname, password:dataForm.password})
       .then((response) => {
           setUserExist("doesn't exist");
           setAllValid("valid");
