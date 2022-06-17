@@ -6,11 +6,6 @@ module.exports = {
   ],
   theme: {
     extend: {},
-<<<<<<< HEAD
-  },
-  plugins: [],
-}
-=======
     screens: {
       'tiny': '230px',
       'sm': '640px',
@@ -30,4 +25,3 @@ module.exports = {
   },
   plugins: [],
 }
->>>>>>> e473fc425e7a746c6675cce24ffbbae3a002f4b7
