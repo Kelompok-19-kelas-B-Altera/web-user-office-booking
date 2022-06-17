@@ -3,10 +3,10 @@ import Link from "next/link";
 import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
 
-const PopupValidation = ({ messages, linkTo }) => {
+const PopupValidation = ({ mainMassage, messageToAnotherAuth, linkTo }) => {
   const maxWidth = useSelector((state) => state.mediaQuery.maxWidth);
   const isTabletOrMobile = useMediaQuery({ query: `(max-width: ${maxWidth}px)` });
-  const { mainMassage, messageToAnotherAuth } = messages;
+  // const { mainMassage, messageToAnotherAuth } = messages;
 
   return (
     <>
