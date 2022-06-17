@@ -106,7 +106,7 @@ const Login = () => {
               titleMobile="Masuk"
               validators={[isUserExist, "doesn't exist"]}
               messages={["Anda belum memiliki akun", "Signup di sini"]}
-              linkTo="/register"
+              linkTo="/signup"
             />
 
             <ContainerInputAuth>
