@@ -17,7 +17,7 @@ const LiveChat = () => {
     setShowChatting(true);
   };
   return (
-    <div className={`${styles.containerChatComponent} absolute`}>
+    <div className={`${styles.containerChatComponent} absolute z-50`}>
       {/* Desktop */}
       <div className={`${styles.container} hidden 2xl:flex fixed flex-col items-end`}>
         {showChat && (
