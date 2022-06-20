@@ -7,8 +7,8 @@
   width: 872px;
   height: 567px;
 
-  right: 10%;
-  top: 10%;
+  right: 168px;
+  bottom: 20px;
 }
 
 .containerButton {
@@ -22,13 +22,13 @@
 
   border-radius: 30px;
 
-  top: 93%;
+  bottom: 0;
 }
 
 .containerChatBox {
   min-width: 524px;
   height: 456px;
-  top: 20px;
+  top: 0px;
 
   border-radius: 6px;
 }
@@ -41,7 +41,7 @@
 
   transform: rotate(45deg);
 
-  top: 431px;
+  top: 400px;
   right: 21px;
 }
 
