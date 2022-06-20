@@ -1,4 +1,13 @@
-.filter {
+.listBuilding {
+    width: 882px;
+}
+
+.container {
+    margin: 68px 153px 0px 347px;
+
+}
+
+/* .filter {
     width: 307px;
     height: 1024px;
     left: 0px;
@@ -48,20 +57,11 @@
     border-radius: 2px;
 }
 
-.container {
-    margin: 68px 153px 0px 347px;
-
-}
-
 .search {
     width: 352px;
     height: 44px;
     margin-bottom: 40px;
 }
-
-/* .titleCategory{
-    margin 
-} */
 
 .category {
     display: flex;
@@ -91,15 +91,10 @@
 }
 
 .mostView {
-    display: flex;
-    justify-content: space-between;
-}
-
-.card {
-
+    width: 882px;
 }
 
 .cardContainer {
     display: flex;
     column-count: 2;
-}
+}*/
