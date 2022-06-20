@@ -1,0 +1,22 @@
+.footer {
+    width: 100%;
+    height: 241px;
+    border-color: rgba(30, 40, 51, 0.0671438);
+}
+
+.footerLeft {
+    border-color: rgba(30, 40, 51, 0.0671438);
+}
+
+.copyright {
+    margin: 50px 0px
+}
+
+/* .logo {
+    background-color: linear-gradient(267.6deg, rgba(255, 255, 255, 0.5) -64.17%, #197BEB 43.73%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    text-fill-color: transparent;
+} */

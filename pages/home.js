@@ -1,10 +1,13 @@
 import styles from '../styles/Home.module.css'
 import CardBuilding from "../components/CardBuilding";
+import Footer from '../components/Footer';
 
 export default function Home() {
   return (
     <>
-      <div>
+      <Footer/>
+
+      {/* <div>
         <h1 className="font-semibold text-3xl mb-8">Banyak dilihat</h1>
         <div className={`${styles.listBuilding} flex justify-between`}>
           <CardBuilding 
@@ -65,7 +68,7 @@ export default function Home() {
             buildingLocation={["Tebet", "Jakarta Selatan"]}
           />
         </div>
-      </div>
+      </div> */}
     </>
     // <section className={styles.filter}>
     //   <div>
