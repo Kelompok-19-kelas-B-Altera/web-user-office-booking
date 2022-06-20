@@ -20,6 +20,7 @@ import ContainerHeaderInputButtonToAnotherAuth from '../components/ContainerHead
 import ContainerHeaderInputButton from '../components/ContainerHeaderInputButton';
 import HeaderAuth from '../components/HeaderAuthRegister';
 import ContainerLabelInput from '../components/ContainerLabelInput';
+import axiosInstance from '../networks/apis';
 
 
 const Signup = () => {
@@ -76,16 +77,15 @@ const Signup = () => {
   };
 
   const handleChangeFullname = (e) => {
-    const containsLetter = e.target.value.match(/[a-zA-Z]/) ? true : false;
-    const containsNumber = e.target.value.match(/[1-9]/) ? true : false;
+    const containsLetter = e.target.value.match(/[^a-zA-Z\s]/) ? true : false;
     setDataForm({
         ...dataForm,
         [e.target.name]: e.target.value,
     })
     if (e.target.name === 'fullname') {
-        if (e.target.value === '' || containsNumber ) {
+        if (e.target.value === '' || containsLetter ) {
             setFullnameValid(false);
-        } else if (e.target.value !== '' || containsLetter || !containsNumber) {
+        } else if (e.target.value !== '' || !containsLetter) {
             setFullnameValid(true);
         }
     }
@@ -256,10 +256,10 @@ const Signup = () => {
     } else if ( isEmailValid && isFullnameValid && isPasswordValid.characters && isPasswordValid.number && isPasswordValid.uppercase && isConfirmPasswordValid.characters && isConfirmPasswordValid.number && isConfirmPasswordValid.uppercase ) {
         setLoading(true);
 
-      axios
-      .post("http://108.136.240.248/api/v1/auth/register", {email:dataForm.email, fullname:dataForm.fullname, password:dataForm.password})
+      axiosInstance
+      .post("/api/v1/auth/register", {email:dataForm.email, fullname:dataForm.fullname, password:dataForm.password})
       .then((response) => {
-          setUserExist("does't exist");
+          setUserExist("doesn't exist");
           setAllValid("valid");
           setLoading(false);
           console.log(response.data.data)
@@ -305,6 +305,7 @@ const Signup = () => {
                     type="text" 
                     id="email" 
                     name="email"
+                    value={dataForm.email}
                     placeholder="email" 
                     onChange={handleChangeEmail} 
                     validators={[isEmailValid, isAllValid]}
@@ -317,6 +318,7 @@ const Signup = () => {
                     type="text" 
                     id="fullname" 
                     name="fullname"
+                    value={dataForm.fullname}
                     placeholder="fullname" 
                     onChange={handleChangeFullname}
                     validators={[isFullnameValid, isAllValid]} 
@@ -329,6 +331,7 @@ const Signup = () => {
                     type="password" 
                     id="password" 
                     name="password"
+                    value={dataForm.password}
                     placeholder="password" 
                     onChange={handleChangePassword}
                     validators={[isPasswordValid.characters, isAllValid] && [isPasswordValid.uppercase, isAllValid] && [isPasswordValid.number, isAllValid]}
@@ -343,6 +346,7 @@ const Signup = () => {
                     id="passwordConfirm" 
                     placeholder="password" 
                     name="passwordConfirm" 
+                    value={dataForm.passwordConfirm}
                     onChange={handleChangeConfirmPassword}
                     validators={[isConfirmPasswordValid.characters, isAllValid] && [isConfirmPasswordValid.uppercase, isAllValid] && [isConfirmPasswordValid.number, isAllValid]}
                     subValidators={[isConfirmPasswordValid.characters, isConfirmPasswordValid.uppercase, isConfirmPasswordValid.number]}

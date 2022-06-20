@@ -4,20 +4,21 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import axios from "axios";
+import axiosInstance from "../../networks/apis"
 
 // components
-import ButtonAuth from "../components/ButtonAuth";
-import InputAuth from "../components/InputAuth";
-import ContainerAuth from "../components/ContainerAuth";
-import FormAuth from "../components/FormAuth";
-import LabelAuth from "../components/LabelAuth";
-import ToAnotherAuth from "../components/ToAnotherAuth";
-import HeaderAuth from "../components/HeaderAuth";
-import BannerAuth from "../components/BannerAuth";
-import ContainerInputAuth from "../components/ContainerInputAuth";
-import ContainerHeaderInputButtonToAnotherAuth from "../components/ContainerHeaderInputButtonToAnotherAuth";
-import ContainerHeaderInputButton from "../components/ContainerHeaderInputButton";
-import ContainerLabelInput from "../components/ContainerLabelInput";
+import ButtonAuth from "../ButtonAuth";
+import InputAuth from "../InputAuth";
+import ContainerAuth from "../ContainerAuth";
+import FormAuth from "../FormAuth";
+import LabelAuth from "../LabelAuth";
+import ToAnotherAuth from "../ToAnotherAuth";
+import HeaderAuth from "../HeaderAuth";
+import BannerAuth from "../BannerAuth";
+import ContainerInputAuth from "../ContainerInputAuth";
+import ContainerHeaderInputButtonToAnotherAuth from "../ContainerHeaderInputButtonToAnotherAuth";
+import ContainerHeaderInputButton from "../ContainerHeaderInputButton";
+import ContainerLabelInput from "../ContainerLabelInput";
 
 const Login = () => {
   let [email, setEmail] = useState("");
@@ -74,8 +75,8 @@ const Login = () => {
     if (isEmailValid && isPasswordValid) {
       setLoading(true);
 
-      axios
-        .post("http://108.136.240.248/api/v1/auth/login", { email, password })
+      axiosInstance
+        .post("/api/v1/auth/login", { email, password })
         .then((response) => {
           setUserExist("exists");
           setAllValid("valid");
@@ -106,7 +107,7 @@ const Login = () => {
               titleMobile="Masuk"
               validators={[isUserExist, "doesn't exist"]}
               messages={["Anda belum memiliki akun", "Signup di sini"]}
-              linkTo="/register"
+              linkTo="/signup"
             />
 
             <ContainerInputAuth>

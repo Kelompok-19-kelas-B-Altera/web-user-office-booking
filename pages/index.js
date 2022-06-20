@@ -1,8 +1,10 @@
 import LiveChat from '../components/LiveChat'
 import CardBuilding from "../components/CardBuilding";
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
 
 export default function Home() {
+
   return (
     <div className={`${styles.container} relative bg-slate-600 pl-10 pr-40`}>
       <LiveChat />
