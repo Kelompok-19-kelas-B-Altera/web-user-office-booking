@@ -20,6 +20,7 @@ import ContainerHeaderInputButtonToAnotherAuth from '../components/ContainerHead
 import ContainerHeaderInputButton from '../components/ContainerHeaderInputButton';
 import HeaderAuth from '../components/HeaderAuthRegister';
 import ContainerLabelInput from '../components/ContainerLabelInput';
+import axiosInstance from '../networks/apis';
 
 
 const Signup = () => {
@@ -255,7 +256,7 @@ const Signup = () => {
     } else if ( isEmailValid && isFullnameValid && isPasswordValid.characters && isPasswordValid.number && isPasswordValid.uppercase && isConfirmPasswordValid.characters && isConfirmPasswordValid.number && isConfirmPasswordValid.uppercase ) {
         setLoading(true);
 
-      axios
+      axiosInstance
       .post("/api/v1/auth/register", {email:dataForm.email, fullname:dataForm.fullname, password:dataForm.password})
       .then((response) => {
           setUserExist("doesn't exist");
