@@ -1,11 +1,19 @@
 import styles from "./LiveChat.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const LiveChat = () => {
   let [showChat, setShowChat] = useState(false);
   let [showChatting, setShowChatting] = useState(false);
   let [showContactChat, setShowContactChat] = useState(false);
+
+  useEffect(() => {
+    if (showChat && document) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [showChat]);
 
   const handleBack = () => {
     setShowChat(false);
@@ -16,34 +24,76 @@ const LiveChat = () => {
     console.log(e.currentTarget.id);
     setShowChatting(true);
   };
+
   return (
-    <div className={`${styles.containerChatComponent} absolute z-50`}>
+    <div className={`${showChat ? styles.containerChatComponent : "w-0 h-0"} fixed z-50`}>
       {/* Desktop */}
-      <div className={`${styles.container} hidden 2xl:flex fixed flex-col items-end`}>
+      <div
+        className={`${styles.container} ${
+          showChat ? styles.widthHeightContainer : "w-0 h-0"
+        } hidden 2xl:flex fixed flex-col items-end`}
+      >
         {showChat && (
           <>
             <section className={`${styles.containerChatBox} bg-grey flex absolute z-10`}>
-            {
-              showContactChat &&
-              <div className="h-full bg-white" style={{width: "219px", borderRadius: "6px"}}>
-                <div className="font-semibold text-2xl bg-white" style={{ width: "100%", height: "76px", padding: "21px 16px",  borderBottom: ".5px solid var(--color-secondary)", borderRadius: "6px 0 0 0"}}>Chat</div>
-                <div className={`${styles.buildingBox} flex items-center bg-white`} style={{padding: "10px"}}>
-                  <img src="/login.svg" alt="building-image" className="object-cover" style={{width: "45px", height: "45px", borderRadius: "50%", marginRight: "14px"}} />
-                  <span>
-                    <h1 className={`${styles.buildingName} text-xs font-normal`}>Building Name</h1>
-                    <p className={`${styles.buildingLocation}`}>Building Location</p>
-                  </span>
-                  <p className="text-secondary" style={{fontSize: "8px", marginLeft: "17px"}}>08.00</p>
+              {showContactChat && (
+                <div className="h-full bg-white" style={{ width: "219px", borderRadius: "6px" }}>
+                  <div
+                    className="font-semibold text-2xl bg-white"
+                    style={{
+                      width: "100%",
+                      height: "76px",
+                      padding: "21px 16px",
+                      borderBottom: ".5px solid var(--color-secondary)",
+                      borderRadius: "6px 0 0 0",
+                    }}
+                  >
+                    Chat
+                  </div>
+                  <div
+                    className={`${styles.buildingBox} flex items-center bg-white`}
+                    style={{ padding: "10px" }}
+                  >
+                    <img
+                      src="/login.svg"
+                      alt="building-image"
+                      className="object-cover"
+                      style={{
+                        width: "45px",
+                        height: "45px",
+                        borderRadius: "50%",
+                        marginRight: "14px",
+                      }}
+                    />
+                    <span>
+                      <h1 className={`${styles.buildingName} text-xs font-normal`}>
+                        Building Name
+                      </h1>
+                      <p className={`${styles.buildingLocation}`}>Building Location</p>
+                    </span>
+                    <p className="text-secondary" style={{ fontSize: "8px", marginLeft: "17px" }}>
+                      08.00
+                    </p>
+                  </div>
                 </div>
-              </div>
-            }
+              )}
               <div className="h-full relative" style={{ borderRadius: "6px" }}>
                 <section
                   className="flex items-center bg-white"
-                  style={{ width: "100%", height: "76px", padding: "10px 23px 9px 16px", borderRadius: "6px" }}
+                  style={{
+                    width: "100%",
+                    height: "76px",
+                    padding: "10px 23px 9px 16px",
+                    borderRadius: "6px",
+                  }}
                 >
                   <button style={{ marginRight: "10px" }}>
-                    <img src="/open-close-left-chat.svg" alt="open-close-left-chat" className={ showContactChat && "rotate-180"} onClick={()=>setShowContactChat(!showContactChat)} />
+                    <img
+                      src="/open-close-left-chat.svg"
+                      alt="open-close-left-chat"
+                      className={showContactChat && "rotate-180"}
+                      onClick={() => setShowContactChat(!showContactChat)}
+                    />
                   </button>
                   <img
                     src="/login.svg"
