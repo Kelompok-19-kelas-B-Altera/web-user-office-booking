@@ -4,21 +4,11 @@
 }
 
 .container {
-  width: auto;
-  height: auto;
+  width: 872px;
+  height: 567px;
 
   right: 168px;
   bottom: 20px;
-}
-
-.widthHeightContainer {
-  max-height: 567px;
-  height: 100%;
-}
-
-.maxWidthContainer {
-  max-width: 872px;
-  width: 100%;
 }
 
 .containerButton {

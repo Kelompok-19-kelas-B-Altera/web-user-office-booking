@@ -7,6 +7,7 @@ import Footer from "../components/Footer";
 export default function Home() {
   return (
     <div className="flex flex-col items-center" style={{width: "100%"}}>
+      <LiveChat />
       <section className={`${styles.sideBarContainer} fixed left-0 top-0 flex justify-center`}>
         <div className="flex flex-col gap-5">
           <div>photo & name</div>
@@ -86,7 +87,6 @@ export default function Home() {
         </div>
       </section>
       <Footer/>
-      <LiveChat />
     </div>
   );
 }
