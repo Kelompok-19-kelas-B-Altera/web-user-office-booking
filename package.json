@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.6.5",
+    "@ramonak/react-progress-bar": "^5.0.0",
     "@reduxjs/toolkit": "^1.8.2",
     "axios": "^0.26.1",
     "graphql": "^16.5.0",
