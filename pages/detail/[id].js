@@ -5,7 +5,6 @@ import Rating from "../../components/Rating";
 import Review from "../../components/Review";
 import RatingAndReview from "../../components/RatingAndReview";
 import PopupReview from "../../components/PopupReview";
-
 const DetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -13,8 +12,8 @@ const DetailPage = () => {
   return (
     <>
       {/* <div>DetailPage {id}</div> */}
-      <RatingAndReview/>
-      <PopupReview/>
+      <RatingAndReview />
+      <PopupReview />
     </>
   );
 };
