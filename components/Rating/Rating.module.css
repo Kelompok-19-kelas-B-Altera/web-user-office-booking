@@ -1,0 +1,12 @@
+.wrapper {
+  height: 18px;
+  
+}
+
+.container {
+  background-color: var(--color-white);
+  box-shadow: inset 0px 3px 5px rgba(0, 0, 0, 0.05);
+
+  border-radius: 30px;
+  width: 191px;
+}

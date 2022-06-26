@@ -1,10 +1,11 @@
-.containerToRegister {
-  position: absolute;
-  bottom: 50px;
+.containerToAnotherAuth {
+  /* position: absolute;
+  bottom: 50px; */
   text-align: center;
+  padding-bottom: 50px;
 }
 
-.containerToRegister p {
+.containerToAnotherAuth p {
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
@@ -13,14 +14,14 @@
   margin: 0 0 5px 0;
 }
 
-.containerToRegister a {
+.containerToAnotherAuth a {
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
   color: var(--color-blue);
 }
 
-.containerToRegisterMobile {
+.containerToAnotherAuthMobile {
   /* position: absolute;
   bottom: 50px; */
   margin-top: 40px;
@@ -28,13 +29,13 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
-  /* text-align: center; */
+  text-align: center;
 
   color: var(--color-dark-blue);
 }
 
 
-.containerToRegisterMobile a {
+.containerToAnotherAuthMobile a {
   color: var(--color-blue);
   font-weight: 600;
 }

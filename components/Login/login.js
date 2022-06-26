@@ -1,19 +1,24 @@
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import axios from "axios";
+import axiosInstance from "../../networks/apis"
 
 // components
-import ButtonAuth from "../components/ButtonAuth";
-import InputAuth from "../components/InputAuth";
-import ContainerAuth from "../components/ContainerAuth";
-import FormAuth from "../components/FormAuth";
-import LabelAuth from "../components/LabelAuth";
-import ToRegister from "../components/ToRegister";
-import HeaderAuth from "../components/HeaderAuth";
-import BannerAuth from "../components/BannerAuth";
-import ContainerInputAuth from "../components/ContainerInputAuth";
+import ButtonAuth from "../ButtonAuth";
+import InputAuth from "../InputAuth";
+import ContainerAuth from "../ContainerAuth";
+import FormAuth from "../FormAuth";
+import LabelAuth from "../LabelAuth";
+import ToAnotherAuth from "../ToAnotherAuth";
+import HeaderAuth from "../HeaderAuth";
+import BannerAuth from "../BannerAuth";
+import ContainerInputAuth from "../ContainerInputAuth";
+import ContainerHeaderInputButtonToAnotherAuth from "../ContainerHeaderInputButtonToAnotherAuth";
+import ContainerHeaderInputButton from "../ContainerHeaderInputButton";
+import ContainerLabelInput from "../ContainerLabelInput";
 
 const Login = () => {
   let [email, setEmail] = useState("");
@@ -25,7 +30,8 @@ const Login = () => {
   let [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1600px)" });
+  const maxWidth = useSelector((state) => state.mediaQuery.maxWidth);
+  const isTabletOrMobile = useMediaQuery({ query: `(max-width: ${maxWidth}px)` });
 
   useEffect(() => {
     if (isUserExist === "exists") {
@@ -69,8 +75,8 @@ const Login = () => {
     if (isEmailValid && isPasswordValid) {
       setLoading(true);
 
-      axios
-        .post("http://108.136.240.248/api/v1/auth/login", { email, password })
+      axiosInstance
+        .post("/api/v1/auth/login", { email, password })
         .then((response) => {
           setUserExist("exists");
           setAllValid("valid");
@@ -94,22 +100,47 @@ const Login = () => {
       {!isTabletOrMobile && <BannerAuth src="/login.svg" alt="login-photo" />}
 
       <FormAuth onSubmit={handleSubmit}>
-        <HeaderAuth
-          title="Masuk"
-          validator={{ isUserExist, isAllValid, isEmailValid, isPasswordValid }}
-        />
+        <ContainerHeaderInputButtonToAnotherAuth>
+          <ContainerHeaderInputButton>
+            <HeaderAuth
+              title="Masuk Akun"
+              titleMobile="Masuk"
+              validators={[isUserExist, "doesn't exist"]}
+              messages={["Anda belum memiliki akun", "Signup di sini"]}
+              linkTo="/signup"
+            />
 
-        <ContainerInputAuth>
-          <LabelAuth label="email" />
-          <InputAuth type="text" id="email" value={email} placeholder="email" onChange={handleEmail} />
+            <ContainerInputAuth>
+              <ContainerLabelInput>
+                <LabelAuth label="email" />
+                <InputAuth
+                  type="text"
+                  id="email"
+                  value={email}
+                  placeholder="email"
+                  onChange={handleEmail}
+                  validators={[isEmailValid, isAllValid]}
+                  alertMessage="Gunakan format email dengan benar"
+                />
+              </ContainerLabelInput>
+              <ContainerLabelInput>
+                <LabelAuth label="password" />
+                <InputAuth
+                  type="password"
+                  id="password"
+                  value={password}
+                  placeholder="password"
+                  onChange={handlePassword}
+                  validators={[isPasswordValid, isAllValid]}
+                  alertMessage="Periksa kembali password anda"
+                />
+              </ContainerLabelInput>
+            </ContainerInputAuth>
 
-          <LabelAuth label="password" />
-          <InputAuth type="password" id="password" value={password} placeholder="password" onChange={handlePassword} />
-        </ContainerInputAuth>
-
-        <ButtonAuth label="Masuk" loading={loading} />
-        
-        <ToRegister />
+            <ButtonAuth label="Masuk" loading={loading} />
+          </ContainerHeaderInputButton>
+          <ToAnotherAuth label="Belum memiliki akun?" linkAnother="/signup" toAnother="Daftar di sini" />
+        </ContainerHeaderInputButtonToAnotherAuth>
       </FormAuth>
     </ContainerAuth>
   );
