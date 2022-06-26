@@ -4,15 +4,16 @@ import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Footer from "../components/Footer";
 import Search from "../components/SearchFeature/Search";
+import Filter from "../components/FilterFeature/Filter";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center" style={{ width: "100%" }}>
       <LiveChat />
       <section className={`${styles.sideBarContainer} fixed left-0 top-0 flex justify-center`}>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 items-center">
           <div>photo & name</div>
-          <div>filter</div>
+          <Filter />
           <div>tanggal periode</div>
         </div>
       </section>

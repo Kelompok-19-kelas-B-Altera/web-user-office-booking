@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ListItem from "./ListItem";
+import ListItemFilter from "./ListItem";
 
 // INI DATA DUMMY (GANTI DENGAN API COMPLEX)
 import { complex } from "../../component-search-feature/complex";
@@ -57,26 +57,25 @@ const Filter = ({ state, setState }) => {
 
   function checkboxItems() {
     return (
-      <React.Fragment>
+      <>
         {options.map((option) => (
-          <ListItem
+          <ListItemFilter
             key={option.id}
             text={option.city}
             handleOnChange={() => handleCheckboxChange(option.id)}
-            selected={state.selections.includes(option.id)}
-          ></ListItem>
+            // selected={state.selections.includes(option.id)}
+          ></ListItemFilter>
         ))}
-      </React.Fragment>
+      </>
     );
   }
 
   return (
     <>
       <div className="">
-        <div style={{ width: "270px", overflowY: "scroll", margin: "auto" }}>
-          {checkboxItems()}
-          {/* <p>{state.selections.toString()}</p> */}
-        </div>
+        <h1 className="text-base font-semibold text-center mb-1.5">Filter Lokasi</h1>
+        <div className="flex flex-col gap-[15px] p-2.5">{checkboxItems()}</div>
+        {/* <p>{state.selections.toString()}</p> */}
       </div>
     </>
   );

@@ -3,22 +3,27 @@
 export const complex = [
   {
     id: 1,
-    city: "Vrindavan Barat",
+    city: "Jakarta Pusat",
     checked: false,
   },
   {
     id: 2,
-    city: "Jakarta",
+    city: "Jakarta Timur",
     checked: false,
   },
   {
     id: 3,
-    city: "US",
+    city: "Jakarta Barat",
     checked: false,
   },
   {
     id: 4,
-    city: "UK",
+    city: "Jakarta Selatan",
+    checked: false,
+  },
+  {
+    id: 5,
+    city: "Jakarta Utara",
     checked: false,
   },
 ];
