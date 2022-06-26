@@ -5,9 +5,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleToggleChat } from "../../redux/features/LiveChatSlice";
 
 const LiveChat = () => {
-	// let [showChat, setShowChat] = useState(false);
-	let [showChatting, setShowChatting] = useState(false);
-	let [showContactChat, setShowContactChat] = useState(false);
+  // let [showChat, setShowChat] = useState(false);
+  let [showChatting, setShowChatting] = useState(false);
+  let [showContactChat, setShowContactChat] = useState(false);
+
+  const showChat = useSelector((state) => state.liveChat.toggleChat);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (showChat && document) {
@@ -18,7 +21,8 @@ const LiveChat = () => {
   }, [showChat]);
 
   const handleBack = () => {
-    setShowChat(false);
+    // setShowChat(false);
+    dispatch(handleToggleChat());
     setShowChatting(false);
   };
 
@@ -115,7 +119,7 @@ const LiveChat = () => {
                     <img
                       src="/close-chat.svg"
                       alt="close-chat"
-                      onClick={() => setShowChat(!showChat)}
+                      onClick={() => dispatch(handleToggleChat())}
                     />
                   </button>
                 </section>
@@ -277,7 +281,7 @@ const LiveChat = () => {
         <div
           className={`${styles.containerButton} absolute bg-white flex flex-row justify-center items-center gap-2.5`}
           onClick={() => {
-            setShowChat(!showChat);
+            dispatch(handleToggleChat());
           }}
         >
           <img src="/chat.svg" alt="chat" />
@@ -751,7 +755,7 @@ const LiveChat = () => {
         >
           <div
             className={`${styles.buttonMobile} bg-blue rounded flex justify-center items-center text-white gap-3 font-semibold text-sm`}
-            onClick={() => setShowChat(!showChat)}
+            onClick={() => dispatch(handleToggleChat())}
           >
             <Image src="/chat-mobile.svg" width={24} height={24} alt="chat-mobile" />
             Sewa Sekarang
