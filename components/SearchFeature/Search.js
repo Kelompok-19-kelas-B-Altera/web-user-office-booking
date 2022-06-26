@@ -1,25 +1,25 @@
 import React from "react";
+import { useRef } from "react";
 
-const Search = ({ setQuery }) => {
+const Search = () => {
+  const ref = useRef(null);
+
   return (
     <div>
       <div className="container flex mx-auto">
-        <div className="flex border-2 rounded">
-          <button className="flex items-center justify-center px-4 border-r">
-            <svg
-              className="w-6 h-6 text-gray-600"
-              fill="currentColor"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-            >
-              <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"></path>
-            </svg>
-          </button>
+        <div
+          className="flex rounded border border-grey relative h-11 w-[352px]"
+          onClick={(e) => {
+            ref.current.focus();
+          }}
+        >
+          <img src="/search.svg" alt="search" className="absolute left-2.5 top-2.5" />
           <input
             type="text"
-            className="px-4 py-2 w-80"
+            ref={ref}
+            className="pl-[50px] pr-4 py-[12.5px] w-[352px] focus:outline-secondary"
             placeholder="Search..."
-            onChange={(e) => setQuery(e.target.value.toLowerCase())}
+            onChange={(e) => console.log(e.target.value.toLowerCase())}
           />
         </div>
       </div>
