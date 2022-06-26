@@ -1,0 +1,19 @@
+.cardPurposeBuilding {
+    width: 514px;
+    height: 518px;
+    padding: 0px 52px;
+}
+
+.facility {
+    min-width: 107.57px;
+    height: 30px;
+    border-radius: 30px;
+}
+
+.category {
+    text-transform: capitalize;
+}
+
+.distance {
+    font-size: 10px;
+}

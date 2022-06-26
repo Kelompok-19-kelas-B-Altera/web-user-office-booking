@@ -1,74 +1,21 @@
 import styles from '../styles/Home.module.css'
 import CardBuilding from "../components/CardBuilding";
-import Footer from '../components/Footer';
+import DetailCard from '../components/DetailCard';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function Home() {
+  const toggleChat = useSelector((state) => state.liveChat.toggleChat) 
+  console.log(toggleChat)
   return (
     <>
-      <Footer/>
-
-      {/* <div>
-        <h1 className="font-semibold text-3xl mb-8">Banyak dilihat</h1>
-        <div className={`${styles.listBuilding} flex justify-between`}>
-          <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-          <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-        </div>
-      </div>
-      <div>
-        <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
-        <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-        <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-          <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-        </div>
-        <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-          <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-          <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-        </div>
-        <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-          <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-          <CardBuilding 
-            buildingImage={"/building1.svg"}
-            rating={"4.7"}
-            buildingName={"Sarana Square"}
-            buildingLocation={["Tebet", "Jakarta Selatan"]}
-          />
-        </div>
-      </div> */}
+      <DetailCard
+      nameBuilding="Sarana Square"
+      buildingLocation={["Tebet", "Jakarta Selatan"]}
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim praesent elementum facilisis leo, vel fringilla est ullamcorper eget nulla facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus in ornare quam viverra"
+      facilities={[["bandara", "2 KM"], ["rumah sakit", "2 KM"], ["mall", "2 KM"], ["coffee shop", "2 KM"]]}
+      rating="4.7"
+      totalReview="(281 Reviews)"
+      />
     </>
     // <section className={styles.filter}>
     //   <div>
