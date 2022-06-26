@@ -1,0 +1,22 @@
+.cardPurposeBuilding {
+    width: 514px;
+    height: 100%;
+    padding: 0px 52px 15px 52px;
+}
+
+.facility {
+    height: 30px;
+    border-radius: 30px;
+}
+
+.distance {
+    font-size: 10px;
+}
+
+.buttonMobile {
+    /* max-width: 336px; */
+    height: 50px;
+    width: 100%;
+    margin-top: 39px;
+    margin-bottom: 15px;
+  }

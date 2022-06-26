@@ -1,11 +1,13 @@
 import styles from "./LiveChat.module.css";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useSelector, useDispatch } from "react-redux";
+import { handleToggleChat } from "../../redux/features/LiveChatSlice";
 
 const LiveChat = () => {
-  let [showChat, setShowChat] = useState(false);
-  let [showChatting, setShowChatting] = useState(false);
-  let [showContactChat, setShowContactChat] = useState(false);
+	// let [showChat, setShowChat] = useState(false);
+	let [showChatting, setShowChatting] = useState(false);
+	let [showContactChat, setShowContactChat] = useState(false);
 
   useEffect(() => {
     if (showChat && document) {
