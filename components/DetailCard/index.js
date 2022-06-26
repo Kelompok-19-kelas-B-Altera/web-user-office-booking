@@ -7,7 +7,7 @@ import styles from "./DetailCard.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { handleToggleChat } from "../../redux/features/LiveChatSlice";
 
-export default function index({ nameBuilding, buildingLocation, description, facilities, rating, totalReview }) {
+export default function DetailCard({ nameBuilding, buildingLocation, description, facilities, rating, totalReview }) {
 	const [buildingAddress, buildingCity] = buildingLocation;
 	const showChat = useSelector((state) => state.liveChat.toggleChat);
 	const dispatch = useDispatch();
