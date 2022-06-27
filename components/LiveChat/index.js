@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { handleToggleChat } from "../../redux/features/LiveChatSlice";
 
 const LiveChat = () => {
-	// let [showChat, setShowChat] = useState(false);
+	let [showChat, setShowChat] = useState(false);
 	let [showChatting, setShowChatting] = useState(false);
 	let [showContactChat, setShowContactChat] = useState(false);
 
