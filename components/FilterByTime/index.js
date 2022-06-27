@@ -1,8 +1,7 @@
-import styles from "../styles/Home.module.css";
-import CustomCalender from "../components/Calender";
+import CustomCalender from "../Calender";
 import { useState } from "react";
 
-export default function PageKalender() {
+export default function FilterByName() {
   const months = [
     "Jan",
     "Feb",
@@ -23,9 +22,11 @@ export default function PageKalender() {
 
   return (
     <div className="relative">
+      <h1 className="text-base font-semibold text-center mb-[14px]">Tanggal Periode</h1>
+
       <button
         onClick={() => setClose(!close)}
-        className="box-border border-secondary border-x border-y rounded-sm bg-white text-secondary py-2.5 px-6 flex items-center"
+        className="box-border border-secondary border-x border-y rounded-sm bg-white text-secondary text-xs py-2.5 px-6 flex items-center"
       >
         <img src="/calendar.svg" alt="calendar" className="mr-1" />
         {date[0] ? (

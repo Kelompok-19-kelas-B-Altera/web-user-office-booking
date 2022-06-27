@@ -1,10 +1,17 @@
-import React from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { handleTogglePopupReview } from "../../redux/features/ReviewQuerySlice";
 
-import styles from "./Rating.module.css"
+import styles from "./Rating.module.css";
 
 const Rating = () => {
+  const dispatch = useDispatch();
+
+  const handleShowPopupReview = () => {
+    dispatch(handleTogglePopupReview());
+  };
+
   return (
     <div style={{ width: "278px" }}>
       <div className="text-center m-0 font-normal text-base" style={{ marginBottom: "35.5px" }}>
@@ -106,6 +113,9 @@ const Rating = () => {
       </div>
 
       <button
+        onClick={() => {
+          handleShowPopupReview();
+        }}
         className="bg-blue text-white flex justify-center items-center rounded-md"
         style={{
           maxWidth: "278px",

@@ -10,6 +10,7 @@ import RecomendationDetail from "../../components/RecomendationDetail";
 import Footer from "../../components/Footer";
 import LiveChat from "../../components/LiveChat";
 
+import PopupReview from "../../components/PopupReview";
 const DetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -24,6 +25,7 @@ const DetailPage = () => {
       {/* <div>DetailPage {id}</div> */}
       <div style={{marginTop: 95}}>
         <RatingAndReview/>
+        <PopupReview />
       </div>
       <div className="flex justify-center">
         <RecomendationDetail/>

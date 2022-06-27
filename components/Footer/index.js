@@ -15,27 +15,24 @@ export default function Footer() {
             <div className="grid grid-cols-3 items-center justify-items-center">
                 <div className="grid grid-rows-3">
                     <h1 className="h-5 mb-5 text-lg text-blue">Service</h1>
-                    <a href="">Contact Us</a>
-                    <a href="">Email Marketing</a>
+                    <a href="#ContactUs">Contact Us</a>
+                    <a href="#EmailMarketing">Email Marketing</a>
                 </div>
                 <div className="grid grid-rows-3">
                     <h1 className="h-5 mb-5 text-lg text-blue">About</h1>
-                    <a href="">Our Story</a>
-                    <a href="">Careers</a>
+                    <a href="#OurStory">Our Story</a>
+                    <a href="#Careers">Careers</a>
                 </div>
                 <div className="grid grid-rows-3 gap-5">
-                    {/* <h1 className="h-5 mb-5 text-lg text-blue">Follow Us</h1> */}
-                    {/* <div className="grid grid-s-3 h-4 "> */}
                         <a href="/login" className="w-5 h-4 ">
                             <img src="/facebook.svg" alt=""/>
                         </a>
-                        <a href="/home" className="w-5 h-4">
+                        <a href="#twitter" className="w-5 h-4">
                             <img src="/twitter.svg" alt=""/>
                         </a>
-                        <a href="/signup" className="w-5 h-4">
+                        <a href="#instagram" className="w-5 h-4">
                             <img src="/instagram.svg" alt=""/>
                         </a>
-                    {/* </div> */}
                 </div>
             </div>
         </div>
