@@ -1,5 +1,6 @@
 import LiveChat from "../components/LiveChat";
 import CardBuilding from "../components/CardBuilding";
+import Recomendation from "../components/Recomendation";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Footer from "../components/Footer";
@@ -82,7 +83,8 @@ export default function Home() {
               />
             </div>
           </div>
-          <div>
+          <Recomendation/>
+          {/* <div>
             <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
             <div className={`${styles.listBuilding} flex justify-between mb-6`}>
               <CardBuilding
@@ -126,7 +128,7 @@ export default function Home() {
                 buildingLocation={["Tebet", "Jakarta Selatan"]}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
       <Footer />

@@ -3,7 +3,13 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import React from "react";
 import Rating from "../../components/Rating";
 import Review from "../../components/Review";
+import BannerDetail from "../../components/BannerDetail";
+import DetailCard from "../../components/DetailCard";
 import RatingAndReview from "../../components/RatingAndReview";
+import RecomendationDetail from "../../components/RecomendationDetail";
+import Footer from "../../components/Footer";
+import LiveChat from "../../components/LiveChat";
+
 import PopupReview from "../../components/PopupReview";
 const DetailPage = () => {
   const router = useRouter();
@@ -11,9 +17,21 @@ const DetailPage = () => {
 
   return (
     <>
+      <div className="static flex justify-center">
+        <BannerDetail
+        bannerDetail={"banner-detail"}
+        />
+      </div>
       {/* <div>DetailPage {id}</div> */}
-      <RatingAndReview />
-      <PopupReview />
+      <div style={{marginTop: 95}}>
+        <RatingAndReview/>
+        <PopupReview />
+      </div>
+      <div className="flex justify-center">
+        <RecomendationDetail/>
+      </div>
+      <LiveChat />
+      <Footer />
     </>
   );
 };

@@ -1,4 +1,9 @@
-.cardPurposeBuilding {
+.detailCard {
+    left: 149px;
+    top: 272px;
+}
+
+.detailBuilding {
     width: 514px;
     height: 100%;
     padding: 0px 52px 15px 52px;
