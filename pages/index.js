@@ -5,9 +5,10 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import Search from "../components/SearchFeature/Search";
 import Filter from "../components/FilterFeature/Filter";
-import FilterByName from "../components/FilterByTime";
+import FilterByTime from "../components/FilterByTime";
 import Cookies from "js-cookie";
 import { decodeToken } from "react-jwt";
+import ButtonsFilter from "../components/ButtonsFilter";
 
 export default function Home() {
   const token = Cookies.get("token");
@@ -100,7 +101,8 @@ export default function Home() {
             </div>
           )}
           <Filter />
-          <FilterByName />
+          <FilterByTime />
+          <ButtonsFilter />
         </div>
       </section>
 
