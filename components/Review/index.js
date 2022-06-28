@@ -1,55 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import EachReview from "../EachReview";
 import { useState } from "react";
 
-const Review = () => {
+const Review = ({ allDataReviewOfAnOffice }) => {
   let [seeAllReview, setSeeAllReview] = useState(false);
-
-  const DummyData = [
-    {
-      name: "haha",
-    },
-    {
-      name: "haha",
-    },
-    {
-      name: "haha",
-    },
-    {
-      name: "haha",
-    },
-    {
-      name: "haha",
-    },
-    {
-      name: "haha",
-    },
-    {
-      name: "haha",
-    },
-    {
-      name: "haha",
-    },
-  ];
+  useEffect(()=>{
+    console.log(allDataReviewOfAnOffice)
+  }, [seeAllReview])
   return (
     <div>
       <section className="flex flex-col gap-5" style={{ width: "736px" }}>
         {!seeAllReview &&
-          DummyData.map((e, index) => {
+          allDataReviewOfAnOffice.map((e, index) => {
             if (index < 4) {
               return (
                 <div key={index}>
-                  <EachReview />
+                  <EachReview userName={e.useName} photoProfile={e.photoProfile} message={e.message} rating={e.rating} created={e.created} />
                 </div>
               );
             }
           })}
 
         {seeAllReview &&
-          DummyData.map((e, index) => (
+          allDataReviewOfAnOffice.map((e, index) => (
             <div key={index}>
-              <EachReview />
+              <EachReview userName={e.useName} photoProfile={e.photoProfile} message={e.message} rating={e.rating} created={e.created} />
             </div>
           ))}
       </section>
@@ -59,9 +35,9 @@ const Review = () => {
           setSeeAllReview(!seeAllReview);
         }}
       >
-        {DummyData.length > 4 && !seeAllReview && "Lihat Semua"}
-        {DummyData.length > 4 && seeAllReview && "Tampilkan Lebih Sedikit"}
-        {DummyData.length < 4 && ""}
+        {allDataReviewOfAnOffice.length > 4 && !seeAllReview && "Lihat Semua"}
+        {allDataReviewOfAnOffice.length > 4 && seeAllReview && "Tampilkan Lebih Sedikit"}
+        {allDataReviewOfAnOffice.length < 4 && ""}
       </p>
     </div>
   );
