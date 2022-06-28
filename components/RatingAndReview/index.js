@@ -2,7 +2,7 @@ import React from "react";
 import Rating from "../Rating";
 import Review from "../Review";
 
-const RatingAndReview = () => {
+const RatingAndReview = ({ allDataReviewOfAOffice }) => {
   return (
     <section
       className="flex flex-col items-center gap-10 m-auto"
@@ -13,7 +13,7 @@ const RatingAndReview = () => {
       </header>
       <section className="flex" style={{ gap: "52px" }}>
         <Rating />
-        <Review />
+        <Review allDataReviewOfAOffice={allDataReviewOfAOffice} />
       </section>
     </section>
   );
