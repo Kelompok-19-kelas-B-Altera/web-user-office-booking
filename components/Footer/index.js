@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import Link from 'next/link';
 import styles from './Footer.module.css';
 
 export default function Footer() {
@@ -15,24 +16,30 @@ export default function Footer() {
             <div className="grid grid-cols-3 items-center justify-items-center">
                 <div className="grid grid-rows-3">
                     <h1 className="h-5 mb-5 text-lg text-blue">Service</h1>
-                    <a href="#ContactUs">Contact Us</a>
-                    <a href="#EmailMarketing">Email Marketing</a>
+                    <Link href="#ContactUs">
+                        <a>Contact Us</a>
+                    </Link>
+                    <Link href="#EmailMarketing">Email Marketing</Link>
                 </div>
                 <div className="grid grid-rows-3">
                     <h1 className="h-5 mb-5 text-lg text-blue">About</h1>
-                    <a href="#OurStory">Our Story</a>
-                    <a href="#Careers">Careers</a>
+                    <Link href="#OurStory">
+                        <a>Our Story</a>
+                    </Link>
+                    <Link href="#Careers">
+                        <a>Careers</a>
+                    </Link>
                 </div>
                 <div className="grid grid-rows-3 gap-5">
-                        <a href="/login" className="w-5 h-4 ">
-                            <img src="/facebook.svg" alt=""/>
-                        </a>
-                        <a href="#twitter" className="w-5 h-4">
-                            <img src="/twitter.svg" alt=""/>
-                        </a>
-                        <a href="#instagram" className="w-5 h-4">
-                            <img src="/instagram.svg" alt=""/>
-                        </a>
+                        <Link href="/login" className="w-5 h-4 ">
+                            <a><img src="/facebook.svg" alt=""/></a>
+                        </Link>
+                        <Link href="#twitter" className="w-5 h-4">
+                            <a><img src="/twitter.svg" alt=""/></a>
+                        </Link>
+                        <Link href="#instagram" className="w-5 h-4">
+                            <a><img src="/instagram.svg" alt=""/></a>
+                        </Link>
                 </div>
             </div>
         </div>

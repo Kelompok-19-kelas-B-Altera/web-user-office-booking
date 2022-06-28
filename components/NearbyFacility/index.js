@@ -6,7 +6,6 @@ export default function NearbyFacility({facilities}) {
       <>
       {facilities.map((e, index) => {
           const [category, distance] = e
-          console.log(category, distance)
           return (
             <div className={`${styles.facility} flex gap-2 items-center mt-2.5 mr-2 px-3 py-2 bg-white drop-shadow-lg`} key={index}>
                 {category === "bandara" && (
