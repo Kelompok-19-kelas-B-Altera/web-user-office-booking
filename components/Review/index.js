@@ -3,16 +3,16 @@ import Image from "next/image";
 import EachReview from "../EachReview";
 import { useState } from "react";
 
-const Review = ({ allDataReviewOfAOffice }) => {
+const Review = ({ allDataReviewOfAnOffice }) => {
   let [seeAllReview, setSeeAllReview] = useState(false);
   useEffect(()=>{
-    console.log(allDataReviewOfAOffice)
+    console.log(allDataReviewOfAnOffice)
   }, [seeAllReview])
   return (
     <div>
       <section className="flex flex-col gap-5" style={{ width: "736px" }}>
         {!seeAllReview &&
-          allDataReviewOfAOffice.map((e, index) => {
+          allDataReviewOfAnOffice.map((e, index) => {
             if (index < 4) {
               return (
                 <div key={index}>
@@ -23,7 +23,7 @@ const Review = ({ allDataReviewOfAOffice }) => {
           })}
 
         {seeAllReview &&
-          allDataReviewOfAOffice.map((e, index) => (
+          allDataReviewOfAnOffice.map((e, index) => (
             <div key={index}>
               <EachReview userName={e.useName} photoProfile={e.photoProfile} message={e.message} rating={e.rating} created={e.created} />
             </div>
@@ -35,9 +35,9 @@ const Review = ({ allDataReviewOfAOffice }) => {
           setSeeAllReview(!seeAllReview);
         }}
       >
-        {allDataReviewOfAOffice.length > 4 && !seeAllReview && "Lihat Semua"}
-        {allDataReviewOfAOffice.length > 4 && seeAllReview && "Tampilkan Lebih Sedikit"}
-        {allDataReviewOfAOffice.length < 4 && ""}
+        {allDataReviewOfAnOffice.length > 4 && !seeAllReview && "Lihat Semua"}
+        {allDataReviewOfAnOffice.length > 4 && seeAllReview && "Tampilkan Lebih Sedikit"}
+        {allDataReviewOfAnOffice.length < 4 && ""}
       </p>
     </div>
   );
