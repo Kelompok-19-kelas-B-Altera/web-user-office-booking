@@ -15,7 +15,6 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
     threeStarts,
     twoStarts,
     oneStarts,
-    average,
   } = allDataRatingOfAnOffice;
 
   const dispatch = useDispatch();
@@ -24,11 +23,16 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
     dispatch(handleTogglePopupReview());
   };
 
+  const ratingAverage = () => {
+    const result = ((5 * fiveStarts) + (4 * fourStarts) + (3 * threeStarts) + (2 * twoStarts) + (1 * oneStarts)) / amountAllReview
+    return result.toFixed(1)
+  }
+
   return (
     <div style={{ width: "278px" }}>
       <div className="text-center m-0 font-normal text-base" style={{ marginBottom: "35.5px" }}>
         <Image src="/star-big.svg" width={104.08} height={99.68} alt="star" />
-        <p>{average}</p>
+        <p>{ratingAverage()}</p>
         <p className="text-secondary">base on {amountAllReview} Reviews</p>
       </div>
 
@@ -40,7 +44,7 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
           </div>
           <ProgressBar
             completed={fiveStarts}
-            maxCompleted={281}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -58,7 +62,7 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
           </div>
           <ProgressBar
             completed={fourStarts}
-            maxCompleted={281}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -76,7 +80,7 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
           </div>
           <ProgressBar
             completed={threeStarts}
-            maxCompleted={281}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -94,7 +98,7 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
           </div>
           <ProgressBar
             completed={twoStarts}
-            maxCompleted={281}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -112,7 +116,7 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
           </div>
           <ProgressBar
             completed={oneStarts}
-            maxCompleted={281}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
