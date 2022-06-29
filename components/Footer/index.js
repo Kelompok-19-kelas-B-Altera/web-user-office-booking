@@ -31,7 +31,7 @@ export default function Footer() {
                     </Link>
                 </div>
                 <div className="grid grid-rows-3 gap-5">
-                        <Link href="/login" className="w-5 h-4 ">
+                        <Link href="#facebook" className="w-5 h-4 ">
                             <a><img src="/facebook.svg" alt=""/></a>
                         </Link>
                         <Link href="#twitter" className="w-5 h-4">
