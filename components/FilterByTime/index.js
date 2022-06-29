@@ -1,7 +1,9 @@
 import CustomCalender from "../Calender";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPeriodDate } from "../../redux/features/FilterSlice";
 
-export default function FilterByName() {
+export default function FilterByTime() {
   const months = [
     "Jan",
     "Feb",
@@ -19,6 +21,16 @@ export default function FilterByName() {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [date, setDate] = useState(new Date());
   const [close, setClose] = useState(false);
+  const periodDateRedux = useSelector((state)=>state.filter.periodDate)
+  const dispatch = useDispatch()
+
+  useEffect(()=>{
+    dispatch(addPeriodDate(`${date}`))
+  }, [date])
+
+  useEffect(()=>{
+    console.log(periodDateRedux)
+  }, [periodDateRedux])
 
   return (
     <div className="relative">
