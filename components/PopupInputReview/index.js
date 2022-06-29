@@ -1,20 +1,31 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { handleIsSubmitSucces, handleTogglePopupReview } from "../../redux/features/ReviewQuerySlice";
+import {
+  handleIsSubmitSucces,
+  handleTogglePopupReview,
+} from "../../redux/features/ReviewQuerySlice";
+import { decodeToken } from "react-jwt";
+import Cookies from "js-cookie";
 
-function PopupInputReview() {
+function PopupInputReview({ id_building }) {
   const [currentValue, setCurrentValue] = useState(5);
   const [hoverValue, setHoverValue] = useState(undefined);
   const stars = Array(5).fill(0);
-  
+
   const [userClicked, setUserClicked] = useState(false);
   const dispatch = useDispatch();
+
+  let [messageReview, setMessageReview] = useState("");
+  let [rating, setRating] = useState("");
+
+  const userId = decodeToken(Cookies.get("token")).id
 
   const handleClick = (value) => {
     setCurrentValue(value);
     setUserClicked(true);
+    setRating(value);
   };
 
   const handleMouseOver = (newHoverValue) => {
@@ -25,16 +36,24 @@ function PopupInputReview() {
     setHoverValue(undefined);
   };
 
+  const handleInput = (e) => {
+    setUserClicked(true);
+    setMessageReview(e.target.value);
+  };
+
   const handleSubmit = () => {
-    dispatch(handleIsSubmitSucces())
-  }
+    console.log(Number(id_building), userId, messageReview, rating)
+    dispatch(handleIsSubmitSucces());
+  };
 
   return (
     <div style={styles.container}>
       <img
         src="/close-chat.svg"
         alt="close"
-        onClick={()=>{dispatch(handleTogglePopupReview())}}
+        onClick={() => {
+          dispatch(handleTogglePopupReview());
+        }}
         className="absolute hover:cursor-pointer"
         style={{ top: "22px", right: "22px" }}
       />
@@ -71,15 +90,21 @@ function PopupInputReview() {
       </div>
       <textarea
         placeholder="Additional Comments"
-        onChange={() => {
-          setUserClicked(true);
+        onChange={(e) => {
+          handleInput(e);
         }}
         className="bg-grey text-secondary focus:outline-blue"
         style={styles.textarea}
       />
 
       {userClicked ? (
-        <button style={styles.button} className="bg-blue" onClick={()=>{handleSubmit()}}>
+        <button
+          style={styles.button}
+          className="bg-blue"
+          onClick={() => {
+            handleSubmit();
+          }}
+        >
           Submit Review
         </button>
       ) : (

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const EachReview = () => {
+const EachReview = ({ userName, photoProfile, message, rating, created }) => {
   return (
     <div
       className="w-full"
@@ -16,7 +16,7 @@ const EachReview = () => {
     >
       <div className="flex items-center" style={{ marginBottom: "10px" }}>
         <img
-          src="/building.svg"
+          src={photoProfile}
           alt=""
           style={{
             width: "37px",
@@ -28,22 +28,18 @@ const EachReview = () => {
         />
         <div className="w-full">
           <div className="flex justify-between w-full">
-            <h1 className="text-xl">Angga Cipta Pranata</h1>
+            <h1 className="text-xl">{userName}</h1>
             <div className="flex gap-2.5">
-              <Image src="/star-big.svg" width={16} height={15.32} />
-              <Image src="/star-big.svg" width={16} height={15.32} />
-              <Image src="/star-big.svg" width={16} height={15.32} />
-              <Image src="/star-big.svg" width={16} height={15.32} />
-              <Image src="/star-big.svg" width={16} height={15.32} />
+              {Array.from(Array(rating), () => (
+                <Image src="/star-big.svg" width={16} height={15.32} />
+              ))}
             </div>
           </div>
           <p className="text-xs text-secondary">1 hari yang lalu</p>
         </div>
       </div>
 
-      <div className="text-xs">
-        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vitae corrupti accusamus saepe.
-      </div>
+      <div className="text-xs">{message}</div>
     </div>
   );
 };
