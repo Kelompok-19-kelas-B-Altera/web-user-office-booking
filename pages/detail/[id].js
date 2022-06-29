@@ -92,7 +92,6 @@ const DetailPage = () => {
     threeStarts: 21,
     twoStarts: 6,
     oneStarts: 4,
-    average: 4.5
   }
 
   return (
