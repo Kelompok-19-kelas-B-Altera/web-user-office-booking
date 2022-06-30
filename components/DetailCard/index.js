@@ -32,10 +32,10 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 				<div>
 					<h2 className="mt-6 font-semibold text-2xl">Fasilitas Terdekat</h2>
 					<div className="mt-1 flex flex-wrap ">
-						<NearbyFacility 
+						{/* <NearbyFacility 
 						// facilities={[["rumah sakit", "2 KM"], ["bandara", "2 KM"], ["mall", "2 KM"], ["coffee shop", "2 KM"]]}
 						facilities={facilities}
-						/>
+						/> */}
 					</div>
 				</div>
 				<div className="flex justify-between mt-10">

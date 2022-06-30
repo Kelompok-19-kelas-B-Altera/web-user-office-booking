@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import ProgressBar from "@ramonak/react-progress-bar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Rating from "../../components/Rating";
 import Review from "../../components/Review";
 import BannerDetail from "../../components/BannerDetail";
@@ -11,6 +11,7 @@ import Footer from "../../components/Footer";
 import LiveChat from "../../components/LiveChat";
 
 import PopupReview from "../../components/PopupReview";
+import axiosInstance from "../../networks/apis";
 
 const ReviewDummyData = [
   {
@@ -82,35 +83,145 @@ const ReviewDummyData = [
 const DetailPage = () => {
   const router = useRouter();
   const { id } = router.query;
+
+  const [building, setBuilding] = useState({});
+  const [loading, setLoading] = useState(false);
+  console.log(building)
+  console.log(building.reviews?.length);
   
-  const RatingDummyData = {
-    id_building: id,
-    id_user: 1,
-    amountAllReview: 281,
-    fiveStarts: 200,
-    fourStarts: 50,
-    threeStarts: 21,
-    twoStarts: 6,
-    oneStarts: 4,
-    average: 4.5
+  const amountFiveStars = () => {
+    let amount = 0;
+    building.reviews?.map(review => {
+      if (review.rating === 5) {
+        amount++;
+      }
+    });
+    return amount;
   }
+  const amountFourStars = () => {
+    let amount = 0;
+    building.reviews?.map(review => {
+      if (review.rating === 4) {
+        amount++;
+      }
+    });
+    return amount;
+  }
+  const amountThreeStars = () => {
+    let amount = 0;
+    building.reviews?.map(review => {
+      if (review.rating === 3) {
+        amount++;
+      }
+    });
+    return amount;
+  }
+  const amountTwoStars = () => {
+    let amount = 0;
+    building.reviews?.map(review => {
+      if (review.rating === 2) {
+        amount++;
+      }
+    });
+    return amount;
+  }
+  const amountOneStars = () => {
+    let amount = 0;
+    building.reviews?.map(review => {
+      if (review.rating === 1) {
+        amount++;
+      }
+    });
+    return amount;
+  }
+  console.log(amountFiveStars(), amountFourStars(), amountThreeStars(), amountTwoStars(), amountOneStars());
+
+  useEffect(() => {
+    id === undefined ? setLoading(true) : setLoading(false);
+  }, [id]);
+
+  useEffect(() => {
+    if (id !== undefined) {
+      axiosInstance
+        .get(`/api/v1/building/${id}`)
+        .then((res) => {
+          console.log(res.data.data);
+          setBuilding(res.data.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        }
+        );
+    }
+    // axiosInstance
+    //   .get(`/api/v1/building/${id}`)
+    //   .then(res => {
+    //     console.log(res.data.data);
+    //     console.log(res.data.data.reviews[0].rating);
+    //     setBuilding(res.data.data);
+    //   }
+    //   )
+    //   .catch(err => {
+    //     console.log(err);
+    //   }
+    //   );
+    // console.log(id)
+  }, [loading])
+
+    // useEffect(() => {
+    //   axiosInstance
+    //     .get(`/api/v1/building/1`)
+    //     .then((res) => {
+    //       console.log(res.data.data);
+    //       setBuilding(res.data);
+    //     }
+    //     )
+    //     .catch((err) => {
+    //       console.log(err);
+    //     }
+    //     );
+    // }, [])
+
+    const RatingData = {
+      id_building: id,
+      id_user: 1,
+      amountAllReview: building.reviews?.length,
+      fiveStarts: amountFiveStars(),
+      fourStarts: amountFourStars(),
+      threeStarts: amountThreeStars(),
+      twoStarts: amountTwoStars(),
+      oneStarts: amountOneStars(),
+      average: 4.5
+    }
+    console.log(RatingData)
+  
+  
 
   return (
     <>
-      <div className="static flex justify-center">
-        <BannerDetail bannerDetail={"banner-detail"} />
-      </div>
-      {/* <div>DetailPage {id}</div> */}
-      <div style={{ marginTop: 95 }}>
-        <RatingAndReview allDataReviewOfAnOffice={ReviewDummyData} allDataRatingOfAnOffice={RatingDummyData} />
-        <PopupReview id_building={id} />
-      </div>
-      <div className="flex justify-center">
-        <RecomendationDetail />
-      </div>
-      <LiveChat />
-      <Footer />
-    </>
+        <div className="static flex justify-center">
+        <BannerDetail 
+        bannerDetail={"banner-detail"} 
+        nameBuilding={building.building_name}
+        address={building.address}
+        city={building.complex?.city}
+        description={building.description}
+        // facilities= {building.facilities}
+        rating={4.5}
+        totalReview={281}
+        />
+        </div>
+        {/* <div>DetailPage {id}</div> */}
+        <div style={{ marginTop: 95 }}>
+          <RatingAndReview allDataReviewOfAnOffice={ReviewDummyData} allDataRatingOfAnOffice={RatingData} />
+          <PopupReview id_building={id} />
+        </div>
+        <div className="flex justify-center">
+          <RecomendationDetail />
+        </div>
+        <LiveChat />
+        <Footer />      
+  </>
   );
 };
 

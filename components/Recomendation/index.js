@@ -10,10 +10,10 @@ export default function Recomendation() {
   const [buildings, setBuildings] = useState([]);
 
   useEffect(() => {
-    axios
-      .get('http://108.136.240.248/api/v1/building')
+    axiosInstance
+      .get('/api/v1/building')
       .then(res => {
-        console.log(res);
+        console.log(res.data.data);
         setBuildings(res.data);
       }
       )
@@ -22,24 +22,12 @@ export default function Recomendation() {
       }
       );
   }, []);
-
-  // axios
-  // .get('http://108.136.240.248/api/v1/building')
-  // .then(res => {
-  //   console.log(res);
-  //   setBuildings(res);
-  // }
-  // )
-  // .catch(err => {
-  //   console.log(err);
-  // }
-  // );
     return (
         <div>
             <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
             {buildings.data?.map(item => (                                                                                 
               <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-                <Link href={`/detail/${buildings.data.id}`}>
+                <Link href={`/detail/${item.id}`}>
                   <a>
                   <CardBuilding
                     buildingImage={item.images[0]?.image_url}
@@ -51,34 +39,6 @@ export default function Recomendation() {
                 </Link>
               </div> 
             ))}
-            {/* <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
-            <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div> */}
         </div>
     )
 }
