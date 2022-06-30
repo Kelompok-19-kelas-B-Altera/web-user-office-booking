@@ -64,6 +64,11 @@ const DetailPage = () => {
     return amount;
   }
 
+  const ratingAverage = () => {
+    const result = ((5 * amountFiveStars()) + (4 * amountFourStars()) + (3 * amountThreeStars()) + (2 * amountTwoStars()) + (1 * amountOneStars())) / building.reviews?.length
+    return result.toFixed(1)
+  }
+
   useEffect(() => {
     id === undefined ? setLoading(true) : setLoading(false);
   }, [id]);
@@ -109,7 +114,7 @@ const DetailPage = () => {
         address={building.address}
         city={building.complex?.city}
         description={building.description}
-        rating={4.5}
+        rating={ratingAverage()}
         totalReview={RatingData.amountAllReview}
         />
         </div>

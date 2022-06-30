@@ -10,12 +10,19 @@ import FilterByTime from "../components/FilterByTime";
 import Cookies from "js-cookie";
 import { decodeToken } from "react-jwt";
 import ButtonsFilter from "../components/ButtonsFilter";
+import { useEffect } from "react";
+import axiosInstance from "../networks/apis";
 
 export default function Home() {
   const token = Cookies.get("token");
   const tokenDecoded = decodeToken(token);
 
   console.log(token);
+
+  // useEffect(() => {
+  //   axiosInstance
+  //   .get('')
+  
 
   return (
     <div className="flex flex-col items-center" style={{ width: "100%" }}>
@@ -96,51 +103,6 @@ export default function Home() {
             </div>
           </div>
           <Recomendation/>
-          {/* <div>
-            <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
-            <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
-            <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
-            <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
-          </div> */}
         </div>
       </section>
       <Footer />

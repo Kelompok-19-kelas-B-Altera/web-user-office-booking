@@ -4,6 +4,7 @@ import React from 'react';
 
 const CardBuilding = ({buildingImage, rating, buildingName, buildingLocation}) => {
   const [buildingAddress, buildingCity] = buildingLocation;
+
  return (
    <>
     <header>
