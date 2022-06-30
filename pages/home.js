@@ -1,27 +1,30 @@
 import styles from '../styles/Home.module.css'
-import CardBuilding from "../components/CardBuilding";
-import DetailCard from '../components/DetailCard';
-import { useSelector, useDispatch } from 'react-redux';
+import NearbyFacility from '../components/NearbyFacilities';
 import Link from 'next/link'
+import { useEffect, useState } from 'react';
+import axiosInstance from '../networks/apis';
 
 export default function Home() {
+
+  const [building, setBuilding] = useState({});
+
+  useEffect(() => {
+    axiosInstance
+      .get(`/api/v1/building/1`)
+      .then((res) => {
+        console.log(res.data.data);
+        setBuilding(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      }
+      );
+  }, []);
+  
+  const nearby = building?.nearby_facilities;
     return (
-      <ul>
-        <li>
-          <Link href="/post/abc">
-            <a>Go to pages/post/[pid].js</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/post/abc?foo=bar">
-            <a>Also goes to pages/post/[pid].js</a>
-          </Link>
-        </li>
-        <li>
-          <Link href="/post/abc/a-comment">
-            <a>Go to pages/post/[pid]/[comment].js</a>
-          </Link>
-        </li>
-      </ul>
+      <NearbyFacility 
+      facilities={nearby}
+      />
     )
   };

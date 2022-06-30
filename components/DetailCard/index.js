@@ -7,7 +7,7 @@ import styles from "./DetailCard.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { handleToggleChat } from "../../redux/features/LiveChatSlice";
 
-export default function DetailCard({ nameBuilding, buildingLocation, description, facilities, rating, totalReview }) {
+export default function DetailCard({ nameBuilding, buildingLocation, description, rating, totalReview }) {
 	const [buildingAddress, buildingCity] = buildingLocation;
 	const showChat = useSelector((state) => state.liveChat.toggleChat);
 	const dispatch = useDispatch();
@@ -29,20 +29,11 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 						{description}
 					</p>
 				</div>
-				<div>
-					<h2 className="mt-6 font-semibold text-2xl">Fasilitas Terdekat</h2>
-					<div className="mt-1 flex flex-wrap ">
-						{/* <NearbyFacility 
-						// facilities={[["rumah sakit", "2 KM"], ["bandara", "2 KM"], ["mall", "2 KM"], ["coffee shop", "2 KM"]]}
-						facilities={facilities}
-						/> */}
-					</div>
-				</div>
 				<div className="flex justify-between mt-10">
 					<div className="flex">
 						<img src="/star.svg" alt="" className="mr-2.5" />
 						<p>{rating}</p>
-						<p className="text-secondary">{totalReview}</p>
+						<p className="text-secondary ml-1.5">({totalReview})</p>
 					</div>
 					<div className="text-blue">
 						<a href="#toReview">Lihat Review</a>
@@ -62,7 +53,6 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 					/>
 					<p>Sewa Sekarang</p>
 				</div>
-				{/* <LiveChat/> */}
 			</div>
 		</div>
 	);

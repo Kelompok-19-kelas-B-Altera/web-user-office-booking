@@ -1,5 +1,7 @@
 import ProgressBar from "@ramonak/react-progress-bar";
+import Cookies from "js-cookie";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { handleTogglePopupReview } from "../../redux/features/ReviewQuerySlice";
 
@@ -19,8 +21,14 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
 
   const dispatch = useDispatch();
 
+  const router = useRouter();
+
   const handleShowPopupReview = () => {
-    dispatch(handleTogglePopupReview());
+    if (Cookies.get("token")) { 
+      dispatch(handleTogglePopupReview());
+    } else { 
+      router.push("/login");
+    }
   };
 
   const ratingAverage = () => {

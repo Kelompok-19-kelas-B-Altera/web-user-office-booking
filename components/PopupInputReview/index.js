@@ -8,6 +8,7 @@ import {
 } from "../../redux/features/ReviewQuerySlice";
 import { decodeToken } from "react-jwt";
 import Cookies from "js-cookie";
+import axiosInstance from "../../networks/apis";
 
 function PopupInputReview({ id_building }) {
   const [currentValue, setCurrentValue] = useState(5);
@@ -43,6 +44,10 @@ function PopupInputReview({ id_building }) {
 
   const handleSubmit = () => {
     console.log(Number(id_building), userId, messageReview, rating)
+    axiosInstance
+      .post(`/api/v1/review`, {
+        
+      })
     dispatch(handleIsSubmitSucces());
   };
 
