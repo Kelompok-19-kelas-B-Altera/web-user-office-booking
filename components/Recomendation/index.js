@@ -79,7 +79,7 @@ export default function Recomendation() {
     return (
         <div>
             <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
-            {buildings.data?.map(item, index => (                                                                        
+            {buildings.data?.map((item, index) => (                                                                        
               <div className={`${styles.listBuilding} flex justify-between mb-6`}>
                 <Link href={`/detail/${item.id}`}>
                   <a>
