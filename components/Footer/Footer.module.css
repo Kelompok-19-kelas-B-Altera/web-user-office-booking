@@ -12,6 +12,13 @@
     margin: 50px 0px
 }
 
+.containerInfromation {
+    width: 336.56px;
+    height: 102px;
+    margin-top: 100px;
+    
+}
+
 /* .logo {
     background-color: linear-gradient(267.6deg, rgba(255, 255, 255, 0.5) -64.17%, #197BEB 43.73%);
     -webkit-background-clip: text;
