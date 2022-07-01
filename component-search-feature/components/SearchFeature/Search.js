@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef } from "react";
 
-const Search = () => {
+const Search = ({ setQuery }) => {
   const ref = useRef(null);
 
   return (
@@ -13,13 +13,17 @@ const Search = () => {
             ref.current.focus();
           }}
         >
-          <img src="/search.svg" alt="search" className="absolute left-2.5 top-2.5" />
+          <img
+            src="/search.svg"
+            alt="search"
+            className="absolute left-2.5 top-2.5"
+          />
           <input
             type="text"
             ref={ref}
             className="pl-[50px] pr-4 py-[12.5px] w-[352px] focus:outline-secondary"
             placeholder="Search..."
-            onChange={(e) => console.log(e.target.value.toLowerCase())}
+            onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
         </div>
       </div>
