@@ -73,14 +73,18 @@ export default function Recomendation() {
 
   const ratingAverage = (item) => {
     const result = ((5 * amountFiveStars(item)) + (4 * amountFourStars(item)) + (3 * amountThreeStars(item)) + (2 * amountTwoStars(item)) + (1 * amountOneStars(item))) / item?.reviews?.length
-    return result.toFixed(1)
+    if (result) {
+      return result.toFixed(1);
+    }
+    return 0;
   }
 
     return (
         <div>
             <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
+            <div className='flex flex-wrap justify-between'>
             {buildings.data?.map((item, index) => (                                                                        
-              <div key={index} className={`${styles.listBuilding} flex justify-between mb-6`}>
+              <div className={`${styles.listBuilding} mb-6`} key={index}>
                 <Link href={`/detail/${item.id}`}>
                   <a>
                   <CardBuilding
@@ -93,6 +97,7 @@ export default function Recomendation() {
                 </Link>
               </div> 
             ))}
+            </div>
         </div>
     )
 }

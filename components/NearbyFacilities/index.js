@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './NearbyFacilities.module.css';
 
 export default function NearbyFacility({facilities}) {
-    // const [name, distance] = facilities
   return (
       <>
         <div className='mt-24'>   

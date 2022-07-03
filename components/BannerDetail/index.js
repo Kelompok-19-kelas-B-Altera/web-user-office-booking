@@ -3,7 +3,7 @@ import DetailCard from '../../components/DetailCard';
 import DetailImage from '../DetailImage';
 import styles from './BannerDetail.module.css';
 
-export default function BannerDetail({bannerDetail, nameBuilding, address, city, description, facilities, rating, totalReview}) {
+export default function BannerDetail({bannerDetail, nameBuilding, address, city, description, facilities, rating, totalReview, images}) {
   return (
     <>
         <div className={`${styles.bannerDetail} static `}>
@@ -19,7 +19,9 @@ export default function BannerDetail({bannerDetail, nameBuilding, address, city,
             rating={rating}
             totalReview={totalReview}
             />
-            <DetailImage /> 
+            <DetailImage 
+            images={images}
+            /> 
         </div>
     </>
   )
