@@ -6,40 +6,41 @@ export default function Footer() {
   return (
       <>
         <div className={`${styles.footer} grid grid-cols-2 border-y`}>
-            <div className={`${styles.footerLeft} grid grid-cols-2 items-center justify-items-center border-r`}>
-                <h1></h1>
-                <div>
-                    <h1 className={`${styles.logo} font-semibold text-2xl text-blue`}>Officity</h1>
-                    <p className="justify-items-center">Pay One Simple Price For Everything Related To Your Workspace</p>
-                </div>
-            </div>
-            <div className=" flex items-center">
-                <div className={`${styles.containerInformation} grid grid-cols-3 items-center`}>
-                    <div className="grid grid-rows-3">
-                        <h1 className="h-5 mb-5 text-lg text-blue">Service</h1>
-                        <Link href="#ContactUs">
-                            <a>Contact Us</a>
-                        </Link>
-                        <Link href="#EmailMarketing">Email Marketing</Link>
+            <div className={`${styles.footerLeft} flex border-r`}>
+                    <div className={`${styles.containerLogo}`}>
+                        <h1 className={`${styles.logo} font-semibold text-2xl text-blue`}>Officity</h1>
+                        <p>Pay One Simple Price For Everything Related To Your Workspace</p>
                     </div>
-                    <div className="grid grid-rows-3">
+            </div>
+            <div className="flex">
+                <div className={`${styles.containerInformation} flex justify-between items-center`}>
+                    <div>
+                        <h1 className="block h-5 mb-5 text-lg text-blue">Services</h1>
+                        <Link href="#EmailMarketing">
+                            <a className='inline-block mb-5'>Email Marketing</a>
+                        </Link>
+                        <Link href="#ContactUs">
+                            <a className='inline-block mb-5'>Contact Us</a>
+                        </Link>
+                    </div>
+                    <div>
                         <h1 className="h-5 mb-5 text-lg text-blue">About</h1>
                         <Link href="#OurStory">
-                            <a>Our Story</a>
+                            <a className='inline-block mb-5'>Our Story</a>
                         </Link>
                         <Link href="#Careers">
-                            <a>Careers</a>
+                            <a className='inline-block mb-5'>Careers</a>
                         </Link>
                     </div>
-                    <div className="grid grid-rows-3 gap-5">
-                            <Link href="#facebook" className="w-5 h-4 ">
-                                <a><img src="/facebook.svg" alt=""/></a>
+                    <div>
+                            <Link href="#facebook">
+                                <a className='block mb-5 h-4'><img src="/facebook.svg" alt=""/></a>
                             </Link>
-                            <Link href="#twitter" className="w-5 h-4">
-                                <a><img src="/twitter.svg" alt=""/></a>
+                            <Link href="#twitter">
+                                <a className='block mb-5  h-4'><img src="/twitter.svg" alt=""/></a>
                             </Link>
-                            <Link href="#instagram" className="w-5 h-4">
-                                <a><img src="/instagram.svg" alt=""/></a>
+                            <Link href="#instagram">
+                                <a className='block mb-5  h-4'><img src="/instagram.svg" alt=""/></a>
                             </Link>
                     </div>
                 </div>

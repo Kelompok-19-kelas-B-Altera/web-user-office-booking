@@ -66,7 +66,10 @@ const DetailPage = () => {
 
   const ratingAverage = () => {
     const result = ((5 * amountFiveStars()) + (4 * amountFourStars()) + (3 * amountThreeStars()) + (2 * amountTwoStars()) + (1 * amountOneStars())) / building.reviews?.length
-    return result.toFixed(1)
+    if  (result ) {
+      return result.toFixed(1);
+    }
+    return 0;
   }
 
   useEffect(() => {
@@ -104,6 +107,9 @@ const DetailPage = () => {
 
     const nearby = building?.nearby_facilities;
     console.log(nearby)
+
+    const detailImage = building?.images;
+    console.log(detailImage)
   
   return (
     <>
@@ -116,14 +122,16 @@ const DetailPage = () => {
         description={building.description}
         rating={ratingAverage()}
         totalReview={RatingData.amountAllReview}
+        images={detailImage}
         />
         </div>
-        {/* <div>DetailPage {id}</div> */}
-        <div className="flex justify-center">
-          <NearbyFacilities 
-          facilities={nearby}
-          />
-        </div>
+        {nearby?.length  !== 0 ? 
+          <div className="flex justify-center">
+            <NearbyFacilities facilities={nearby} /> 
+          </div> 
+          :
+          null
+        }
         <div style={{ marginTop: 95 }}>
           <RatingAndReview allDataReviewOfAnOffice={review} allDataRatingOfAnOffice={RatingData} />
           <PopupReview id_building={id} />

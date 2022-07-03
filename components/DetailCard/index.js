@@ -1,7 +1,6 @@
 import React from "react";
 import LiveChat from "../LiveChat";
 import Image from "next/image";
-import NearbyFacility from "../NearbyFacility";
 
 import styles from "./DetailCard.module.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,7 +32,7 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 					<div className="flex">
 						<img src="/star.svg" alt="" className="mr-2.5" />
 						<p>{rating}</p>
-						<p className="text-secondary ml-1.5">({totalReview})</p>
+						<p className="text-secondary ml-1.5">({totalReview} Reviews)</p>
 					</div>
 					<div className="text-blue">
 						<a href="#toReview">Lihat Review</a>
