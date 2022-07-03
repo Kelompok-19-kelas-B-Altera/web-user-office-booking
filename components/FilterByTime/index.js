@@ -1,7 +1,7 @@
 import CustomCalender from "../Calender";
 import { useState } from "react";
 
-export default function FilterByName() {
+export default function FilterByTime({ date, setDate }) {
   const months = [
     "Jan",
     "Feb",
@@ -17,7 +17,7 @@ export default function FilterByName() {
     "Dec",
   ];
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const [date, setDate] = useState(new Date());
+
   const [close, setClose] = useState(false);
 
   return (
@@ -49,7 +49,7 @@ export default function FilterByName() {
           <span>&nbsp;Check Out</span>
         )}
       </button>
-      {console.log(date[0])}
+      {/* {console.log(date[0])} */}
       <div className={`absolute ${close ? "block" : "hidden"}`}>
         <CustomCalender date={date} setDate={setDate} />
         <button

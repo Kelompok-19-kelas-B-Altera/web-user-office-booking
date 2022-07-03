@@ -1,9 +1,8 @@
 import React from "react";
 import { useRef } from "react";
 
-const Search = ({ setQuery }) => {
+const Search = ({ query, setQuery }) => {
   const ref = useRef(null);
-
   return (
     <div>
       <div className="container flex mx-auto">
@@ -23,6 +22,7 @@ const Search = ({ setQuery }) => {
             ref={ref}
             className="pl-[50px] pr-4 py-[12.5px] w-[352px] focus:outline-secondary"
             placeholder="Search..."
+            value={query}
             onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
         </div>

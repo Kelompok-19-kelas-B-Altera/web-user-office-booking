@@ -5,11 +5,12 @@ import Link from "next/link";
 import Footer from "../components/Footer";
 import Search from "../components/SearchFeature/Search";
 import Filter from "../components/FilterFeature/Filter";
-import FilterByName from "../components/FilterByTime";
+import FilterByTime from "../components/FilterByTime";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import FilterResult from "../components/FilterResult";
 import axios from "axios";
+import { Buildings } from "../component-search-feature/buildings";
 
 const url = "http://108.136.240.248/api/v1/building";
 const token =
@@ -21,34 +22,35 @@ export default function Home() {
   const [filter, setFilter] = useState({
     selections: [],
   });
+  const [date, setDate] = useState(new Date());
 
-  const [buildings, setBuildings] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [buildings, setBuildings] = useState(Buildings);
   const [buildingResult, setBuildingResult] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setHasError(false);
-      try {
-        const { data } = await axios.get(url, {
-          headers: {
-            "Content-Type": "application/json",
-            // Authorization: `Bearer ${token}`,
-          },
-        });
-        setBuildings(data.data);
-        console.log(data.data);
-      } catch (error) {
-        setHasError(true);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, [setBuildings]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [hasError, setHasError] = useState(false);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     setHasError(false);
+  //     try {
+  //       const { data } = await axios.get(url, {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           // Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       setBuildings(data.data);
+  //       console.log(data.data);
+  //     } catch (error) {
+  //       setHasError(true);
+  //     }
+  //     setIsLoading(false);
+  //   };
+  //   fetchData();
+  // }, [setBuildings]);
 
-  if (isLoading) return <>Loading...</>;
-  if (hasError) return <>Has Error...</>;
+  // if (isLoading) return <>Loading...</>;
+  // if (hasError) return <>Has Error...</>;
 
   const keys = ["building_name", "address"];
   const search = (data) => {
@@ -68,7 +70,36 @@ export default function Home() {
   const buildingFilterHandler = (data) => {
     const hasilFiltering = Array.isArray(data)
       ? data.filter((item) => {
+          let checkIfTrue = true;
+          if (date[0] && date[1]) {
+            checkIfTrue = item.schedules?.some((schedule) => {
+              if (schedule.ready === true) {
+                // console.log(schedule.from_date);
+                console.log(new Date(date[0]));
+                console.log(new Date(date[1]));
+                // ini masih invalid
+                console.log(new Date(schedule.from_date));
+                console.log(new Date(schedule.until_date));
+
+                if (
+                  // ini belum bisa compare dengan benar
+                  new Date(date[0]) >= new Date(schedule.from_date) &&
+                  new Date(date[1]) <= new Date(schedule.until_date)
+                ) {
+                  console.log("Hyou");
+                  return true;
+                } else {
+                  console.log("Here");
+                  return false;
+                }
+              } else {
+                return false;
+              }
+            });
+          }
+
           return (
+            checkIfTrue &&
             filter.selections.includes(item.complex.id) &&
             keys.some((key) => {
               // console.log("Hwllo " + item[key]);
@@ -82,16 +113,21 @@ export default function Home() {
     return;
   };
 
-  const removeOptions = (remove) => {
-    remove();
+  const removeOptions = () => {
+    setFilter({
+      selections: [],
+    });
   };
 
   const buildingResetHandler = () => {
-    setBuildingResult([]);
+    // setBuildingResult([]);
+    console.log("Haii");
     setFilter({
       selections: [],
     });
     setQuery("");
+    setDate(new Date());
+    setBuildingResult([]);
   };
 
   return (
@@ -140,7 +176,7 @@ export default function Home() {
             </div>
           )}
           <Filter state={filter} setState={setFilter} />
-          <FilterByName />
+          <FilterByTime date={date} setDate={setDate} />
           <div className="w-[187px] h-[71px] mb-[25px]">
             <div className="flex gap-2">
               <button
@@ -163,7 +199,7 @@ export default function Home() {
       <section className={`${styles.container} relative flex justify-end`}>
         <div className={`${styles.moreContainer} flex flex-col`}>
           <header className="w-full flex justify-between">
-            <Search setQuery={setQuery} />
+            <Search setQuery={setQuery} query={query} />
             <img src="/officity-logo.svg" alt="logo" />
           </header>
           <FilterResult result={buildingResult} />
