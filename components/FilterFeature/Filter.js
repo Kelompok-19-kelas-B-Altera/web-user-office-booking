@@ -12,35 +12,35 @@ const url = "http://108.136.240.248/api/v1/complex";
 
 const Filter = ({ state, setState }) => {
   // INI UNTUK TESTING DATA DUMMY, KALAU PAKAI API LIHAT DI BAWAH
-  const [options, setOptions] = useState(complex);
+  // const [options, setOptions] = useState(complex);
 
   // KALAU MAU KONEK KE API PAKAI KODE DIBAWAH, DI UNCOMMENT AJA. TRUS STATE OPTIONS DI ATAS HAPUS AJA
-  // const [options, setOptions] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [hasError, setHasError] = useState(false);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     setHasError(false);
-  //     try {
-  //       const { data } = await axios.get(url, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           // Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       setOptions(data.data);
-  //       // console.log(data.data);
-  //     } catch (error) {
-  //       setHasError(true);
-  //     }
-  //     setIsLoading(false);
-  //   };
-  //   fetchData();
-  // }, [setOptions]);
+  const [options, setOptions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setHasError(false);
+      try {
+        const { data } = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${token}`,
+          },
+        });
+        setOptions(data.data);
+        // console.log(data.data);
+      } catch (error) {
+        setHasError(true);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [setOptions]);
 
-  // if (isLoading) return <>Loading...</>;
-  // if (hasError) return <>Has Error...</>;
+  if (isLoading) return <>Loading...</>;
+  if (hasError) return <>Has Error...</>;
 
   function handleCheckboxChange(key) {
     let sel = state.selections;

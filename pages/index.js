@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import FilterResult from "../components/FilterResult";
 import axios from "axios";
 import { Buildings } from "../component-search-feature/buildings";
+import moment from "moment";
 
 const url = "http://108.136.240.248/api/v1/building";
 const token =
@@ -24,33 +25,36 @@ export default function Home() {
   });
   const [date, setDate] = useState(new Date());
 
-  const [buildings, setBuildings] = useState(Buildings);
-  const [buildingResult, setBuildingResult] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [hasError, setHasError] = useState(false);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setIsLoading(true);
-  //     setHasError(false);
-  //     try {
-  //       const { data } = await axios.get(url, {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           // Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       setBuildings(data.data);
-  //       console.log(data.data);
-  //     } catch (error) {
-  //       setHasError(true);
-  //     }
-  //     setIsLoading(false);
-  //   };
-  //   fetchData();
-  // }, [setBuildings]);
+  // UNTUK DATA DARI DUMMY DATA, INITIAL STATE di USE STATE ganti jadi Buildings
+  // const [buildings, setBuildings] = useState(Buildings);
 
-  // if (isLoading) return <>Loading...</>;
-  // if (hasError) return <>Has Error...</>;
+  const [buildings, setBuildings] = useState("");
+  const [buildingResult, setBuildingResult] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setHasError(false);
+      try {
+        const { data } = await axios.get(url, {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${token}`,
+          },
+        });
+        setBuildings(data.data);
+        console.log(data.data);
+      } catch (error) {
+        setHasError(true);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [setBuildings]);
+
+  if (isLoading) return <>Loading...</>;
+  if (hasError) return <>Has Error...</>;
 
   const keys = ["building_name", "address"];
   const search = (data) => {
@@ -68,28 +72,36 @@ export default function Home() {
   };
 
   const buildingFilterHandler = (data) => {
+    // const testDate = "29-06-2022 14:13:13";
     const hasilFiltering = Array.isArray(data)
       ? data.filter((item) => {
           let checkIfTrue = true;
           if (date[0] && date[1]) {
             checkIfTrue = item.schedules?.some((schedule) => {
+              const fromDate = moment(
+                schedule.from_date,
+                "DD-MM-YYYY hh:mm:ss"
+              ).toDate();
+              const untilDate = moment(
+                schedule.until_date,
+                "DD-MM-YYYY hh:mm:ss"
+              ).toDate();
+
               if (schedule.ready === true) {
-                // console.log(schedule.from_date);
-                console.log(new Date(date[0]));
-                console.log(new Date(date[1]));
+                // console.log(new Date(date[0]));
+                // console.log(new Date(date[1]));
                 // ini masih invalid
-                console.log(new Date(schedule.from_date));
-                console.log(new Date(schedule.until_date));
+                // console.log(new Date(schedule.from_date));
+                // console.log(new Date(schedule.until_date));
 
                 if (
-                  // ini belum bisa compare dengan benar
-                  new Date(date[0]) >= new Date(schedule.from_date) &&
-                  new Date(date[1]) <= new Date(schedule.until_date)
+                  new Date(date[0]) >= fromDate &&
+                  new Date(date[1]) <= untilDate
                 ) {
-                  console.log("Hyou");
+                  // console.log("Hyou");
                   return true;
                 } else {
-                  console.log("Here");
+                  // console.log("Here");
                   return false;
                 }
               } else {
