@@ -79,18 +79,34 @@ const DetailPage = () => {
   useEffect(() => {
     if (id !== undefined) {
       axiosInstance
-        .get(`/api/v1/building/${id}`)
-        .then((res) => {
-          console.log(res.data.data);
-          setBuilding(res.data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        }
-        );
+      .get(`/api/v1/building/${id}`)
+      .then((res) => {
+        console.log(res.data.data);
+        setBuilding(res.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      }
+      );
     }
   }, [loading])
-    
+  
+
+  useEffect(() => {
+    axiosInstance
+    .patch(`/api/v1/building/${id}`, {
+      total_view: building.total_view + 1
+    })
+    .then(res => {
+      setBuilding(res.data.data);
+    }
+    )
+    .catch(err => {
+      console.log(err);
+    }
+    )
+  }, []);
+
     const review = building?.reviews;
 
     const RatingData = {
@@ -106,10 +122,25 @@ const DetailPage = () => {
     }
 
     const nearby = building?.nearby_facilities;
-    console.log(nearby)
+    // console.log(nearby)
 
     const detailImage = building?.images;
-    console.log(detailImage)
+    // console.log(detailImage)
+
+    const view = (item) => {
+      axiosInstance
+        .patch(`/api/v1/building/${item.id}`, {
+          total_view: item.total_view + 1
+        })
+        .then(res => {
+          console.log(res.data);
+        }
+        )
+        .catch(err => {
+          console.log(err);
+        }
+        )
+    }
   
   return (
     <>

@@ -79,13 +79,25 @@ export default function Recomendation() {
     return 0;
   }
 
+  // const totalView = (item) => {
+  //   const view = item?.total_view + 1; 
+  //   axiosInstance
+  //     .patch(`/api/v1/building/${item.id}`, {
+  //       total_view: view
+  //     })
+  //     .then(res => {
+  //       console.log(res.data);
+  //     }
+  //     )
+  // }
+
     return (
         <div>
             <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
             <div className='flex flex-wrap justify-between'>
             {buildings.data?.map((item, index) => (                                                                        
               <div className={`${styles.listBuilding} mb-6`} key={index}>
-                <Link href={`/detail/${item.id}`}>
+                <Link href={`/detail/${item.id}`} >
                   <a>
                   <CardBuilding
                     buildingImage={item.images[0]?.image_url}
