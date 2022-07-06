@@ -17,7 +17,7 @@ const CardBuilding = ({buildingImage, rating, buildingName, buildingLocation}) =
           </div>
         </div>
         <div>
-            <h1 className="font-semibold text-2xl mt-6 mb-1">{buildingName}</h1>
+            <h1 className="font-semibold text-2xl mt-6 mb-1 truncate">{buildingName}</h1>
             <div className="flex">
                 <img src="/location-building.svg" alt="location" width={8} height={14}/>
                 <p className="text-base text-secondary">{buildingAddress}, {buildingCity}</p>
