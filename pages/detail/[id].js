@@ -89,23 +89,7 @@ const DetailPage = () => {
       }
       );
     }
-  }, [loading])
-  
-
-  useEffect(() => {
-    axiosInstance
-    .patch(`/api/v1/building/${id}`, {
-      total_view: building.total_view + 1
-    })
-    .then(res => {
-      setBuilding(res.data.data);
-    }
-    )
-    .catch(err => {
-      console.log(err);
-    }
-    )
-  }, []);
+  }, [loading]);        
 
     const review = building?.reviews;
 
@@ -121,32 +105,17 @@ const DetailPage = () => {
       average: 4.5
     }
 
+    const banner = building?.images?.length > 0 ? building?.images[0].image_url : "";
     const nearby = building?.nearby_facilities;
-    // console.log(nearby)
 
     const detailImage = building?.images;
-    // console.log(detailImage)
-
-    const view = (item) => {
-      axiosInstance
-        .patch(`/api/v1/building/${item.id}`, {
-          total_view: item.total_view + 1
-        })
-        .then(res => {
-          console.log(res.data);
-        }
-        )
-        .catch(err => {
-          console.log(err);
-        }
-        )
-    }
+    console.log(detailImage);
   
   return (
-    <>
+    <div className="flex flex-col items-center" style={{ width: "100%" }}>
         <div className="static flex justify-center">
         <BannerDetail 
-        bannerDetail={"banner-detail"} 
+        bannerDetail={banner} 
         nameBuilding={building.building_name}
         address={building.address}
         city={building.complex?.city}
@@ -167,12 +136,12 @@ const DetailPage = () => {
           <RatingAndReview allDataReviewOfAnOffice={review} allDataRatingOfAnOffice={RatingData} />
           <PopupReview id_building={id} />
         </div>
-        <div className="flex justify-center">
-          <RecomendationDetail />
-        </div>
+        <RecomendationDetail
+          id_building={id}
+          />
         <LiveChat />
-        <Footer />      
-  </>
+      <Footer />      
+  </div>
   );
 };
 

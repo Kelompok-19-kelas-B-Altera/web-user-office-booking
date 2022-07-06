@@ -5,17 +5,17 @@ import styles from './Footer.module.css';
 export default function Footer() {
   return (
       <>
-        <div className={`${styles.footer} grid grid-cols-2 border-y`}>
-            <div className={`${styles.footerLeft} flex border-r`}>
+        <div className={`${styles.footer} flex justify-center border-y`}>
+            <div className={`${styles.footerLeft} flex justify-end border-r w-1/2`}>
                     <div className={`${styles.containerLogo}`}>
-                        <h1 className={`${styles.logo} font-semibold text-2xl text-blue`}>Officity</h1>
+                        <h1 className={`${styles.logo} font-semibold text-2xl `}>Officity</h1>
                         <p>Pay One Simple Price For Everything Related To Your Workspace</p>
                     </div>
             </div>
-            <div className="flex">
-                <div className={`${styles.containerInformation} flex justify-between items-center`}>
+            <div className="flex w-1/2">
+                <div className={`${styles.containerInformation} flex`}>
                     <div>
-                        <h1 className="block h-5 mb-5 text-lg text-blue">Services</h1>
+                        <h1 className="h-5 mb-5 text-lg text-blue">Services</h1>
                         <Link href="#EmailMarketing">
                             <a className='inline-block mb-5'>Email Marketing</a>
                         </Link>
@@ -32,16 +32,16 @@ export default function Footer() {
                             <a className='inline-block mb-5'>Careers</a>
                         </Link>
                     </div>
-                    <div>
-                            <Link href="#facebook">
-                                <a className='block mb-5 h-4'><img src="/facebook.svg" alt=""/></a>
-                            </Link>
-                            <Link href="#twitter">
-                                <a className='block mb-5  h-4'><img src="/twitter.svg" alt=""/></a>
-                            </Link>
-                            <Link href="#instagram">
-                                <a className='block mb-5  h-4'><img src="/instagram.svg" alt=""/></a>
-                            </Link>
+                    <div className='flex flex-col justify-center items-center gap-5'>
+                        <Link href="#facebook">
+                            <a className=''><img src="/facebook.svg" alt=""/></a>
+                        </Link>
+                        <Link href="#twitter">
+                            <a className=''><img src="/twitter.svg" alt=""/></a>
+                        </Link>
+                        <Link href="#instagram">
+                            <a className=''><img src="/instagram.svg" alt=""/></a>
+                        </Link>
                     </div>
                 </div>
             </div>

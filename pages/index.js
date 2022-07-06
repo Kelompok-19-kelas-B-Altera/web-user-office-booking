@@ -1,10 +1,10 @@
 import LiveChat from "../components/LiveChat";
+import HeaderLogo from "../components/HeaderLogo";
 import CardBuilding from "../components/CardBuilding";
 import Recomendation from "../components/Recomendation";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Footer from "../components/Footer";
-import Search from "../components/SearchFeature/Search";
 import Filter from "../components/FilterFeature/Filter";
 import FilterByTime from "../components/FilterByTime";
 import Cookies from "js-cookie";
@@ -12,17 +12,13 @@ import { decodeToken } from "react-jwt";
 import ButtonsFilter from "../components/ButtonsFilter";
 import { useEffect } from "react";
 import axiosInstance from "../networks/apis";
+import MostViews from "../components/MostViews";
 
 export default function Home() {
   const token = Cookies.get("token");
   const tokenDecoded = decodeToken(token);
 
   console.log(token);
-
-  // useEffect(() => {
-  //   axiosInstance
-  //   .get('')
-  
 
   return (
     <div className="flex flex-col items-center" style={{ width: "100%" }}>
@@ -77,30 +73,9 @@ export default function Home() {
 
       <section className={`${styles.container} relative flex justify-end`}>
         <div className={`${styles.moreContainer} flex flex-col`}>
-          <header className="w-full flex justify-between">
-            <Search />
-            <img src="/officity-logo.svg" alt="logo" />
-          </header>
-          <div className="" style={{ marginTop: "41px" }}>
-            <h1 className="font-semibold text-3xl mb-8">Banyak dilihat</h1>
-            <div className={`${styles.listBuilding} flex justify-between`}>
-              <Link href="/detail/2">
-                <a>
-                  <CardBuilding
-                    buildingImage={"/building1.svg"}
-                    rating={"4.7"}
-                    buildingName={"Sarana Square"}
-                    buildingLocation={["Tebet", "Jakarta Selatan"]}
-                  />
-                </a>
-              </Link>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
+          <HeaderLogo />
+          <div className="" style={{ marginTop: "33px" }}>
+            <MostViews />
           </div>
           <Recomendation/>
         </div>

@@ -13,7 +13,7 @@ export default function Recomendation() {
     axiosInstance
       .get('/api/v1/building')
       .then(res => {
-        console.log(res.data.data);
+        // console.log(res.data);
         setBuildings(res.data);
       }
       )
@@ -69,7 +69,6 @@ export default function Recomendation() {
     });
     return amount;
   }
-  console.log(amountFiveStars())
 
   const ratingAverage = (item) => {
     const result = ((5 * amountFiveStars(item)) + (4 * amountFourStars(item)) + (3 * amountThreeStars(item)) + (2 * amountTwoStars(item)) + (1 * amountOneStars(item))) / item?.reviews?.length
@@ -78,18 +77,6 @@ export default function Recomendation() {
     }
     return 0;
   }
-
-  // const totalView = (item) => {
-  //   const view = item?.total_view + 1; 
-  //   axiosInstance
-  //     .patch(`/api/v1/building/${item.id}`, {
-  //       total_view: view
-  //     })
-  //     .then(res => {
-  //       console.log(res.data);
-  //     }
-  //     )
-  // }
 
     return (
         <div>
