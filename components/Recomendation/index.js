@@ -13,7 +13,7 @@ export default function Recomendation() {
     axiosInstance
       .get('/api/v1/building')
       .then(res => {
-        console.log(res.data.data);
+        // console.log(res.data);
         setBuildings(res.data);
       }
       )
@@ -69,7 +69,6 @@ export default function Recomendation() {
     });
     return amount;
   }
-  console.log(amountFiveStars())
 
   const ratingAverage = (item) => {
     const result = ((5 * amountFiveStars(item)) + (4 * amountFourStars(item)) + (3 * amountThreeStars(item)) + (2 * amountTwoStars(item)) + (1 * amountOneStars(item))) / item?.reviews?.length
@@ -85,7 +84,7 @@ export default function Recomendation() {
             <div className='flex flex-wrap justify-between'>
             {buildings.data?.map((item, index) => (                                                                        
               <div className={`${styles.listBuilding} mb-6`} key={index}>
-                <Link href={`/detail/${item.id}`}>
+                <Link href={`/detail/${item.id}`} >
                   <a>
                   <CardBuilding
                     buildingImage={item.images[0]?.image_url}

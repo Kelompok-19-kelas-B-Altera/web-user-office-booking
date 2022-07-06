@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import CardBuilding from "../CardBuilding";
 import axiosInstance from '../../networks/apis';
 import { useEffect } from 'react';
-import styles from './RecomendationDetail.module.css';
 import Link from 'next/link';
+import styles from './MostViews.module.css';
 
-export default function Recomendation(id_building) {
-  const [buildings, setBuildings] = useState([]);
+export default function MostViews() {
+    const [buildings, setBuildings] = useState([]);
 
   useEffect(() => {
     axiosInstance
       .get('/api/v1/building')
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data.data);
         setBuildings(res.data);
       }
       )
@@ -79,10 +79,10 @@ export default function Recomendation(id_building) {
     
     return (
         <div>
-            <h1 className="font-semibold text-3xl text-center mb-6 mt-9">Rekomendasi</h1>
+            <h1 className="font-semibold text-3xl mb-6 mt-9">Banyak dilihat</h1>
             <div className={`${styles.listBuilding} flex flex-wrap justify-between gap-10 h-auto`}>
-              {buildings.data?.filter((item, index) =>  index < 6 ).map((item, index) => (
-                <div className={`${styles.card} mb-6`}>
+              {buildings.data?.sort((a, b) => b.total_view - a.total_view).filter((item, index) =>  index < 2 ).map((item, index) => (
+                <div className={` mb-6`}>
                     <Link href={`/detail/${item.id}`} >
                       <a>
                       <CardBuilding
@@ -97,5 +97,5 @@ export default function Recomendation(id_building) {
                 ))}
             </div>
         </div>
-    )
+  )
 }
