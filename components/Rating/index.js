@@ -1,23 +1,47 @@
 import ProgressBar from "@ramonak/react-progress-bar";
+import Cookies from "js-cookie";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { handleTogglePopupReview } from "../../redux/features/ReviewQuerySlice";
 
 import styles from "./Rating.module.css";
 
-const Rating = () => {
+const Rating = ({ allDataRatingOfAnOffice }) => {
+  const {
+    id_building,
+    id_user,
+    amountAllReview,
+    fiveStarts,
+    fourStarts,
+    threeStarts,
+    twoStarts,
+    oneStarts,
+  } = allDataRatingOfAnOffice;
+
   const dispatch = useDispatch();
 
+  const router = useRouter();
+
   const handleShowPopupReview = () => {
-    dispatch(handleTogglePopupReview());
+    if (Cookies.get("token")) { 
+      dispatch(handleTogglePopupReview());
+    } else { 
+      router.push("/login");
+    }
   };
+
+  const ratingAverage = () => {
+    const result = ((5 * fiveStarts) + (4 * fourStarts) + (3 * threeStarts) + (2 * twoStarts) + (1 * oneStarts)) / amountAllReview
+    return result.toFixed(1)
+  }
 
   return (
     <div style={{ width: "278px" }}>
       <div className="text-center m-0 font-normal text-base" style={{ marginBottom: "35.5px" }}>
         <Image src="/star-big.svg" width={104.08} height={99.68} alt="star" />
-        <p>4.7</p>
-        <p className="text-secondary">base on 281 Reviews</p>
+        <p>{ratingAverage()}</p>
+        <p className="text-secondary">base on {amountAllReview} Reviews</p>
       </div>
 
       <div className="flex flex-col" style={{ gap: "25.5px" }}>
@@ -27,8 +51,8 @@ const Rating = () => {
             <Image src="/star-big.svg" width={15} height={14} alt="star" />
           </div>
           <ProgressBar
-            completed={200}
-            maxCompleted={281}
+            completed={fiveStarts}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -36,7 +60,7 @@ const Rating = () => {
             bgColor="#F3C319"
             barContainerClassName={styles.container}
           />
-          <p>200</p>
+          <p>{fiveStarts}</p>
         </div>
 
         <div className="flex" style={{ gap: "13px" }}>
@@ -45,8 +69,8 @@ const Rating = () => {
             <Image src="/star-big.svg" width={15} height={14} alt="star" />
           </div>
           <ProgressBar
-            completed={50}
-            maxCompleted={281}
+            completed={fourStarts}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -54,7 +78,7 @@ const Rating = () => {
             bgColor="#F3C319"
             barContainerClassName={styles.container}
           />
-          <p>50</p>
+          <p>{fourStarts}</p>
         </div>
 
         <div className="flex" style={{ gap: "13px" }}>
@@ -63,8 +87,8 @@ const Rating = () => {
             <Image src="/star-big.svg" width={15} height={14} alt="star" />
           </div>
           <ProgressBar
-            completed={21}
-            maxCompleted={281}
+            completed={threeStarts}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -72,7 +96,7 @@ const Rating = () => {
             bgColor="#F3C319"
             barContainerClassName={styles.container}
           />
-          <p>21</p>
+          <p>{threeStarts}</p>
         </div>
 
         <div className="flex" style={{ gap: "13px" }}>
@@ -81,8 +105,8 @@ const Rating = () => {
             <Image src="/star-big.svg" width={15} height={14} alt="star" />
           </div>
           <ProgressBar
-            completed={6}
-            maxCompleted={281}
+            completed={twoStarts}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -90,7 +114,7 @@ const Rating = () => {
             bgColor="#F3C319"
             barContainerClassName={styles.container}
           />
-          <p>6</p>
+          <p>{twoStarts}</p>
         </div>
 
         <div className="flex" style={{ gap: "13px" }}>
@@ -99,8 +123,8 @@ const Rating = () => {
             <Image src="/star-big.svg" width={15} height={14} alt="star" />
           </div>
           <ProgressBar
-            completed={4}
-            maxCompleted={281}
+            completed={oneStarts}
+            maxCompleted={amountAllReview}
             width="191px"
             height="18px"
             isLabelVisible={false}
@@ -108,7 +132,7 @@ const Rating = () => {
             bgColor="#F3C319"
             barContainerClassName={styles.container}
           />
-          <p>4</p>
+          <p>{oneStarts}</p>
         </div>
       </div>
 

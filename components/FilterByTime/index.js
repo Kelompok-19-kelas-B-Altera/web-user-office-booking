@@ -1,5 +1,7 @@
 import CustomCalender from "../Calender";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPeriodDate } from "../../redux/features/FilterSlice";
 
 export default function FilterByTime({ date, setDate }) {
   const months = [
@@ -17,8 +19,18 @@ export default function FilterByTime({ date, setDate }) {
     "Dec",
   ];
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
+  // const [date, setDate] = useState(new Date());
   const [close, setClose] = useState(false);
+  const periodDateRedux = useSelector((state) => state.filter.periodDate);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(addPeriodDate(`${date}`));
+  }, [date]);
+
+  useEffect(() => {
+    console.log(periodDateRedux);
+  }, [periodDateRedux]);
 
   return (
     <div className="relative">
@@ -49,15 +61,8 @@ export default function FilterByTime({ date, setDate }) {
           <span>&nbsp;Check Out</span>
         )}
       </button>
-      {/* {console.log(date[0])} */}
       <div className={`absolute ${close ? "block" : "hidden"}`}>
         <CustomCalender date={date} setDate={setDate} />
-        <button
-          onClick={() => setClose(!close)}
-          className="w-[90px] h-[36px] bg-blue text-white text-sm rounded-sm"
-        >
-          Terapkan
-        </button>
       </div>
     </div>
   );

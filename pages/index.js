@@ -1,5 +1,6 @@
 import LiveChat from "../components/LiveChat";
 import CardBuilding from "../components/CardBuilding";
+import Recomendation from "../components/Recomendation";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Footer from "../components/Footer";
@@ -7,29 +8,31 @@ import Search from "../components/SearchFeature/Search";
 import Filter from "../components/FilterFeature/Filter";
 import FilterByTime from "../components/FilterByTime";
 import Cookies from "js-cookie";
+import { decodeToken } from "react-jwt";
+import ButtonsFilter from "../components/ButtonsFilter";
 import { useEffect, useState } from "react";
+import axiosInstance from "../networks/apis";
+import FilterButton from "../components/FilterFeature/FilterButton";
 import FilterResult from "../components/FilterResult";
-import axios from "axios";
 import { Buildings } from "../component-search-feature/buildings";
 import moment from "moment";
 
-const url = "http://108.136.240.248/api/v1/building";
-const token =
-  "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImZ1bGxuYW1lIjoidXNlciIsImVtYWlsIjoidXNlckBnbWFpbC5jb20iLCJpYXQiOjE2NTU5MTMyNTAsImV4cCI6MTY1NTkxNjg1MH0.fiP5Mb2WHlZ7JsL-aIOgDtt6IHDu3AImprBJsP5q_Ck";
-
 export default function Home() {
   const token = Cookies.get("token");
+  const tokenDecoded = decodeToken(token);
+
+  // FILTER & SEARCH FEATURE
+  const url = "http://108.136.240.248/api/v1/building";
   const [query, setQuery] = useState("");
-  const [filter, setFilter] = useState({
-    selections: [],
-  });
+  const [filterTemp, setFilterTemp] = useState({ selections: [] });
+  const [filter, setFilter] = useState([]);
+  const [dateTemp, setDateTemp] = useState(new Date());
   const [date, setDate] = useState(new Date());
 
   // UNTUK DATA DARI DUMMY DATA, INITIAL STATE di USE STATE ganti jadi Buildings
   // const [buildings, setBuildings] = useState(Buildings);
 
   const [buildings, setBuildings] = useState("");
-  const [buildingResult, setBuildingResult] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   useEffect(() => {
@@ -44,7 +47,7 @@ export default function Home() {
           },
         });
         setBuildings(data.data);
-        console.log(data.data);
+        // console.log(data.data);
       } catch (error) {
         setHasError(true);
       }
@@ -54,25 +57,18 @@ export default function Home() {
   }, [setBuildings]);
 
   if (isLoading) return <>Loading...</>;
-  if (hasError) return <>Has Error...</>;
+  if (hasError) return <>Has Error... </>;
 
   const keys = ["building_name", "address"];
-  const search = (data) => {
-    return Array.isArray(data)
-      ? data.filter((item) => {
-          return (
-            filter.selections.includes(item.complex.id) &&
-            keys.some((key) => {
-              // console.log("Hwllo " + item[key]);
-              return item[key].toLowerCase().includes(query);
-            })
-          );
-        })
-      : [];
+
+  const buildingApplyHandler = () => {
+    setFilter(filterTemp.selections);
+    setDate(dateTemp);
   };
 
   const buildingFilterHandler = (data) => {
-    // const testDate = "29-06-2022 14:13:13";
+    console.log(filterTemp.selections);
+    console.log("lose " + filter);
     const hasilFiltering = Array.isArray(data)
       ? data.filter((item) => {
           let checkIfTrue = true;
@@ -88,20 +84,12 @@ export default function Home() {
               ).toDate();
 
               if (schedule.ready === true) {
-                // console.log(new Date(date[0]));
-                // console.log(new Date(date[1]));
-                // ini masih invalid
-                // console.log(new Date(schedule.from_date));
-                // console.log(new Date(schedule.until_date));
-
                 if (
                   new Date(date[0]) >= fromDate &&
                   new Date(date[1]) <= untilDate
                 ) {
-                  // console.log("Hyou");
                   return true;
                 } else {
-                  // console.log("Here");
                   return false;
                 }
               } else {
@@ -112,35 +100,33 @@ export default function Home() {
 
           return (
             checkIfTrue &&
-            filter.selections.includes(item.complex.id) &&
+            filter.includes(item.complex.id) &&
             keys.some((key) => {
-              // console.log("Hwllo " + item[key]);
               return item[key].toLowerCase().includes(query);
             })
           );
         })
       : [];
 
-    setBuildingResult(hasilFiltering);
-    return;
-  };
-
-  const removeOptions = () => {
-    setFilter({
-      selections: [],
-    });
+    // setBuildingResult(hasilFiltering);
+    return hasilFiltering;
   };
 
   const buildingResetHandler = () => {
-    // setBuildingResult([]);
-    console.log("Haii");
-    setFilter({
-      selections: [],
-    });
+    setFilter([]);
+    setFilterTemp({ selections: [] });
     setQuery("");
     setDate(new Date());
-    setBuildingResult([]);
+    setDateTemp(new Date());
   };
+
+  // END : FITUR SEARCH & FILTER
+
+  console.log(token);
+
+  // useEffect(() => {
+  //   axiosInstance
+  //   .get('')
 
   return (
     <div className="flex flex-col items-center" style={{ width: "100%" }}>
@@ -149,62 +135,60 @@ export default function Home() {
         className={`${styles.sideBarContainer} fixed left-0 top-0 flex justify-center z-40`}
       >
         <div className="flex flex-col gap-5 items-center text-center">
-          {token ? (
-            <div>
-              <Link href="/profile">
-                <a>
-                  <img
-                    src="/building.svg"
-                    alt="profile"
-                    width={137}
-                    height={137}
-                    className="w-[137px] h-[137px] rounded-full object-cover mb-3.5"
-                  />
-                </a>
-              </Link>
-              <Link href="/profile">
-                <a className="text-base text-blue capitalize">name</a>
-              </Link>
-            </div>
-          ) : (
-            <div className="w-[187px] h-[71px] mb-[25px]">
-              <p className="text-xl mb-3">Anda belum masuk</p>
-              <div className="flex gap-2">
-                <Link href="/login">
+          <div className="flex flex-col justify-center items-center">
+            {token ? (
+              <>
+                <Link href={`/profile/${tokenDecoded.email}`}>
                   <a>
-                    <button className="w-[90px] h-[36px] bg-blue text-white text-sm rounded-sm">
-                      Masuk
-                    </button>
+                    <img
+                      src="/building.svg"
+                      alt="profile"
+                      width={137}
+                      height={137}
+                      className="w-[137px] h-[137px] rounded-full object-cover mb-3.5"
+                    />
                   </a>
                 </Link>
-                <Link href="/signup">
-                  <a>
-                    <button className="w-[90px] h-[36px] border border-blue text-blue text-sm rounded-sm">
-                      Daftar
-                    </button>
+                <Link href={`/profile/${tokenDecoded.email}`}>
+                  <a className="text-base text-blue capitalize">
+                    {tokenDecoded.fullname}
                   </a>
                 </Link>
-              </div>
-            </div>
-          )}
-          <Filter state={filter} setState={setFilter} />
-          <FilterByTime date={date} setDate={setDate} />
-          <div className="w-[187px] h-[71px] mb-[25px]">
-            <div className="flex gap-2">
-              <button
-                onClick={() => buildingFilterHandler(buildings)}
-                className="w-[90px] h-[36px] bg-blue text-white text-sm rounded-sm"
-              >
-                Apply
-              </button>
-              <button
-                onClick={() => buildingResetHandler()}
-                className="w-[90px] h-[36px] border border-blue text-blue text-sm rounded-sm"
-              >
-                Reset
-              </button>
-            </div>
+              </>
+            ) : (
+              <>
+                <p className="text-xl mb-3">Anda belum masuk</p>
+                <div className="flex gap-2 mb-[25px]">
+                  <Link href="/login">
+                    <a>
+                      <button className="w-[90px] h-[36px] bg-blue text-white text-sm rounded-sm">
+                        Masuk
+                      </button>
+                    </a>
+                  </Link>
+                  <Link href="/signup">
+                    <a>
+                      <button className="w-[90px] h-[36px] border border-blue text-blue text-sm rounded-sm">
+                        Daftar
+                      </button>
+                    </a>
+                  </Link>
+                </div>
+              </>
+            )}
           </div>
+          {/* ------- Kode Search Filter ------ */}
+          <Filter state={filterTemp} setState={setFilterTemp} />
+          <FilterByTime date={dateTemp} setDate={setDateTemp} />
+          <FilterButton
+            buildingFilterHandler={buildingApplyHandler}
+            buildingResetHandler={buildingResetHandler}
+          />
+          {/* ------- Kode Search Filter ------ */}
+
+          {/* <Filter />
+          <FilterByTime />
+          <ButtonsFilter /> */}
         </div>
       </section>
 
@@ -214,61 +198,20 @@ export default function Home() {
             <Search setQuery={setQuery} query={query} />
             <img src="/officity-logo.svg" alt="logo" />
           </header>
-          <FilterResult result={buildingResult} />
+          <FilterResult result={buildingFilterHandler(buildings)} />
           <div className="" style={{ marginTop: "41px" }}>
             <h1 className="font-semibold text-3xl mb-8">Banyak dilihat</h1>
             <div className={`${styles.listBuilding} flex justify-between`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
-          </div>
-          <div>
-            <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
-            <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
-            <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
-            <div className={`${styles.listBuilding} flex justify-between mb-6`}>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
+              <Link href="/detail/2">
+                <a>
+                  <CardBuilding
+                    buildingImage={"/building1.svg"}
+                    rating={"4.7"}
+                    buildingName={"Sarana Square"}
+                    buildingLocation={["Tebet", "Jakarta Selatan"]}
+                  />
+                </a>
+              </Link>
               <CardBuilding
                 buildingImage={"/building1.svg"}
                 rating={"4.7"}
@@ -277,6 +220,7 @@ export default function Home() {
               />
             </div>
           </div>
+          <Recomendation />
         </div>
       </section>
       <Footer />

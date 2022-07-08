@@ -1,14 +1,18 @@
-import Footer from "../Footer"
-import LabelAuth from "../LabelAuth"
-import InputAuth from "../InputAuth"
-import { useState } from "react";
+import Footer from "../Footer";
+import LabelAuth from "../LabelAuth";
+import InputAuth from "../InputAuth";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import Home from "../../pages";
 
-const Profile = () => {
-  let [email, setEmail] = useState("jfbkjej@gmail.com");
-  let [fullname, setFullname] = useState("Casey Kenz");
+const Profile = ({ emailUser, fullNameUser }) => {
+  let [email, setEmail] = useState(emailUser);
+  let [fullname, setFullname] = useState(fullNameUser);
   let [show, setShow] = useState(false);
   // let [isEmailValid, setEmailValid] = useState(false);
   // let [isAllValid, setAllValid] = useState("");
+  const router = useRouter();
 
   // const handleEmail = (e) => {
   //   const value = e.target.value;
@@ -24,27 +28,59 @@ const Profile = () => {
   //     : setEmailValid(false);
   // };
 
-  return(
-    <div>
-      <ConfirmationBox show={show} setShow={setShow}/>
-      <div className="flex justify-end xl:w-[90%] md:w-[92%] w-[95%]">
-        <button className="bg-white md:py-3 py-2 md:px-6 px-3 border border-[#197BEB] rounded md:translate-y-11 translate-y-9">
-          <p className="font-semibold md:text-base text-sm" onClick={() => {setShow(true)}}>Keluar</p>
-        </button>
-      </div>
-      <div className="flex justify-center">
-        <div className="mx-auto md:w-[35%] w-full">
-          <p className="text-center font-semibold text-[32px] leading-[38px] mb-8">Profile</p>
-          <div className="flex justify-center mx-10 sm:mx-0 mb-8">
-            <div className="relative bg-blue rounded-full sm:w-[255px] w-[50%] sm:h-[255px] h-[50%] mx-5 sm:mx-0">
-              <img src="https://picsum.photos/200" className="object-cover rounded-full w-full h-full"/>
-              <img src="./camera-icon.svg" className="absolute m-auto left-0 right-0 bottom-0 translate-y-[22px]"/>
-            </div>
+  useEffect(() => {
+    if (!Cookies.get("token")) {
+      router.push("/");
+      return (
+        <>
+          <Home />
+        </>
+      );
+    }
+  }, []);
+
+  return (
+    <>
+      {!Cookies.get("token") ? (
+        <>
+          <Home />
+        </>
+      ) : (
+        <div>
+          <ConfirmationBox show={show} setShow={setShow} />
+          <div className="flex justify-end xl:w-[90%] md:w-[92%] w-[95%]">
+            <button
+              className="bg-white md:py-3 py-2 md:px-6 px-3 border border-[#197BEB] rounded md:translate-y-11 translate-y-9"
+              onClick={() => {
+                setShow(true);
+              }}
+            >
+              <p className="font-semibold md:text-base text-sm">Keluar</p>
+            </button>
           </div>
-          <div className="md:w-full w-[80%] mx-auto">
-            <LabelAuth label="email" />
-            <input type="text" value={email} className="block my-[10px] text-[16px] leading-5 font-normal px-[10px] py-[15px] w-full focus:outline-[#44a8ff]"/>
-            {/* <InputAuth
+          <div className="flex justify-center">
+            <div className="mx-auto md:w-[35%] w-full">
+              <p className="text-center font-semibold text-[32px] leading-[38px] mb-8">Profile</p>
+              <div className="flex justify-center mx-10 sm:mx-0 mb-8">
+                <div className="relative bg-blue rounded-full sm:w-[255px] w-[50%] sm:h-[255px] h-[50%] mx-5 sm:mx-0">
+                  <img
+                    src="https://picsum.photos/200"
+                    className="object-cover rounded-full w-full h-full"
+                  />
+                  <img
+                    src="/camera-icon.svg"
+                    className="absolute m-auto left-0 right-0 bottom-0 translate-y-[22px]"
+                  />
+                </div>
+              </div>
+              <div className="md:w-full w-[80%] mx-auto">
+                <LabelAuth label="email" />
+                <input
+                  type="text"
+                  value={email}
+                  className="block my-[10px] text-[16px] leading-5 font-normal px-[10px] py-[15px] w-full focus:outline-[#44a8ff]"
+                />
+                {/* <InputAuth
               type="text"
               id="email"
               value={email}
@@ -53,12 +89,15 @@ const Profile = () => {
               validators={[isEmailValid, isAllValid]}
               alertMessage="Gunakan format email dengan benar"
             /> */}
-            
-          </div>
-          <div className="md:w-full w-[80%] mx-auto">
-            <LabelAuth label="Full Name" />
-            <input type="text" value={fullname} className="block my-[10px] text-[16px] leading-5 font-normal px-[10px] py-[15px] w-full focus:outline-[#44a8ff]"/>
-            {/* <InputAuth
+              </div>
+              <div className="md:w-full w-[80%] mx-auto">
+                <LabelAuth label="Full Name" />
+                <input
+                  type="text"
+                  value={fullname}
+                  className="block my-[10px] text-[16px] leading-5 font-normal px-[10px] py-[15px] w-full focus:outline-[#44a8ff]"
+                />
+                {/* <InputAuth
               type="text"
               id="fullname"
               value={fullname}
@@ -67,53 +106,63 @@ const Profile = () => {
               validators={[isEmailValid, isAllValid]}
               alertMessage="Gunakan format email dengan benar"
             /> */}
+              </div>
+            </div>
           </div>
+          <Footer />
         </div>
-      </div>
-      <Footer/>
-    </div>
-  )
-}
+      )}
+    </>
+  );
+};
 
-export default Profile
+export default Profile;
 
-const ConfirmationBox = ({show, setShow}) => {
+const ConfirmationBox = ({ show, setShow }) => {
+  const router = useRouter();
 
   // Logika Keluar dari akun
   const handleKeluar = () => {
-    alert("keluar")
-  }
+    Cookies.remove("token");
+    router.push("/");
+  };
 
   return (
     <>
-      {
-        show ? 
+      {show ? (
         <div className="fixed z-10 inset-0 overflow-y-auto bg-black/80">
           <div className="flex items-center justify-center min-h-full p-4 text-center sm:p-0">
             <div className="flex justify-center shadow-md">
               <div className="bg-white space-y-[14px] p-6">
-                <p className="font-semibold text-[20px] md:text-[24px] leading-7 text-center">Keluar dari akun</p>
-                <p className="text-[#070723]/50 font-normal text-sm md:text-[20px] leading-6 text-center">Apakah Anda yakin ingin keluar akun ?</p>
+                <p className="font-semibold text-[20px] md:text-[24px] leading-7 text-center">
+                  Keluar dari akun
+                </p>
+                <p className="text-[#070723]/50 font-normal text-sm md:text-[20px] leading-6 text-center">
+                  Apakah Anda yakin ingin keluar akun ?
+                </p>
                 <div className="flex justify-between mx-4 gap-2">
                   <button
-                    className="md:py-4 py-2 md:px-8 px-4 bg-white border border-[#197BEB] rounded" 
-                    onClick={() => handleKeluar()}>
+                    className="md:py-4 py-2 md:px-8 px-4 bg-white border border-[#197BEB] rounded"
+                    onClick={() => handleKeluar()}
+                  >
                     <p className="text-[#197BEB]">Keluar akun</p>
                   </button>
                   <button
-                    className="md:py-4 py-2 md:px-8 px-4 bg-[#197BEB] border border-[#197BEB] rounded" 
-                    onClick={() => {setShow(false)}}>
+                    className="md:py-4 py-2 md:px-8 px-4 bg-[#197BEB] border border-[#197BEB] rounded"
+                    onClick={() => {
+                      setShow(false);
+                    }}
+                  >
                     <p className="text-white">Tetap disini</p>
                   </button>
                 </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      :
-      <></>
-    }
+      ) : (
+        <></>
+      )}
     </>
-    
-  )
-}
+  );
+};

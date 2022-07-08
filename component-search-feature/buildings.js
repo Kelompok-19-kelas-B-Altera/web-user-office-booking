@@ -66,9 +66,7 @@ export const Buildings = [
     schedules: [
       {
         id: 1,
-        // from_date: "2022-06-12 ",
         from_date: "12-06-2022 14:13:13",
-        // until_date: "2022-06-20",
         until_date: "20-06-2022 14:13:13",
         building: null,
         ready: true,
@@ -76,9 +74,7 @@ export const Buildings = [
       },
       {
         id: 2,
-        // from_date: "2022-06-21",
         from_date: "21-06-2022 14:13:13",
-        // until_date: "2022-06-29",
         until_date: "29-06-2022 14:13:13",
         building: null,
         ready: true,
@@ -161,7 +157,24 @@ export const Buildings = [
       city: "Jakarta Barat",
     },
     nearby_facilities: [],
-    schedules: [],
+    schedules: [
+      {
+        id: 1,
+        from_date: "12-07-2022 14:13:13",
+        until_date: "22-07-2022 14:13:13",
+        building: null,
+        ready: true,
+        booked: false,
+      },
+      {
+        id: 2,
+        from_date: "25-07-2022 14:13:13",
+        until_date: "29-07-2022 14:13:13",
+        building: null,
+        ready: true,
+        booked: false,
+      },
+    ],
     reviews: [],
   },
   {
@@ -251,7 +264,24 @@ export const Buildings = [
       city: "Jakarta Utara",
     },
     nearby_facilities: [],
-    schedules: [],
+    schedules: [
+      {
+        id: 1,
+        from_date: "11-07-2022 14:13:13",
+        until_date: "16-07-2022 14:13:13",
+        building: null,
+        ready: true,
+        booked: false,
+      },
+      {
+        id: 2,
+        from_date: "1-07-2022 14:13:13",
+        until_date: "10-07-2022 14:13:13",
+        building: null,
+        ready: true,
+        booked: false,
+      },
+    ],
     reviews: [],
   },
 ];
