@@ -9,7 +9,7 @@ export default function BannerDetail({bannerDetail, nameBuilding, address, city,
     <>
         <div className="relative" >
             <div className="flex justify-center">
-              <img src={bannerDetail} alt="banner-detail" className={styles.image}/> 
+              <img src={bannerDetail} alt="banner-detail" className={`${styles.image} object-cover`}/> 
               <div className={`${styles.header} absolute`}>
                 <HeaderLogo />
               </div>
