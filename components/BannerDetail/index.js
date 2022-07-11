@@ -1,15 +1,18 @@
 import React from 'react'
 import DetailCard from '../../components/DetailCard';
-import DetailImage from '../DetailImage';
+import DetailImage from '../../components/DetailImage';
+import HeaderLogo from '../HeaderLogo';
 import styles from './BannerDetail.module.css';
 
 export default function BannerDetail({bannerDetail, nameBuilding, address, city, description, facilities, rating, totalReview, images}) {
   return (
     <>
-        <div className={`${styles.bannerDetail} static `}>
+        <div className="relative" >
             <div className="flex justify-center">
-              <img src={`/${bannerDetail}.svg`} alt="banner-detail" width={
-              1366} height={396} /> 
+              <img src={bannerDetail} alt="banner-detail" className={`${styles.image} object-cover`}/> 
+              <div className={`${styles.header} absolute`}>
+                <HeaderLogo />
+              </div>
             </div>
             <DetailCard 
             nameBuilding={nameBuilding}

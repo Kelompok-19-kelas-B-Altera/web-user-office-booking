@@ -192,7 +192,24 @@ export const Buildings = [
       city: "Jakarta Selatan",
     },
     nearby_facilities: [],
-    schedules: [],
+    schedules: [
+      {
+        id: 1,
+        from_date: "02-07-2022 14:13:13",
+        until_date: "30-07-2022 14:13:13",
+        building: null,
+        ready: true,
+        booked: false,
+      },
+      {
+        id: 2,
+        from_date: "01-06-2022 14:13:13",
+        until_date: "29-06-2022 14:13:13",
+        building: null,
+        ready: true,
+        booked: false,
+      },
+    ],
     reviews: [],
   },
   {

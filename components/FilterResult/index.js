@@ -6,7 +6,9 @@ const index = ({ result }) => {
   return (
     <div className="" style={{ marginTop: "41px" }}>
       <h1 className="font-semibold text-3xl mb-8">Hasil</h1>
-      <div className={`${styles.listBuilding} flex justify-between`}>
+      <div
+        className={`${styles.listBuilding} flex justify-between grid grid-cols-2`}
+      >
         {result.map((data) => {
           const arr = [];
           arr.push(data.address);
@@ -18,6 +20,7 @@ const index = ({ result }) => {
               rating={"4.7"}
               buildingName={data.building_name}
               buildingLocation={arr}
+              className="mr-10"
             />
           );
         })}

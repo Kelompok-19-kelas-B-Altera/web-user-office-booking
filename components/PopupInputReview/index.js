@@ -42,13 +42,29 @@ function PopupInputReview({ id_building }) {
     setMessageReview(e.target.value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
     console.log(Number(id_building), userId, messageReview, rating)
     axiosInstance
-      .post(`/api/v1/review`, {
-        
+      .post("/api/v1/review", {
+        review: messageReview,
+        rating: rating,
+        id_user: userId,
+        id_building: Number(id_building),
+      },
+      {
+        headers: {'Authorization': 'Bearer '+Cookies.get("token")}
       })
-    dispatch(handleIsSubmitSucces());
+      .then((res) => {
+        console.log(res.data);
+        // dispatch(handleIsSubmitSucces(true));
+        // dispatch(handleTogglePopupReview(false));
+      }
+      )
+      .catch((err) => {
+        console.log(err);
+      }
+      );
+      dispatch(handleIsSubmitSucces());
   };
 
   return (

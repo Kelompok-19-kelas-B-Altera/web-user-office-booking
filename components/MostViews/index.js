@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CardBuilding from "../CardBuilding";
 import axiosInstance from '../../networks/apis';
-import styles from './Recomendation.module.css';
-import axios from 'axios';
-import { data } from 'autoprefixer';
+import { useEffect } from 'react';
 import Link from 'next/link';
+import styles from './MostViews.module.css';
 
-export default function Recomendation() {
-  const [buildings, setBuildings] = useState([]);
+export default function MostViews() {
+    const [buildings, setBuildings] = useState([]);
 
   useEffect(() => {
     axiosInstance
       .get('/api/v1/building')
       .then(res => {
-        // console.log(res.data);
+        console.log(res.data.data);
         setBuildings(res.data);
       }
       )
@@ -77,26 +76,26 @@ export default function Recomendation() {
     }
     return 0;
   }
-
+    
     return (
         <div>
-            <h1 className="font-semibold text-3xl mb-6 mt-9">Rekomendasi</h1>
-            <div className='flex flex-wrap justify-between'>
-            {buildings.data?.map((item, index) => (                                                                        
-              <div className={`${styles.listBuilding} mb-6`} key={index}>
-                <Link href={`/detail/${item.id}`} >
-                  <a>
-                  <CardBuilding
-                    buildingImage={item.images[0]?.image_url}
-                    rating={ratingAverage(item)}
-                    buildingName={item.building_name}
-                    buildingLocation={[item.address, item.complex.city]}
-                    />
-                  </a>
-                </Link>
-              </div> 
-            ))}
+            <h1 className="font-semibold text-3xl mb-6 mt-9">Banyak dilihat</h1>
+            <div className={`${styles.listBuilding} flex flex-wrap justify-between gap-10 h-auto`}>
+              {buildings.data?.sort((a, b) => b.total_view - a.total_view).filter((item, index) =>  index < 2 ).map((item, index) => (
+                <div className={` mb-6`} key={index}>
+                    <Link href={`/detail/${item.id}`} >
+                      <a>
+                      <CardBuilding
+                        buildingImage={item.images[0]?.image_url}
+                        rating={ratingAverage(item)}
+                        buildingName={item.building_name}
+                        buildingLocation={[item.address, item.complex.city]}
+                        />
+                      </a>
+                    </Link>
+                </div>
+                ))}
             </div>
         </div>
-    )
+  )
 }

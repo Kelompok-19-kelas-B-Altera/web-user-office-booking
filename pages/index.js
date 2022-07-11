@@ -1,10 +1,10 @@
 import LiveChat from "../components/LiveChat";
+import HeaderLogo from "../components/HeaderLogo";
 import CardBuilding from "../components/CardBuilding";
 import Recomendation from "../components/Recomendation";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import Footer from "../components/Footer";
-import Search from "../components/SearchFeature/Search";
 import Filter from "../components/FilterFeature/Filter";
 import FilterByTime from "../components/FilterByTime";
 import Cookies from "js-cookie";
@@ -12,10 +12,13 @@ import { decodeToken } from "react-jwt";
 import ButtonsFilter from "../components/ButtonsFilter";
 import { useEffect, useState } from "react";
 import axiosInstance from "../networks/apis";
+import MostViews from "../components/MostViews";
 import FilterButton from "../components/FilterFeature/FilterButton";
 import FilterResult from "../components/FilterResult";
 import { Buildings } from "../component-search-feature/buildings";
+import Search from "../components/SearchFeature/Search";
 import moment from "moment";
+import axios from "axios";
 
 export default function Home() {
   const token = Cookies.get("token");
@@ -33,7 +36,7 @@ export default function Home() {
   // const [buildings, setBuildings] = useState(Buildings);
 
   const [buildings, setBuildings] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -47,8 +50,9 @@ export default function Home() {
           },
         });
         setBuildings(data.data);
-        // console.log(data.data);
+        console.log(data.data);
       } catch (error) {
+        console.log(error);
         setHasError(true);
       }
       setIsLoading(false);
@@ -124,10 +128,6 @@ export default function Home() {
 
   console.log(token);
 
-  // useEffect(() => {
-  //   axiosInstance
-  //   .get('')
-
   return (
     <div className="flex flex-col items-center" style={{ width: "100%" }}>
       <LiveChat />
@@ -177,6 +177,7 @@ export default function Home() {
               </>
             )}
           </div>
+
           {/* ------- Kode Search Filter ------ */}
           <Filter state={filterTemp} setState={setFilterTemp} />
           <FilterByTime date={dateTemp} setDate={setDateTemp} />
@@ -185,7 +186,6 @@ export default function Home() {
             buildingResetHandler={buildingResetHandler}
           />
           {/* ------- Kode Search Filter ------ */}
-
           {/* <Filter />
           <FilterByTime />
           <ButtonsFilter /> */}
@@ -194,31 +194,18 @@ export default function Home() {
 
       <section className={`${styles.container} relative flex justify-end`}>
         <div className={`${styles.moreContainer} flex flex-col`}>
+          {/* <HeaderLogo /> */}
           <header className="w-full flex justify-between">
-            <Search setQuery={setQuery} query={query} />
+            <Search
+              setQuery={setQuery}
+              query={query}
+              buildings={buildingFilterHandler(buildings)}
+            />
             <img src="/officity-logo.svg" alt="logo" />
           </header>
           <FilterResult result={buildingFilterHandler(buildings)} />
-          <div className="" style={{ marginTop: "41px" }}>
-            <h1 className="font-semibold text-3xl mb-8">Banyak dilihat</h1>
-            <div className={`${styles.listBuilding} flex justify-between`}>
-              <Link href="/detail/2">
-                <a>
-                  <CardBuilding
-                    buildingImage={"/building1.svg"}
-                    rating={"4.7"}
-                    buildingName={"Sarana Square"}
-                    buildingLocation={["Tebet", "Jakarta Selatan"]}
-                  />
-                </a>
-              </Link>
-              <CardBuilding
-                buildingImage={"/building1.svg"}
-                rating={"4.7"}
-                buildingName={"Sarana Square"}
-                buildingLocation={["Tebet", "Jakarta Selatan"]}
-              />
-            </div>
+          <div className="" style={{ marginTop: "33px" }}>
+            <MostViews />
           </div>
           <Recomendation />
         </div>

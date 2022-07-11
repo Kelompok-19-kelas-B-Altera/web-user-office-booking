@@ -33,7 +33,10 @@ const Rating = ({ allDataRatingOfAnOffice }) => {
 
   const ratingAverage = () => {
     const result = ((5 * fiveStarts) + (4 * fourStarts) + (3 * threeStarts) + (2 * twoStarts) + (1 * oneStarts)) / amountAllReview
-    return result.toFixed(1)
+    if (result) {
+      return result.toFixed(1);
+    }
+    return 0;
   }
 
   return (
