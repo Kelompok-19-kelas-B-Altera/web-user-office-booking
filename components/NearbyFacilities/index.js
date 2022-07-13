@@ -18,9 +18,9 @@ export default function NearbyFacility({facilities}) {
                                 <img src="/transportation.svg" alt="airport" width={72} height={72} />
                                 <p className='text-2xl font-semibold'>{item.type}</p>
                             </div>
-                            {facilities?.filter(item => item.type === "Transportasi").map((item) => {
+                            {facilities?.filter(item => item.type === "Transportasi").map((item, index) => {
                                 return (
-                                    <div className={`${styles.listFacility} flex justify-between`}>
+                                    <div className={`${styles.listFacility} flex justify-between`} key={index}>
                                         <p className='text-xl'>{item.name}</p>
                                         <p className='text-secondary text-xl'>{item.distance} KM</p>
                                     </div> 
