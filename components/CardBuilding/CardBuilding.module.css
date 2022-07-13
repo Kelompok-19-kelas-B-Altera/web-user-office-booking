@@ -1,6 +1,14 @@
+.card {
+    max-width: 421px;
+}
+
 .image {
     width: 421px;
     height: 246px;
+}
+
+.imageLocation {
+    margin-right: 5px;
 }
 
 .rating{

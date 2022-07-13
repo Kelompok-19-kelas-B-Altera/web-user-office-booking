@@ -74,7 +74,7 @@ export default function Home() {
       <section className={`${styles.container} relative flex justify-end`}>
         <div className={`${styles.moreContainer} flex flex-col`}>
           <HeaderLogo />
-          <div className="" style={{ marginTop: "33px" }}>
+          <div style={{ marginTop: "33px" }}>
             <MostViews />
           </div>
           <Recomendation/>
