@@ -25,7 +25,6 @@ export default function Home() {
   const tokenDecoded = decodeToken(token);
 
   // FILTER & SEARCH FEATURE
-  const url = "http://108.136.240.248/api/v1/building";
   const [query, setQuery] = useState("");
   const [queryPicked, setQueryPicked] = useState("");
   const [buildingSearch, setBuildingSearch] = useState([]);
@@ -46,7 +45,7 @@ export default function Home() {
       setIsLoading(true);
       setHasError(false);
       try {
-        const { data } = await axios.get(url, {
+        const { data } = await axiosInstance.get("/api/v1/building", {
           headers: {
             "Content-Type": "application/json",
             // Authorization: `Bearer ${token}`,
