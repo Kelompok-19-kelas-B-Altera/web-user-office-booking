@@ -1,6 +1,7 @@
 import React from "react";
 import LiveChat from "../LiveChat";
 import Image from "next/image";
+import Link from "next/dist/client/link";
 
 import styles from "./DetailCard.module.css";
 import { useSelector, useDispatch } from "react-redux";
@@ -35,11 +36,13 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 						<p className="text-secondary ml-1.5">({totalReview} Reviews)</p>
 					</div>
 					<div className="text-blue">
-						<a href="#toReview">Lihat Review</a>
+						<Link href="#toReview">
+							<a>Lihat Review</a>
+						</Link>
 					</div>
 				</div>
 				<div
-					className={`${styles.buttonMobile} bg-blue rounded flex justify-center items-center text-white gap-3 font-semibold text-sm`}
+					className={`${styles.buttonMobile} bg-blue rounded flex justify-center items-center text-white gap-3 font-semibold text-sm hover:cursor-pointer`}
 					onClick={() =>
 						dispatch(handleToggleChat())
 					}
