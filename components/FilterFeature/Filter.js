@@ -1,14 +1,10 @@
 import axios from "axios";
+import axiosInstance from "../../networks/apis";
 import React, { useEffect, useState } from "react";
 import ListItemFilter from "./ListItem";
 
 // INI DATA DUMMY (GANTI DENGAN API COMPLEX)
 import { complex } from "../../component-search-feature/complex";
-
-// INI URL & TOKEN API (TOKEN GANTI DENGAN YANG DISIMPAN DI COOKIE)
-const url = "http://108.136.240.248/api/v1/complex";
-// const token =
-//   "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsImZ1bGxuYW1lIjoidXNlciIsImVtYWlsIjoidXNlckBnbWFpbC5jb20iLCJpYXQiOjE2NTU5MTMyNTAsImV4cCI6MTY1NTkxNjg1MH0.fiP5Mb2WHlZ7JsL-aIOgDtt6IHDu3AImprBJsP5q_Ck";
 
 const Filter = ({ state, setState }) => {
   // INI UNTUK TESTING DATA DUMMY, KALAU PAKAI API LIHAT DI BAWAH
@@ -33,7 +29,7 @@ const Filter = ({ state, setState }) => {
       setIsLoading(true);
       setHasError(false);
       try {
-        const { data } = await axios.get(url, {
+        const { data } = await axiosInstance.get("/api/v1/complex", {
           headers: {
             "Content-Type": "application/json",
             // Authorization: `Bearer ${token}`,
@@ -51,8 +47,8 @@ const Filter = ({ state, setState }) => {
     fetchData();
   }, [setOptions]);
 
-  if (isLoading) return <>Loading...</>;
-  if (hasError) return <>Has Error...</>;
+  // if (isLoading) return <>Loading...</>;
+  // if (hasError) return <>Has Error...</>;
 
   function handleCheckboxChange(key) {
     let sel = state.selections;
