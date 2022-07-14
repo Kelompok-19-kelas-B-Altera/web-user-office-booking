@@ -18,7 +18,17 @@ const Filter = ({ state, setState }) => {
   const [options, setOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+
   useEffect(() => {
+    const getAllSelections = (options) => {
+      let arrOpt = [];
+      options.map((option) => {
+        arrOpt.push(option.id);
+      });
+      setState({
+        selections: arrOpt,
+      });
+    };
     const fetchData = async () => {
       setIsLoading(true);
       setHasError(false);
@@ -29,6 +39,7 @@ const Filter = ({ state, setState }) => {
             // Authorization: `Bearer ${token}`,
           },
         });
+        // getAllSelections(data.data);
         setOptions(data.data);
         // console.log(data.data);
       } catch (error) {

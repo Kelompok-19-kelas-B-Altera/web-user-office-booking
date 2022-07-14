@@ -8,7 +8,7 @@ const CardBuilding = ({buildingImage, rating, buildingName, buildingLocation}) =
  return (
    <>
     <header>
-      <div className = "head-text">
+      <div className = {`${styles.card} head-text`}>
         <div className = "relative">
           <img src={buildingImage} alt="Image Building" className={`${styles.image} object-cover`} />
           <div className={`${styles.rating} absolute top-0 right-0 bg-white flex justify-around items-center`}>
@@ -19,7 +19,7 @@ const CardBuilding = ({buildingImage, rating, buildingName, buildingLocation}) =
         <div>
             <h1 className="font-semibold text-2xl mt-6 mb-1 truncate">{buildingName}</h1>
             <div className="flex">
-                <img src="/location-building.svg" alt="location" width={8} height={14}/>
+                <img src="/location-building.svg" alt="location" width={8} height={14} className={styles.imageLocation}/>
                 <p className="text-base text-secondary">{buildingAddress}, {buildingCity}</p>
             </div>
         </div>

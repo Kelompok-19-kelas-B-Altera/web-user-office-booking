@@ -1,3 +1,7 @@
+.titleFacility {
+    font-size: 32px;
+}
+
 .facility {
     width: 1065px;
     height: auto;
@@ -8,14 +12,6 @@
     max-height: 225px;
 }
 
-.titleFacility {
-    font-size: 32px;
-}
-
-.category {
-    text-transform: capitalize;
-}
-
-.distance {
-    font-size: 10px;
+.listFacility {
+    width: 461px;
 }

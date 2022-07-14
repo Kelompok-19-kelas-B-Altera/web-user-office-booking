@@ -102,9 +102,15 @@ export default function Home() {
             });
           }
 
+          // supaya data ditampilkan semua walaupun checklistnya 0
+          let filterComplexCheck = filter.includes(item.complex.id);
+          if (filter.length === 0) {
+            filterComplexCheck = true;
+          }
+
           return (
             checkIfTrue &&
-            filter.includes(item.complex.id) &&
+            filterComplexCheck &&
             keys.some((key) => {
               return item[key].toLowerCase().includes(query);
             })
