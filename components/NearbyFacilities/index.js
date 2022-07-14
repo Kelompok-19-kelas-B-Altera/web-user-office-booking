@@ -20,10 +20,10 @@ export default function NearbyFacility({ facilities }) {
         <div
           className={`${styles.facility} flex flex-wrap justify-between h-auto`}
         >
-          {type.map((facility) => {
+          {type.map((facility, index) => {
             return (
               <>
-                <div className={`${styles.card} h-auto`}>
+                <div className={`${styles.card} h-auto`} key={index}>
                   <div className="flex items-center gap-6 mb-7">
                     <img
                       src="/transportation.svg"
@@ -39,6 +39,7 @@ export default function NearbyFacility({ facilities }) {
                         <>
                           <div
                             className={`${styles.listFacility} flex justify-between`}
+                            key={index}
                           >
                             <p className="text-xl">{item.name}</p>
                             <p className="text-secondary text-xl">
