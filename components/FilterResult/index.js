@@ -1,6 +1,7 @@
 import React from "react";
 import CardBuilding from "../CardBuilding";
 import styles from "../../styles/Home.module.css";
+import Link from "next/link";
 
 const index = ({ result }) => {
   console.log(result);
@@ -78,14 +79,18 @@ const index = ({ result }) => {
               arr.push(data.address);
               arr.push(data.complex.city);
               return (
-                <CardBuilding
-                  key={data.id}
-                  buildingImage={data.images[0]?.image_url}
-                  rating={ratingAverage(data)}
-                  buildingName={data.building_name}
-                  buildingLocation={arr}
-                  className="mr-10"
-                />
+                <Link href={`/detail/${data.id}`}>
+                  <a>
+                    <CardBuilding
+                      key={data.id}
+                      buildingImage={data.images[0]?.image_url}
+                      rating={ratingAverage(data)}
+                      buildingName={data.building_name}
+                      buildingLocation={arr}
+                      className="mr-10"
+                    />
+                  </a>
+                </Link>
               );
             })}
           </div>
