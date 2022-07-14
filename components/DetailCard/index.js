@@ -35,7 +35,7 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 						<p className="text-secondary ml-1.5">({totalReview} Reviews)</p>
 					</div>
 					<div className="text-blue">
-						<a href="#toReview">Lihat Review</a>
+						<a href="#Review">Lihat Review</a>
 					</div>
 				</div>
 				<div
