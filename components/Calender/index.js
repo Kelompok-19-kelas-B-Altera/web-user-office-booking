@@ -27,7 +27,7 @@ const CustomCalender = ({ date, setDate }) => {
     <>
       <Calendar
         onChange={setDate}
-        value={date}
+        // value={date}
         // defaultValue={date}
         selectRange={true}
         formatShortWeekday={formatShortWeekday}

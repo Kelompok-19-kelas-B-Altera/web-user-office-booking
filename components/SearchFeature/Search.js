@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRef } from "react";
 
-const Search = ({ query, setQuery, buildings }) => {
+const Search = ({ query, setQuery, setQueryPicked, buildings }) => {
   const ref = useRef(null);
   let [isFocus, setIsFocus] = useState(false);
 
@@ -10,6 +10,7 @@ const Search = ({ query, setQuery, buildings }) => {
       setIsFocus(false);
     }
   };
+
   return (
     <div>
       <div className="container flex mx-auto">
@@ -49,6 +50,7 @@ const Search = ({ query, setQuery, buildings }) => {
                         <button
                           name="building-list"
                           className="w-[352px] h-[39px] p-[10px] text-[#07072380] font-normal text-base text-left"
+                          onClick={()=>{setQueryPicked(building.building_name)}}
                         >
                           {building.building_name}
                         </button>
