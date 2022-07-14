@@ -80,9 +80,9 @@ export default function Recomendation({id_building}) {
     return (
         <div>
             <h1 className="font-semibold text-3xl text-center mb-6 mt-9">Rekomendasi</h1>
-            <div className={`${styles.listBuilding} flex flex-wrap justify-between gap-10 h-auto`}>
+            <div className={`${styles.listBuilding} flex flex-wrap justify-center gap-10 h-auto`}>
               {buildings.data?.filter((item, index) => item.id !== id_building && index < 6 ).map((item, index) => (
-                <div className={`${styles.card} mb-6`} key={index}>
+                <div className={`${styles.card} mb-12`} key={index}>
                     <Link href={`/detail/${item.id}`} >
                       <a>
                       <CardBuilding

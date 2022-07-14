@@ -1,5 +1,6 @@
-import React from "react";
-import Search from "../SearchFeature/Search";
+import Link from 'next/link'
+import React from 'react'
+import Search from '../SearchFeature/Search'
 
 export default function HeaderLogo({ query, setQuery, setQueryPicked, buildings }) {
   return (
@@ -10,7 +11,11 @@ export default function HeaderLogo({ query, setQuery, setQueryPicked, buildings 
         setQueryPicked={setQueryPicked}
         buildings={buildings}
       />
-      <img src="/officity-logo.svg" alt="logo" />
+      <Link href="/">
+        <a>
+          <img src="/officity-logo.svg" alt="logo" className='hover:cursor-pointer' />
+        </a>
+      </Link>
     </header>
   );
 }

@@ -43,7 +43,7 @@ const Search = ({ query, setQuery, setQueryPicked, buildings }) => {
             <>
               <div>
                 <div className="absolute w-[352px] overflow-hidden bg-white z-[1] pt-[51px]">
-                  {buildings.slice(0, 5).map((building) => {
+                  {buildings?.slice(0, 5).map((building) => {
                     return (
                       <div key={building.id}>
                         {/* this is the list */}
