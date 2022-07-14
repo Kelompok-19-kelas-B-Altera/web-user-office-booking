@@ -20,7 +20,8 @@ const Next = () => {
 
 const CustomCalender = ({ date, setDate }) => {
   // const [date, setDate] = useState(new Date());
-  const formatShortWeekday = (locale, date) => ["S", "M", "T", "W", "T", "F", "S"][date.getDay()];
+  const formatShortWeekday = (locale, date) =>
+    ["S", "M", "T", "W", "T", "F", "S"][date.getDay()];
 
   return (
     <>
