@@ -80,9 +80,9 @@ export default function MostViews() {
     return (
         <div>
             <h1 className="font-semibold text-3xl mb-6 mt-9">Banyak dilihat</h1>
-            <div className={`${styles.listBuilding} flex flex-wrap justify-between gap-10 h-auto`}>
+            <div className={`${styles.listBuilding} flex justify-between gap-10`}>
               {buildings.data?.sort((a, b) => b.total_view - a.total_view).filter((item, index) =>  index < 2 ).map((item, index) => (
-                <div className={` mb-6`} key={index}>
+                <div className="mb-6" key={index}>
                     <Link href={`/detail/${item.id}`} >
                       <a>
                       <CardBuilding
