@@ -8,7 +8,9 @@ export default function Footer() {
         <div className={`${styles.footer} flex justify-center border-y`}>
             <div className={`${styles.footerLeft} flex justify-end border-r w-1/2`}>
                     <div className={`${styles.containerLogo}`}>
-                        <h1 className={`${styles.logo} font-semibold text-2xl `}>Officity</h1>
+                        <Link href="/">
+                            <h1 className={`${styles.logo} font-semibold text-2xl hover:cursor-pointer`}>Officity</h1>
+                        </Link>
                         <p>Pay One Simple Price For Everything Related To Your Workspace</p>
                     </div>
             </div>
