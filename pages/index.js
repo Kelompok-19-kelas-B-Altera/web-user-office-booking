@@ -87,8 +87,8 @@ export default function Home() {
     });
   }, [queryPicked]);
 
-  if (isLoading) return <>Loading...</>;
-  if (hasError) return <>Has Error... </>;
+  // if (isLoading) return <>Loading...</>;
+  // if (hasError) return <>Has Error... </>;
 
   const keys = ["building_name", "address"];
 
