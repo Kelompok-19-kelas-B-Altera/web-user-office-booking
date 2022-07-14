@@ -74,12 +74,12 @@ const index = ({ result }) => {
         <div className="" style={{ marginTop: "41px" }}>
           <h1 className="font-semibold text-3xl mb-8">Hasil</h1>
           <div className={`${styles.listBuilding} flex justify-between grid grid-cols-2`}>
-            {result.map((data) => {
+            {result.map((data, index) => {
               const arr = [];
               arr.push(data.address);
               arr.push(data.complex.city);
               return (
-                <Link href={`/detail/${data.id}`}>
+                <Link href={`/detail/${data.id}`} key={index}>
                   <a>
                     <CardBuilding
                       key={data.id}
