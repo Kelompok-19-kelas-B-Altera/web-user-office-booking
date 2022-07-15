@@ -94,7 +94,7 @@ export default function Recomendation({ id_building }) {
         {buildings.data
           ?.filter((item, index) => item.id !== id_building && index < 6)
           .map((item, index) => (
-            <div className={`${styles.card} mb-12`} key={index}>
+            <div className={`${styles.card} mb-12 hover:cursor-pointer`} key={index}>
               <a
                 onClick={() => {
                   router.push(
