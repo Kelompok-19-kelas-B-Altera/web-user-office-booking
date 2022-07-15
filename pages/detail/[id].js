@@ -132,7 +132,7 @@ const DetailPage = () => {
           :
           null
         }
-        <div style={{ marginTop: 95 }}>
+        <div style={{ marginTop: 95 }} id="toReview" >
           <RatingAndReview allDataReviewOfAnOffice={review} allDataRatingOfAnOffice={RatingData} />
           <PopupReview id_building={id} />
         </div>

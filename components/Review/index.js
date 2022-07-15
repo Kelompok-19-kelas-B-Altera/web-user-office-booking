@@ -38,24 +38,24 @@ const Review = ({ allDataReviewOfAnOffice }) => {
         {seeAllReview &&
           allDataReviewOfAnOffice?.map((e, index) => {
             console.log(e.user.id)
-            const userImages = ""
+            console.log(e.user.pic_url)
             axiosInstance
               .get(`/api/v1/user/management/${e.user.id}`, {
                 headers: {'Authorization': 'Bearer '+Cookies.get("token")}
               })
               .then(res => {
-                console.log(res.data.data.images[res.data.data.images.length - 1]?.imageUrl);
-                userImages = res.data.data.images[res.data.data.images.length - 1]?.imageUrl
+                console.log(res.data.data.pic_url);
+                e.user.pic_url = res.data.data.pic_url;
               }
               )
               .catch(err => {
                 console.log(err);
               }
               )
-            console.log(userImages)
+              console.log(e.user.pic_url)
               return (
                 <div key={index}>
-                  <EachReview userName={e.user.fullname} photoProfile={userImages} message={e.review} rating={e.rating} created={e.created} />
+                  <EachReview userName={e.user.fullname} photoProfile={e.user.pic_url} message={e.review} rating={e.rating} created={e.created} />
                 </div>
           )})}
       </section>

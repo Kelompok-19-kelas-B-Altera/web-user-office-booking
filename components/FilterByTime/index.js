@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPeriodDate } from "../../redux/features/FilterSlice";
 
-export default function FilterByTime() {
+export default function FilterByTime({ date, setDate }) {
   const months = [
     "Jan",
     "Feb",
@@ -19,22 +19,24 @@ export default function FilterByTime() {
     "Dec",
   ];
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const [date, setDate] = useState(new Date());
+  // const [date, setDate] = useState(new Date());
   const [close, setClose] = useState(false);
-  const periodDateRedux = useSelector((state)=>state.filter.periodDate)
-  const dispatch = useDispatch()
+  const periodDateRedux = useSelector((state) => state.filter.periodDate);
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(addPeriodDate(`${date}`))
-  }, [date])
+  useEffect(() => {
+    dispatch(addPeriodDate(`${date}`));
+  }, [date]);
 
-  useEffect(()=>{
-    console.log(periodDateRedux)
-  }, [periodDateRedux])
+  useEffect(() => {
+    console.log(periodDateRedux);
+  }, [periodDateRedux]);
 
   return (
     <div className="relative">
-      <h1 className="text-base font-semibold text-center mb-[14px]">Tanggal Periode</h1>
+      <h1 className="text-base font-semibold text-center mb-[14px]">
+        Tanggal Periode
+      </h1>
 
       <button
         onClick={() => setClose(!close)}
@@ -42,7 +44,9 @@ export default function FilterByTime() {
       >
         <img src="/calendar.svg" alt="calendar" className="mr-1" />
         {date[0] ? (
-          `${days[date[0].getDay()]} ${date[0].getDate()} ${months[date[0].getMonth()]}`
+          `${days[date[0].getDay()]} ${date[0].getDate()} ${
+            months[date[0].getMonth()]
+          }`
         ) : (
           <>
             <span>Check In&nbsp;</span>
@@ -50,7 +54,9 @@ export default function FilterByTime() {
         )}
         {"   "}-{"   "}
         {date[0] ? (
-          `${days[date[1].getDay()]} ${date[1].getDate()} ${months[date[1].getMonth()]}`
+          `${days[date[1].getDay()]} ${date[1].getDate()} ${
+            months[date[1].getMonth()]
+          }`
         ) : (
           <span>&nbsp;Check Out</span>
         )}
