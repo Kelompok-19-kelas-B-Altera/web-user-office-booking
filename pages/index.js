@@ -23,6 +23,7 @@ import axios from "axios";
 export default function Home() {
   const token = Cookies.get("token");
   const tokenDecoded = decodeToken(token);
+  console.log(tokenDecoded);
 
   // FILTER & SEARCH FEATURE
   const [query, setQuery] = useState("");

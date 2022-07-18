@@ -12,7 +12,7 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 	const showChat = useSelector((state) => state.liveChat.toggleChat);
 	const dispatch = useDispatch();
 	return (
-		<div className={`${styles.detailCard} absolute`}>
+		<div className="w-[514px] h-full mt-10 left-[150px]">
 			<div className={`${styles.detailBuilding} bg-white drop-shadow-lg`}>
 				<h1 className="text-3xl font-semibold">{nameBuilding}</h1>
 				<div className="flex mt-2">
@@ -29,7 +29,7 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 						{description}
 					</p>
 				</div>
-				<div className="flex justify-between mt-10">
+				<div className="flex justify-between mt-[20.5px]">
 					<div className="flex">
 						<img src="/star.svg" alt="" className="mr-2.5" />
 						<p>{rating}</p>
@@ -42,7 +42,7 @@ export default function DetailCard({ nameBuilding, buildingLocation, description
 					</div>
 				</div>
 				<div
-					className={`${styles.buttonMobile} bg-blue rounded flex justify-center items-center text-white gap-3 font-semibold text-sm hover:cursor-pointer`}
+					className="mt-[39.5px] mb-4 w-full h-[50px] bg-blue rounded flex justify-center items-center text-white gap-3 font-semibold text-sm hover:cursor-pointer"
 					onClick={() =>
 						dispatch(handleToggleChat())
 					}
