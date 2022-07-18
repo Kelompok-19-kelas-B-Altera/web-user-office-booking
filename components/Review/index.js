@@ -7,7 +7,6 @@ import Cookies from "js-cookie";
 
 const Review = ({ allDataReviewOfAnOffice }) => {
   let [seeAllReview, setSeeAllReview] = useState(true);
-  console.log(allDataReviewOfAnOffice);
   useEffect(()=>{
     console.log(allDataReviewOfAnOffice)
   }, [seeAllReview])
@@ -17,19 +16,19 @@ const Review = ({ allDataReviewOfAnOffice }) => {
         {!seeAllReview &&
           allDataReviewOfAnOffice?.map((e, index) => {
             console.log(e);
-            // axiosInstance
-            //   .get(`/api/v1/user/management/${e.user.id}`, {
-            //     headers: {'Authorization': 'Bearer '+Cookies.get("token")}
-            //   })
-            //   .then(res => {
-            //     console.log(res.data.data.pic_url);
-            //     e.user.pic_url = res.data.data.pic_url;
-            //   }
-            //   )
-            //   .catch(err => {
-            //     console.log(err);
-            //   }
-            //   )
+            axiosInstance
+              .get(`/api/v1/user/management/${e.user.id}`, {
+                headers: {'Authorization': 'Bearer '+Cookies.get("token")}
+              })
+              .then(res => {
+                // console.log(res.data.data.pic_url);
+                e.user.pic_url = res.data.data.pic_url;
+              }
+              )
+              .catch(err => {
+                console.log(err);
+              }
+              )
             if (index < 4) {
               return (
                 <div key={index}>
@@ -47,7 +46,7 @@ const Review = ({ allDataReviewOfAnOffice }) => {
                 headers: {'Authorization': 'Bearer '+Cookies.get("token")}
               })
               .then(res => {
-                console.log(res.data.data.pic_url);
+                // console.log(res.data.data.pic_url);
                 e.user.pic_url = res.data.data.pic_url;
               }
               )

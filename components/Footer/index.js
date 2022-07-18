@@ -36,7 +36,7 @@ export default function Footer() {
                     </div>
                     <div className='w-[140px] h-[112px]'>
                         <h1 className="h-5 text-blue">Download Our App</h1>
-                        <Link href="#OurStory">
+                        <Link href="#GooglePlay">
                             <a>
                                 <img src="/google-play.svg" alt="google play"/>
                             </a>
