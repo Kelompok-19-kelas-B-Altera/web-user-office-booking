@@ -6,11 +6,15 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Home from "../../pages";
 import Link from "next/link";
+import { decodeToken } from "react-jwt";
+import axiosInstance from "../../networks/apis";
 
 const Profile = ({ emailUser, fullNameUser }) => {
   let [email, setEmail] = useState(emailUser);
   let [fullname, setFullname] = useState(fullNameUser);
   let [show, setShow] = useState(false);
+  let [picture, setPicture] = useState();
+  const decodedToken = decodeToken(Cookies.get("token"));
   // let [isEmailValid, setEmailValid] = useState(false);
   // let [isAllValid, setAllValid] = useState("");
   const router = useRouter();
@@ -40,6 +44,61 @@ const Profile = ({ emailUser, fullNameUser }) => {
     }
   }, []);
 
+  useEffect(() => {
+    decodedToken &&
+      axiosInstance
+        .post("/api/v1/user/management/search", {
+          filters: [
+            {
+              key: "username",
+              field_type: "STRING",
+              operator: "EQUAL",
+              value: "Wahyu Wijanarko",
+            },
+          ],
+          sorts: [],
+          page: null,
+          size: null,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, [decodedToken]);
+
+  useEffect(() => {
+    let formData = new FormData();
+    formData.append("id_user", 1);
+    formData.append("file", picture);
+    // console.log(formData)
+    axiosInstance({
+      method: "post",
+      url: "/api/v1/user/image",
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }, [picture]);
+
+  const handleInputImage = () => {
+    const formData = new FormData();
+    formData.append("id_user", 1);
+    formData.append("file", picture);
+    console.log(formData);
+  };
+
+  console.log(Cookies.get("token"));
+
   return (
     <>
       {!Cookies.get("token") ? (
@@ -52,24 +111,20 @@ const Profile = ({ emailUser, fullNameUser }) => {
           <div className="flex justify-center">
             {/* <div className="absolute flex gap-[880px] xl:w-[90%] md:w-[92%] w-[95%] mt-9"> */}
             <div className="absolute flex gap-[880px] mt-9">
-            <button
-              className="bg-white w-[94px] h-[43px] border border-[#197BEB] rounded "
-              onClick={() => {
-                setShow(true);
-              }}
-            >
-              <p className="font-semibold md:text-base text-sm">Keluar</p>
-            </button>
+              <button
+                className="bg-white w-[94px] h-[43px] border border-[#197BEB] rounded "
+                onClick={() => {
+                  setShow(true);
+                }}
+              >
+                <p className="font-semibold md:text-base text-sm">Keluar</p>
+              </button>
               <Link href="/">
                 <a>
-                  <img
-                    src="/officity-logo.svg"
-                    alt="logo"
-                    className="hover:cursor-pointer"
-                  />
+                  <img src="/officity-logo.svg" alt="logo" className="hover:cursor-pointer" />
                 </a>
               </Link>
-          </div>
+            </div>
           </div>
           <div className="flex justify-center">
             <div className="mx-auto md:w-[35%] w-full">
@@ -82,10 +137,19 @@ const Profile = ({ emailUser, fullNameUser }) => {
                     src="https://picsum.photos/200"
                     className="object-cover rounded-full w-full h-full"
                   />
-                  <img
-                    src="/camera-icon.svg"
-                    className="absolute m-auto left-0 right-0 bottom-0 translate-y-[22px]"
-                  />
+                  <div className="relative">
+                    <input
+                      type="file"
+                      className="absolute z-50 w-[45px] h-[55px] left-[105px] top-[-25px] opacity-0"
+                      onChange={(e) => {
+                        setPicture(e.target.files[0]);
+                      }}
+                    />
+                    <img
+                      src="/camera-icon.svg"
+                      className="absolute m-auto left-0 right-0 bottom-0 translate-y-[22px]"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="md:w-full w-[80%] mx-auto">
