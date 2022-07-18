@@ -19,7 +19,7 @@ function PopupInputReview({ id_building }) {
   const dispatch = useDispatch();
 
   let [messageReview, setMessageReview] = useState("");
-  let [rating, setRating] = useState("");
+  let [rating, setRating] = useState(5);
 
   const userId = decodeToken(Cookies.get("token")).id
 
@@ -56,6 +56,7 @@ function PopupInputReview({ id_building }) {
       })
       .then((res) => {
         console.log(res.data);
+        location.reload()
         // dispatch(handleIsSubmitSucces(true));
         // dispatch(handleTogglePopupReview(false));
       }
