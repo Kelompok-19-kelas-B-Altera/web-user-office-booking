@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Home from "../../pages";
+import axiosInstance from "../../networks/apis";
 import Link from "next/link";
 
 const Profile = ({ emailUser, fullNameUser }) => {
@@ -78,6 +79,9 @@ const Profile = ({ emailUser, fullNameUser }) => {
               </p>
               <div className="flex justify-center mx-10 sm:mx-0 mb-8">
                 <div className="relative bg-blue rounded-full sm:w-[255px] w-[50%] sm:h-[255px] h-[50%] mx-5 sm:mx-0">
+                  {/* {axiosInstance
+                    .get("/api/profile", {
+                  } */}
                   <img
                     src="https://picsum.photos/200"
                     className="object-cover rounded-full w-full h-full"
