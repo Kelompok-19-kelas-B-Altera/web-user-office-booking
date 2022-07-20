@@ -84,35 +84,19 @@ const DetailPage = () => {
   useEffect(() => {
     if (id !== undefined) {
       axiosInstance
-<<<<<<< HEAD
         .get(`/api/v1/building/${id}`)
         .then((res) => {
-          console.log(res.data.data);
+          // console.log(res.data.data);
           setBuilding(res.data.data);
         })
         .catch((err) => {
           console.log(err);
         });
-=======
-      .get(`/api/v1/building/${id}`)
-      .then((res) => {
-        // console.log(res.data.data);
-        setBuilding(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      }
-      );
->>>>>>> aa2fc93df4bf237923bfcfbcf573345719862cb8
     }
   }, [loading]);
 
-<<<<<<< HEAD
   const review = building?.reviews;
-=======
-    const review = building?.reviews;
-    console.log(review);
->>>>>>> aa2fc93df4bf237923bfcfbcf573345719862cb8
+  console.log(review);
 
   const RatingData = {
     id_building: id,
@@ -132,12 +116,10 @@ const DetailPage = () => {
   const detailImage = building?.images;
   console.log("image", detailImage);
 
-    const detailImage = building?.images;
-  
   return (
     <div className="relative flex flex-col items-center">
-        <BannerDetail
-        bannerDetail={banner} 
+      <BannerDetail
+        bannerDetail={banner}
         nameBuilding={building.building_name}
         address={building.address}
         city={building.complex?.city}
@@ -145,29 +127,25 @@ const DetailPage = () => {
         rating={ratingAverage()}
         totalReview={RatingData.amountAllReview}
         images={detailImage}
-        />
-        {nearby?.length  !== 0 ? 
-          <div className="flex justify-center">
-            <NearbyFacilities facilities={nearby} /> 
-          </div> 
-          :
-          null
-        }
-        <div style={{ marginTop: 95 }} id="Review" >
-          <RatingAndReview allDataReviewOfAnOffice={review} allDataRatingOfAnOffice={RatingData} />
-          <PopupReview id_building={id} />
+      />
+      {nearby?.length !== 0 ? (
+        <div className="flex justify-center">
+          <NearbyFacilities facilities={nearby} />
         </div>
-        <RecomendationDetail
-          id_building={id}
-          />
-        <LiveChat
+      ) : null}
+      <div style={{ marginTop: 95 }} id="Review">
+        <RatingAndReview allDataReviewOfAnOffice={review} allDataRatingOfAnOffice={RatingData} />
+        <PopupReview id_building={id} />
+      </div>
+      <RecomendationDetail id_building={id} />
+      <LiveChat
         idBuilding={id}
         nameBuilding={building.building_name}
         addressBuilding={building.address}
         imagesBuilding={detailImage}
       />
-      <Footer />      
-  </div>
+      <Footer />
+    </div>
   );
 };
 
