@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Home from "../../pages";
 import axiosInstance from "../../networks/apis";
+import Link from "next/link";
 
 const Profile = ({ emailUser, fullNameUser }) => {
   let [email, setEmail] = useState(emailUser);
@@ -49,19 +50,33 @@ const Profile = ({ emailUser, fullNameUser }) => {
       ) : (
         <div>
           <ConfirmationBox show={show} setShow={setShow} />
-          <div className="flex justify-end xl:w-[90%] md:w-[92%] w-[95%]">
+          <div className="flex justify-center">
+            {/* <div className="absolute flex gap-[880px] xl:w-[90%] md:w-[92%] w-[95%] mt-9"> */}
+            <div className="absolute flex gap-[880px] mt-9">
             <button
-              className="bg-white md:py-3 py-2 md:px-6 px-3 border border-[#197BEB] rounded md:translate-y-11 translate-y-9"
+              className="bg-white w-[94px] h-[43px] border border-[#197BEB] rounded "
               onClick={() => {
                 setShow(true);
               }}
             >
               <p className="font-semibold md:text-base text-sm">Keluar</p>
             </button>
+              <Link href="/">
+                <a>
+                  <img
+                    src="/officity-logo.svg"
+                    alt="logo"
+                    className="hover:cursor-pointer"
+                  />
+                </a>
+              </Link>
+          </div>
           </div>
           <div className="flex justify-center">
             <div className="mx-auto md:w-[35%] w-full">
-              <p className="text-center font-semibold text-[32px] leading-[38px] mb-8">Profile</p>
+              <p className="text-center font-semibold text-[32px] leading-[38px] mb-8 mt-[58px]">
+                Profile
+              </p>
               <div className="flex justify-center mx-10 sm:mx-0 mb-8">
                 <div className="relative bg-blue rounded-full sm:w-[255px] w-[50%] sm:h-[255px] h-[50%] mx-5 sm:mx-0">
                   {/* {axiosInstance
