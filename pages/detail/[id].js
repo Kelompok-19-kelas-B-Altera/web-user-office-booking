@@ -113,8 +113,7 @@ const DetailPage = () => {
   
   return (
     <div className="relative flex flex-col items-center">
-        <BannerDetail 
-        id_building={id}
+        <BannerDetail
         bannerDetail={banner} 
         nameBuilding={building.building_name}
         address={building.address}

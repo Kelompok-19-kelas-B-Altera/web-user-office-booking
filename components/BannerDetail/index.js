@@ -38,7 +38,7 @@ export default function BannerDetail({
             rating={rating}
             totalReview={totalReview}
           />
-          <DetailImage images={images} id={id_building} />
+          <DetailImage images={images} />
         </div>
       </div>
     </>

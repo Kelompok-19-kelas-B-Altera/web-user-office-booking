@@ -2,18 +2,15 @@ import React, { useState } from "react";
 import PopupImage from "../PopupImage";
 
 export default function DetailImage({ images }) {
-  console.log(images);
+  const allImages = images;
   const [viewImages, setViewImages] = useState(false);
 
   const [currentImage, setCurrentImage] = useState();
-  console.log(currentImage);
 
   const handleViewImages = (e) => {
     const imageLink = e?.target.src;
     setViewImages(!viewImages);
     setCurrentImage(imageLink);
-    console.log("clicked", viewImages);
-    console.log("currentImage", currentImage);
   };
 
   return (
@@ -22,9 +19,8 @@ export default function DetailImage({ images }) {
       {viewImages && (
         <div
         className="fixed flex justify-center items-center top-0 right-0 left-0 w-full h-screen bg-black bg-opacity-30 z-50"
-        onClick={() => handleViewImages()}
-        >
-          <PopupImage imagesLink={currentImage} />
+        > 
+          <PopupImage imagesLink={currentImage} allImages={allImages} handleViewImages={(e) => handleViewImages(e)} />
         </div>
       )}
     </div>
