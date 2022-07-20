@@ -1,2 +1,2 @@
 /api/* http://34.101.99.101/api/:splat 200!
-/graphql* http://108.136.240.248/graphql:splat 200!
+/graphql http://108.136.240.248/graphql 200
