@@ -81,7 +81,7 @@ const DetailPage = () => {
       axiosInstance
       .get(`/api/v1/building/${id}`)
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setBuilding(res.data.data);
       })
       .catch((err) => {
@@ -92,6 +92,7 @@ const DetailPage = () => {
   }, [loading]);        
 
     const review = building?.reviews;
+    console.log(review);
 
     const RatingData = {
       id_building: id,
@@ -109,12 +110,10 @@ const DetailPage = () => {
     const nearby = building?.nearby_facilities;
 
     const detailImage = building?.images;
-    console.log(detailImage);
   
   return (
-    <div className="flex flex-col items-center" style={{ width: "100%" }}>
-        <div className="static flex justify-center">
-        <BannerDetail 
+    <div className="relative flex flex-col items-center">
+        <BannerDetail
         bannerDetail={banner} 
         nameBuilding={building.building_name}
         address={building.address}
@@ -124,7 +123,6 @@ const DetailPage = () => {
         totalReview={RatingData.amountAllReview}
         images={detailImage}
         />
-        </div>
         {nearby?.length  !== 0 ? 
           <div className="flex justify-center">
             <NearbyFacilities facilities={nearby} /> 
@@ -132,7 +130,7 @@ const DetailPage = () => {
           :
           null
         }
-        <div style={{ marginTop: 95 }} id="toReview" >
+        <div style={{ marginTop: 95 }} id="Review" >
           <RatingAndReview allDataReviewOfAnOffice={review} allDataRatingOfAnOffice={RatingData} />
           <PopupReview id_building={id} />
         </div>
