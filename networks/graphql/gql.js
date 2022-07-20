@@ -84,9 +84,31 @@ export const GET_CHAT_BY_ROOM_ID = gql`
   }
 `;
 
+export const GET_CHAT_BY_USER_AND_BUILDING_ID = gql`
+query GetAllChatByUsersIdAndBuildingId($idSender: Int!, $idTarget: Int!, $idBuilding: Int!) {
+  getAllChatByUsersIdAndBuildingId(idUser1: $idSender, idUser2: $idTarget, buildingId: $idBuilding) {
+    id
+    message
+    date
+    sender {
+      id
+      fullname
+      email
+      image
+    }
+    target {
+      id
+      fullname
+      email
+      image
+    }
+  }
+}
+`;
+
 export const SEND_MESSAGE = gql`
-  mutation SendChat($idTarget: Int!, $idBuilding: Int!, $message: String!) {
-    sendChat(idSender: 1, idTarget: $idTarget, idBuilding: $idBuilding, message: $message) {
+  mutation SendChat($idSender: Int!, $idTarget: Int!, $idBuilding: Int!, $message: String!) {
+    sendChat(idSender: $idSender, idTarget: $idTarget, idBuilding: $idBuilding, message: $message) {
       id
       message
       date
