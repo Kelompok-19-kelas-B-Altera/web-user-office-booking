@@ -13,7 +13,7 @@ export default function Recomendation({ id_building }) {
     axiosInstance
       .get("/api/v1/building")
       .then((res) => {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         setBuildings(res.data);
       })
       .catch((err) => {

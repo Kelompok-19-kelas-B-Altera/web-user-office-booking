@@ -1,56 +1,158 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import PopupImage from "../PopupImage";
 
-export default function DetailImage({images}) {
+export default function DetailImage({ images }) {
+  const allImages = images;
+  const [viewImages, setViewImages] = useState(false);
+
+  const [currentImage, setCurrentImage] = useState();
+
+  const handleViewImages = (e) => {
+    const imageLink = e?.target.src;
+    setViewImages(!viewImages);
+    setCurrentImage(imageLink);
+  };
+
   return (
     <div>
-          {images === undefined ? (
-            <div className='grid grid-cols-3 gap-10 mt-10' style={{maxWidth: 512, width:"100%", 
-            maxHeight: 328, marginLeft: 703,
-            top: 436}}>
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-            </div>
-            
-          ) : (
-            <div className='grid grid-cols-3 gap-10 mt-10' style={{maxWidth: 512, width:"100%", 
-            maxHeight: 328, marginLeft: 703,
-            top: 436}}>
-            {images[0] ? (
-              <img src={images[0].image_url} alt="image" className='w-36 h-36 object-cover' />
-              ) : (
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-              )}
-            {images[1] ? (
-              <img src={images[1].image_url} alt="image" className='w-36 h-36 object-cover' />
-              ) : (
-                <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-                )}
-            {images[2] ? (
-              <img src={images[2].image_url} alt="image" className='w-36 h-36 object-cover' />
-            ) : (
-              <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-              )}
-            {images[3] ? (
-              <img src={images[3].image_url} alt="image" className='w-36 h-36 object-cover' />
-              ) : (
-                <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-                )}
-            {images[4] ? (
-              <img src={images[4].image_url} alt="image" className='w-36 h-36 object-cover' />
-              ) : (
-                <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-                )}
-            {images[5] ? (
-              <img src={images[5].image_url} alt="image" className='w-36 h-36 object-cover' />
-              ) : (
-                <img src="/default-images-null.svg" alt="image" className='w-36 h-36 object-cover' />
-                )}
-            </div>
-          )}      
+    <div>
+      {viewImages && (
+        <div
+        className="fixed flex justify-center items-center top-0 right-0 left-0 w-full h-screen bg-black bg-opacity-30 z-50"
+        > 
+          <PopupImage imagesLink={currentImage} allImages={allImages} handleViewImages={(e) => handleViewImages(e)} />
+        </div>
+      )}
     </div>
-  )
+    <div className="flex justify-center">
+      {images === undefined ? (
+        <div className="flex flex-wrap gap-10 mt-10 w-[512px] h-[328px] ml-[703px]">
+          <img
+            src="/default-images-null.svg"
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            />
+          <img
+            src="/default-images-null.svg"
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            />
+          <img
+            src="/default-images-null.svg"
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            />
+          <img
+            src="/default-images-null.svg"
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            />
+          <img
+            src="/default-images-null.svg"
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            />
+          <img
+            src="/default-images-null.svg"
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            />
+        </div>
+      ) : (
+        <div className="flex flex-wrap gap-10 mt-10 w-[512px] h-[328px] ml-[39px]">
+          {images[0] ? (
+            <img
+            src={images[0].image_url}
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            onClick={(e) => handleViewImages(e)}
+            />
+            ) : (
+              <img
+              src="/default-images-null.svg"
+              alt="image"
+              className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+              onClick={(e) => handleViewImages(e)}
+              />
+              )}
+          {images[1] ? (
+            <img
+            src={images[1].image_url}
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            onClick={(e) => handleViewImages(e)}
+            />
+            ) : (
+              <img
+              src="/default-images-null.svg"
+              alt="image"
+              className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+              onClick={(e) => handleViewImages(e)}
+              />
+              )}
+          {images[2] ? (
+            <img
+            src={images[2].image_url}
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            onClick={(e) => handleViewImages(e)}
+            />
+            ) : (
+              <img
+              src="/default-images-null.svg"
+              alt="image"
+              className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+              onClick={(e) => handleViewImages(e)}
+              />
+              )}
+          {images[3] ? (
+            <img
+            src={images[3].image_url}
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            onClick={(e) => handleViewImages(e)}
+            />
+            ) : (
+              <img
+              src="/default-images-null.svg"
+              alt="image"
+              className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+              onClick={(e) => handleViewImages(e)}
+              />
+              )}
+          {images[4] ? (
+            <img
+            src={images[4].image_url}
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            onClick={(e) => handleViewImages(e)}
+            />
+            ) : (
+              <img
+              src="/default-images-null.svg"
+              alt="image"
+              className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+              onClick={(e) => handleViewImages(e)}
+            />
+            )}
+          {images[5] ? (
+            <img
+            src={images[5].image_url}
+            alt="image"
+            className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+            onClick={(e) => handleViewImages(e)}
+            />
+            ) : (
+              <img
+              src="/default-images-null.svg"
+              alt="image"
+              className="w-36 h-36 object-cover transition ease-out duration-500 hover:transform hover:scale-105 cursor-pointer"
+              onClick={(e) => handleViewImages(e)}
+              />
+              )}
+        </div>
+      )}
+    </div>
+    </div>
+  );
 }
