@@ -9,12 +9,13 @@ import Link from "next/link";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   GET_CHAT_BY_ROOM_ID,
+  GET_CHAT_BY_USER_AND_BUILDING_ID,
   GET_CHAT_ROOM_USER_CONTAIN,
   SEND_MESSAGE,
 } from "../../networks/graphql/gql";
 import { decodeToken } from "react-jwt";
 
-const LiveChat = () => {
+const LiveChat = ({ idBuilding, nameBuilding, addressBuilding, imagesBuilding }) => {
   // let [showChat, setShowChat] = useState(false);
   let [showChatting, setShowChatting] = useState(false);
   let [showContactChat, setShowContactChat] = useState(false);
@@ -39,12 +40,30 @@ const LiveChat = () => {
     loading: chatRoomLoading,
     error: chatRoomError,
     data: chatRoomData,
-  } = useQuery(GET_CHAT_ROOM_USER_CONTAIN, { variables: { idUser: decodedToken?.id }, pollInterval: 3000, });
+  } = useQuery(GET_CHAT_ROOM_USER_CONTAIN, {
+    variables: { idUser: decodedToken?.id },
+    pollInterval: 3000,
+  });
+  // const {
+  //   loading: chatLoading,
+  //   error: chatError,
+  //   data: chatData,
+  // } = useQuery(GET_CHAT_BY_ROOM_ID, {
+  //   variables: { idChatRoom: buildingData.idChatRoom },
+  //   pollInterval: 3000,
+  // });
   const {
     loading: chatLoading,
     error: chatError,
     data: chatData,
-  } = useQuery(GET_CHAT_BY_ROOM_ID, { variables: { idChatRoom: buildingData.idChatRoom }, pollInterval: 3000, });
+  } = useQuery(GET_CHAT_BY_USER_AND_BUILDING_ID, {
+    variables: {
+      idSender: decodedToken?.id,
+      idTarget: dataForSendMessage.idTarget,
+      idBuilding: dataForSendMessage.idBuilding,
+    },
+    pollInterval: 3000,
+  });
   const [sendMessage, { loading: sendLoading, error: sendError, data: sendData }] =
     useMutation(SEND_MESSAGE);
   const router = useRouter();
@@ -55,7 +74,6 @@ const LiveChat = () => {
         document.getElementById("scrollbar").scrollHeight);
     }
   }, [buildingData, chatData]);
-
   useEffect(() => {
     if (showChat && document) {
       document.body.style.overflow = "hidden";
@@ -63,6 +81,22 @@ const LiveChat = () => {
       document.body.style.overflow = "auto";
     }
   }, [showChat]);
+  
+  useEffect(() => {
+    if(imagesBuilding !== undefined) {
+
+      setBuildingData({
+        name: nameBuilding,
+        address: addressBuilding,
+        image: imagesBuilding === undefined ? "" : imagesBuilding[0]?.image_url,
+      });
+      setDataForSendMessage({
+        ...dataForSendMessage,
+        idTarget: 1,
+        idBuilding: idBuilding,
+      });
+    }
+  }, [nameBuilding, addressBuilding, imagesBuilding]);
 
   const handleBack = () => {
     // setShowChat(false);
@@ -71,7 +105,7 @@ const LiveChat = () => {
   };
 
   const handleChat = (e) => {
-    console.log(e.currentTarget.id);
+    // console.log(e.currentTarget.id);
     setShowChatting(true);
   };
 
@@ -80,6 +114,7 @@ const LiveChat = () => {
     if (dataForSendMessage.message !== "") {
       sendMessage({
         variables: {
+          idSender: decodedToken?.id,
           idTarget: dataForSendMessage.idTarget,
           idBuilding: dataForSendMessage.idBuilding,
           message: dataForSendMessage.message,
@@ -139,7 +174,7 @@ const LiveChat = () => {
                               image: e.building.image,
                             });
                             setDataForSendMessage({
-                              idTarget: Number(e.user2.id),
+                              idTarget: 1,
                               idBuilding: Number(e.building.id),
                               message: "",
                             });
@@ -301,7 +336,7 @@ const LiveChat = () => {
                       />
                       <div>
                         <h1 className="text-base font-normal">
-                          {buildingData.name.length > 20 ? (
+                          {buildingData.name?.length > 20 ? (
                             <>
                               {buildingData.name.split("").map((e, index) => (
                                 <>{index > 20 ? "" : e}</>
@@ -312,7 +347,8 @@ const LiveChat = () => {
                             buildingData.name
                           )}
                         </h1>
-                        <p className="text-xs font-normal">{buildingData.address.length > 20 ? (
+                        <p className="text-xs font-normal">
+                          {buildingData.address?.length > 20 ? (
                             <>
                               {buildingData.address.split("").map((e, index) => (
                                 <>{index > 20 ? "" : e}</>
@@ -321,7 +357,8 @@ const LiveChat = () => {
                             </>
                           ) : (
                             buildingData.address
-                          )}</p>
+                          )}
+                        </p>
                       </div>
                       <button style={{ marginLeft: "255px" }}>
                         <img
@@ -341,7 +378,7 @@ const LiveChat = () => {
                     style={{ height: "calc(100% - 170px)", borderRadius: "6px" }}
                   >
                     <div style={{ padding: "0 30px" }}>
-                      {chatData?.getAllChatByChatroomId.map((e) => (
+                      {chatData?.getAllChatByUsersIdAndBuildingId.map((e) => (
                         <>
                           {console.log(e.sender.id === decodedToken.id)}
                           {console.log(Number(e.sender.id), decodedToken.id)}
