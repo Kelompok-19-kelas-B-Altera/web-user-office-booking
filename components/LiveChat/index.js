@@ -3,6 +3,16 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSelector, useDispatch } from "react-redux";
 import { handleToggleChat } from "../../redux/features/LiveChatSlice";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import { useQuery, useMutation } from "@apollo/client";
+import {
+  GET_CHAT_BY_ROOM_ID,
+  GET_CHAT_ROOM_USER_CONTAIN,
+  SEND_MESSAGE,
+} from "../../networks/graphql/gql";
+import { decodeToken } from "react-jwt";
 
 const LiveChat = () => {
   // let [showChat, setShowChat] = useState(false);
@@ -11,6 +21,40 @@ const LiveChat = () => {
 
   const showChat = useSelector((state) => state.liveChat.toggleChat);
   const dispatch = useDispatch();
+
+  const decodedToken = decodeToken(Cookies.get("token"));
+  let [buildingData, setBuildingData] = useState({
+    idChatRoom: 0,
+    name: "",
+    address: "",
+    image: "",
+  });
+  let [dataForSendMessage, setDataForSendMessage] = useState({
+    idTarget: 0,
+    idBuilding: 0,
+    message: "",
+  });
+
+  const {
+    loading: chatRoomLoading,
+    error: chatRoomError,
+    data: chatRoomData,
+  } = useQuery(GET_CHAT_ROOM_USER_CONTAIN, { variables: { idUser: decodedToken?.id }, pollInterval: 3000, });
+  const {
+    loading: chatLoading,
+    error: chatError,
+    data: chatData,
+  } = useQuery(GET_CHAT_BY_ROOM_ID, { variables: { idChatRoom: buildingData.idChatRoom }, pollInterval: 3000, });
+  const [sendMessage, { loading: sendLoading, error: sendError, data: sendData }] =
+    useMutation(SEND_MESSAGE);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (document.getElementById("scrollbar")) {
+      return (document.getElementById("scrollbar").scrollTop =
+        document.getElementById("scrollbar").scrollHeight);
+    }
+  }, [buildingData, chatData]);
 
   useEffect(() => {
     if (showChat && document) {
@@ -31,6 +75,20 @@ const LiveChat = () => {
     setShowChatting(true);
   };
 
+  const handleSend = (e) => {
+    e.preventDefault();
+    if (dataForSendMessage.message !== "") {
+      sendMessage({
+        variables: {
+          idTarget: dataForSendMessage.idTarget,
+          idBuilding: dataForSendMessage.idBuilding,
+          message: dataForSendMessage.message,
+        },
+      });
+      setDataForSendMessage({ ...dataForSendMessage, message: "" });
+    }
+  };
+
   return (
     <div className={`${showChat ? styles.containerChatComponent : "w-0 h-0"} fixed z-50`}>
       {/* Desktop */}
@@ -42,8 +100,9 @@ const LiveChat = () => {
         {showChat && (
           <>
             <section className={`${styles.containerChatBox} bg-grey flex absolute z-10`}>
+              {/* LeftSide */}
               {showContactChat && (
-                <div className="h-full bg-white" style={{ width: "219px", borderRadius: "6px" }}>
+                <div className={`h-full bg-white`} style={{ width: "219px", borderRadius: "6px" }}>
                   <div
                     className="font-semibold text-2xl bg-white"
                     style={{
@@ -56,224 +115,316 @@ const LiveChat = () => {
                   >
                     Chat
                   </div>
-                  <div
-                    className={`${styles.buildingBox} flex items-center bg-white`}
-                    style={{ padding: "10px" }}
+                  {!Cookies.get("token") ? (
+                    <>
+                      <img src="/chat-room-not-login.svg" />
+                      <img src="/chat-room-not-login.svg" />
+                      <img src="/chat-room-not-login.svg" />
+                      <img src="/chat-room-not-login.svg" />
+                    </>
+                  ) : (
+                    <div className={`h-[83%] bg-white overflow-auto ${styles.containerLeft}`}>
+                      {chatRoomData?.getAllChatroomByUsersIdContaining.map((e) => (
+                        <div
+                          className={`${styles.buildingBox} flex items-center bg-white hover:cursor-pointer`}
+                          style={{ padding: "10px" }}
+                          key={e.id}
+                          onClick={() => {
+                            console.log(e);
+                            console.log(e.building.id);
+                            setBuildingData({
+                              idChatRoom: e.id,
+                              name: e.building.name,
+                              address: e.building.address,
+                              image: e.building.image,
+                            });
+                            setDataForSendMessage({
+                              idTarget: Number(e.user2.id),
+                              idBuilding: Number(e.building.id),
+                              message: "",
+                            });
+                          }}
+                        >
+                          <img
+                            src={e.building.image}
+                            alt="building-image"
+                            className="object-cover"
+                            style={{
+                              width: "45px",
+                              height: "45px",
+                              borderRadius: "50%",
+                              marginRight: "14px",
+                            }}
+                          />
+                          <span>
+                            <h1 className={`${styles.buildingName} text-xs font-normal`}>
+                              {e.building.name}
+                            </h1>
+                            <p className={`${styles.buildingLocation}`}>{e.building.address}</p>
+                          </span>
+                          <p
+                            className="text-secondary"
+                            style={{ fontSize: "8px", marginLeft: "17px" }}
+                          >
+                            08.00
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+              {/* LeftSide */}
+
+              {/* RightSide */}
+              {!Cookies.get("token") ? (
+                <div>
+                  {/* Header */}
+                  <section
+                    className="flex items-center bg-white"
+                    style={{
+                      width: "100%",
+                      height: "76px",
+                      padding: "10px 23px 9px 16px",
+                      borderRadius: "6px",
+                    }}
                   >
-                    <img
-                      src="/login.svg"
-                      alt="building-image"
-                      className="object-cover"
+                    <button style={{ marginRight: "10px" }}>
+                      <img
+                        src="/open-close-left-chat.svg"
+                        alt="open-close-left-chat"
+                        className={showContactChat && "rotate-180"}
+                        onClick={() => setShowContactChat(!showContactChat)}
+                      />
+                    </button>
+                    <div
                       style={{
-                        width: "45px",
-                        height: "45px",
+                        width: "160px",
+                        height: "57px",
                         borderRadius: "50%",
                         marginRight: "14px",
                       }}
-                    />
-                    <span>
-                      <h1 className={`${styles.buildingName} text-xs font-normal`}>
-                        Building Name
-                      </h1>
-                      <p className={`${styles.buildingLocation}`}>Building Location</p>
-                    </span>
-                    <p className="text-secondary" style={{ fontSize: "8px", marginLeft: "17px" }}>
-                      08.00
-                    </p>
+                    ></div>
+                    <button style={{ marginLeft: "255px" }}>
+                      <img
+                        src="/close-chat.svg"
+                        alt="close-chat"
+                        onClick={() => dispatch(handleToggleChat())}
+                      />
+                    </button>
+                  </section>
+                  {/* Header */}
+                  <div className="flex flex-col justify-center items-center h-[375px] gap-[32px]">
+                    <p className="text-[#07072380] text-base font-normal">Anda belum masuk akun</p>
+                    <div className="flex gap-2">
+                      <Link href="/login">
+                        <a>
+                          <button className="w-[90px] h-[36px] font-sans bg-[#197BEB] text-white rounded-sm flex justify-center items-center">
+                            Masuk
+                          </button>
+                        </a>
+                      </Link>
+                      <Link href="/signup">
+                        <a>
+                          <button className="w-[90px] h-[36px] font-sans border border-[#197BEB] text-[#197BEB] rounded-sm flex justify-center items-center">
+                            Daftar
+                          </button>
+                        </a>
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              )}
-              <div className="h-full relative" style={{ borderRadius: "6px" }}>
-                <section
-                  className="flex items-center bg-white"
-                  style={{
-                    width: "100%",
-                    height: "76px",
-                    padding: "10px 23px 9px 16px",
-                    borderRadius: "6px",
-                  }}
-                >
-                  <button style={{ marginRight: "10px" }}>
-                    <img
-                      src="/open-close-left-chat.svg"
-                      alt="open-close-left-chat"
-                      className={showContactChat && "rotate-180"}
-                      onClick={() => setShowContactChat(!showContactChat)}
-                    />
-                  </button>
-                  <img
-                    src="/login.svg"
-                    className="object-cover"
-                    style={{
-                      width: "57px",
-                      height: "57px",
-                      borderRadius: "50%",
-                      marginRight: "14px",
-                    }}
-                  />
-                  <div>
-                    <h1 className="text-base font-normal">Building Name</h1>
-                    <p className="text-xs font-normal">Building Location</p>
-                  </div>
-                  <button style={{ marginLeft: "255px" }}>
-                    <img
-                      src="/close-chat.svg"
-                      alt="close-chat"
-                      onClick={() => dispatch(handleToggleChat())}
-                    />
-                  </button>
-                </section>
-
-                <section
-                  className={`${styles.containerMessages} bg-grey overflow-auto`}
-                  style={{ height: "calc(100% - 170px)", borderRadius: "6px" }}
-                >
-                  <div style={{ padding: "0 30px" }}>
-                    {/* admin */}
-                    <div className="w-full flex justify-end" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-blue text-white text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* admin */}
-
-                    {/* user */}
-                    <div className="w-full flex justify-start" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-white text-black text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* user */}
-
-                    {/* admin */}
-                    <div className="w-full flex justify-end" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-blue text-white text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* admin */}
-
-                    {/* user */}
-                    <div className="w-full flex justify-start" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-white text-black text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* user */}
-
-                    {/* admin */}
-                    <div className="w-full flex justify-end" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-blue text-white text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* admin */}
-
-                    {/* user */}
-                    <div className="w-full flex justify-start" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-white text-black text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* user */}
-
-                    {/* admin */}
-                    <div className="w-full flex justify-end" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-blue text-white text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* admin */}
-
-                    {/* user */}
-                    <div className="w-full flex justify-start" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-white text-black text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* user */}
-
-                    {/* admin */}
-                    <div className="w-full flex justify-end" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-blue text-white text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* admin */}
-
-                    {/* user */}
-                    <div className="w-full flex justify-start" style={{ margin: "5px 0" }}>
-                      <p
-                        className="bg-white text-black text-xs flex justify-center items-center"
-                        style={{ width: "277px", padding: "10px 30px", borderRadius: "6px" }}
-                      >
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt natus
-                        impedit enim.
-                      </p>
-                    </div>
-                    {/* user */}
-                  </div>
-
-                  <section
-                    className="absolute right-0 bottom-0 w-full bg-grey flex justify-center"
-                    style={{ paddingBottom: "28px", borderRadius: "6px" }}
-                  >
-                    <div
-                      className="bg-white flex justify-center items-center rounded"
-                      style={{ maxWidth: "450px", width: "100%", padding: "5px 5px 5px 10px" }}
+              ) : (
+                <div className="h-full relative" style={{ borderRadius: "6px" }}>
+                  {/* Header */}
+                  {buildingData.idChatRoom === 0 ? (
+                    <section
+                      className="flex items-center bg-white"
+                      style={{
+                        width: "100%",
+                        height: "76px",
+                        padding: "10px 23px 9px 16px",
+                        borderRadius: "6px",
+                      }}
                     >
-                      <input
-                        type="text"
-                        placeholder="Ketik sesuatu ..."
-                        className="focus:outline-none"
-                        style={{ width: "450px", height: "30px", fontSize: "10px" }}
-                      />
-                      <button
-                        className="bg-blue w-25 h-25 flex justify-center items-center rounded"
-                        style={{ padding: "5px" }}
-                      >
-                        <img src="/send.svg" alt="send" />
+                      <button style={{ marginRight: "10px" }}>
+                        <img
+                          src="/open-close-left-chat.svg"
+                          alt="open-close-left-chat"
+                          className={showContactChat && "rotate-180"}
+                          onClick={() => setShowContactChat(!showContactChat)}
+                        />
                       </button>
+                      <div
+                        style={{
+                          width: "160px",
+                          height: "57px",
+                          borderRadius: "50%",
+                          marginRight: "14px",
+                        }}
+                      ></div>
+                      <button style={{ marginLeft: "255px" }}>
+                        <img
+                          src="/close-chat.svg"
+                          alt="close-chat"
+                          onClick={() => dispatch(handleToggleChat())}
+                        />
+                      </button>
+                    </section>
+                  ) : (
+                    <section
+                      className="flex items-center bg-white"
+                      style={{
+                        width: "100%",
+                        height: "76px",
+                        padding: "10px 23px 9px 16px",
+                        borderRadius: "6px",
+                      }}
+                    >
+                      <button style={{ marginRight: "10px" }}>
+                        <img
+                          src="/open-close-left-chat.svg"
+                          alt="open-close-left-chat"
+                          className={showContactChat && "rotate-180"}
+                          onClick={() => setShowContactChat(!showContactChat)}
+                        />
+                      </button>
+                      <img
+                        src={buildingData.image}
+                        className="object-cover"
+                        style={{
+                          width: "57px",
+                          height: "57px",
+                          borderRadius: "50%",
+                          marginRight: "14px",
+                        }}
+                      />
+                      <div>
+                        <h1 className="text-base font-normal">
+                          {buildingData.name.length > 20 ? (
+                            <>
+                              {buildingData.name.split("").map((e, index) => (
+                                <>{index > 20 ? "" : e}</>
+                              ))}
+                              ...
+                            </>
+                          ) : (
+                            buildingData.name
+                          )}
+                        </h1>
+                        <p className="text-xs font-normal">{buildingData.address.length > 20 ? (
+                            <>
+                              {buildingData.address.split("").map((e, index) => (
+                                <>{index > 20 ? "" : e}</>
+                              ))}
+                              ...
+                            </>
+                          ) : (
+                            buildingData.address
+                          )}</p>
+                      </div>
+                      <button style={{ marginLeft: "255px" }}>
+                        <img
+                          src="/close-chat.svg"
+                          alt="close-chat"
+                          onClick={() => dispatch(handleToggleChat())}
+                        />
+                      </button>
+                    </section>
+                  )}
+                  {/* Header */}
+
+                  {/* Messages */}
+                  <section
+                    id="scrollbar"
+                    className={`${styles.containerMessages} bg-grey overflow-auto`}
+                    style={{ height: "calc(100% - 170px)", borderRadius: "6px" }}
+                  >
+                    <div style={{ padding: "0 30px" }}>
+                      {chatData?.getAllChatByChatroomId.map((e) => (
+                        <>
+                          {console.log(e.sender.id === decodedToken.id)}
+                          {console.log(Number(e.sender.id), decodedToken.id)}
+                          {Number(e.sender.id) === decodedToken.id ? (
+                            <>
+                              {/* sender */}
+                              <div className="w-full flex justify-end" style={{ margin: "5px 0" }}>
+                                <p
+                                  className="bg-blue text-white text-xs flex justify-end items-center max-w-[277px]"
+                                  style={{
+                                    // width: "277px",
+                                    padding: "10px 30px",
+                                    borderRadius: "6px",
+                                  }}
+                                >
+                                  {e.message}
+                                </p>
+                              </div>
+                              {/* sender */}
+                            </>
+                          ) : (
+                            <>
+                              {/* target */}
+                              <div
+                                className="w-full flex justify-start"
+                                style={{ margin: "5px 0" }}
+                              >
+                                <p
+                                  className="bg-white text-black text-xs flex items-center max-w-[277px]"
+                                  style={{
+                                    // width: "277px",
+                                    padding: "10px 30px",
+                                    borderRadius: "6px",
+                                  }}
+                                >
+                                  {e.message}
+                                </p>
+                              </div>
+                              {/* target */}
+                            </>
+                          )}
+                        </>
+                      ))}
                     </div>
+
+                    <section
+                      className="absolute right-0 bottom-0 w-full bg-grey flex justify-center"
+                      style={{ paddingBottom: "28px", borderRadius: "6px" }}
+                    >
+                      <form
+                        onSubmit={(e) => {
+                          handleSend(e);
+                        }}
+                        className="bg-white flex justify-center items-center rounded"
+                        style={{ maxWidth: "450px", width: "100%", padding: "5px 5px 5px 10px" }}
+                      >
+                        <input
+                          type="text"
+                          placeholder="Ketik sesuatu ..."
+                          className="focus:outline-none"
+                          style={{ width: "450px", height: "30px", fontSize: "10px" }}
+                          value={dataForSendMessage.message}
+                          onChange={(e) => {
+                            setDataForSendMessage({
+                              ...dataForSendMessage,
+                              message: e.target.value,
+                            });
+                          }}
+                        />
+                        <button
+                          type="submit"
+                          className="bg-blue w-25 h-25 flex justify-center items-center rounded"
+                          style={{ padding: "5px" }}
+                        >
+                          <img src="/send.svg" alt="send" />
+                        </button>
+                      </form>
+                    </section>
                   </section>
-                </section>
-              </div>
+                  {/* Messages */}
+                  {/* RightSide */}
+                </div>
+              )}
             </section>
             <div className={`${styles.triangle} bg-grey absolute`}></div>
           </>
