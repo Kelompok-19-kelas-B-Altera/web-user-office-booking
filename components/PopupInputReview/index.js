@@ -57,15 +57,16 @@ function PopupInputReview({ id_building }) {
       .then((res) => {
         console.log(res.data);
         location.reload()
+        dispatch(handleIsSubmitSucces("true"));
         // dispatch(handleIsSubmitSucces(true));
         // dispatch(handleTogglePopupReview(false));
       }
       )
       .catch((err) => {
+        dispatch(handleIsSubmitSucces("false"));
         console.log(err);
       }
       );
-      dispatch(handleIsSubmitSucces());
   };
 
   return (
