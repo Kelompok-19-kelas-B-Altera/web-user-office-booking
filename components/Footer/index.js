@@ -15,34 +15,42 @@ export default function Footer() {
                     </div>
             </div>
             <div className="flex w-1/2">
-                <div className={`${styles.containerInformation} flex`}>
-                    <div>
-                        <h1 className="h-5 mb-5 text-lg text-blue">Services</h1>
+                <div className={`${styles.containerInformation} flex gap-16`}>
+                    <div className='w-[106px] h-[102px]'>
+                        <h1 className="h-5 mb-5 text-blue">Services</h1>
                         <Link href="#EmailMarketing">
-                            <a className='inline-block mb-5'>Email Marketing</a>
+                            <a className='inline-block mb-5 text-sm'>Email Marketing</a>
                         </Link>
                         <Link href="#ContactUs">
-                            <a className='inline-block mb-5'>Contact Us</a>
+                            <a className='inline-block mb-5 text-sm'>Contact Us</a>
                         </Link>
                     </div>
-                    <div>
-                        <h1 className="h-5 mb-5 text-lg text-blue">About</h1>
+                    <div className='w-[65px] h-[102px]'>
+                        <h1 className="h-5 mb-5 text-blue">About</h1>
                         <Link href="#OurStory">
-                            <a className='inline-block mb-5'>Our Story</a>
+                            <a className='inline-block mb-5 text-sm'>Our Story</a>
                         </Link>
                         <Link href="#Careers">
-                            <a className='inline-block mb-5'>Careers</a>
+                            <a className='inline-block mb-5 text-sm'>Careers</a>
+                        </Link>
+                    </div>
+                    <div className='w-[140px] h-[112px]'>
+                        <h1 className="h-5 text-blue">Download Our App</h1>
+                        <Link href="#GooglePlay">
+                            <a>
+                                <img src="/google-play.svg" alt="google play"/>
+                            </a>
                         </Link>
                     </div>
                     <div className='flex flex-col justify-center items-center gap-5'>
                         <Link href="#facebook">
-                            <a className=''><img src="/facebook.svg" alt=""/></a>
+                            <a className=''><img src="/facebook.svg" alt="facebook"/></a>
                         </Link>
                         <Link href="#twitter">
-                            <a className=''><img src="/twitter.svg" alt=""/></a>
+                            <a className=''><img src="/twitter.svg" alt="twitter"/></a>
                         </Link>
                         <Link href="#instagram">
-                            <a className=''><img src="/instagram.svg" alt=""/></a>
+                            <a className=''><img src="/instagram.svg" alt="instagram"/></a>
                         </Link>
                     </div>
                 </div>

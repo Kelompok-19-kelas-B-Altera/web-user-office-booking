@@ -1,3 +1,4 @@
+import Head from "next/head";
 import LiveChat from "../components/LiveChat";
 import HeaderLogo from "../components/HeaderLogo";
 import CardBuilding from "../components/CardBuilding";
@@ -23,6 +24,7 @@ import axios from "axios";
 export default function Home() {
   const token = Cookies.get("token");
   const tokenDecoded = decodeToken(token);
+  console.log(tokenDecoded);
 
   // FILTER & SEARCH FEATURE
   const [query, setQuery] = useState("");
@@ -52,7 +54,7 @@ export default function Home() {
           },
         });
         setBuildings(data.data);
-        setBuildingSearch(data.data)
+        setBuildingSearch(data.data);
         console.log(data.data);
       } catch (error) {
         console.log(error);
@@ -73,9 +75,9 @@ export default function Home() {
     });
   }, [query]);
 
-  useEffect(()=>{
-    console.log(buildingSearch)
-  }, [buildingSearch])
+  useEffect(() => {
+    console.log(buildingSearch);
+  }, [buildingSearch]);
 
   useEffect(() => {
     setResultFilter([]);
@@ -106,11 +108,20 @@ export default function Home() {
           let checkIfTrue = true;
           if (date[0] && date[1]) {
             checkIfTrue = item.schedules?.some((schedule) => {
-              const fromDate = moment(schedule.from_date, "DD-MM-YYYY hh:mm:ss").toDate();
-              const untilDate = moment(schedule.until_date, "DD-MM-YYYY hh:mm:ss").toDate();
+              const fromDate = moment(
+                schedule.from_date,
+                "DD-MM-YYYY hh:mm:ss"
+              ).toDate();
+              const untilDate = moment(
+                schedule.until_date,
+                "DD-MM-YYYY hh:mm:ss"
+              ).toDate();
 
               if (schedule.ready === true) {
-                if (new Date(date[0]) >= fromDate && new Date(date[1]) <= untilDate) {
+                if (
+                  new Date(date[0]) >= fromDate &&
+                  new Date(date[1]) <= untilDate
+                ) {
                   return true;
                 } else {
                   return false;
@@ -159,96 +170,106 @@ export default function Home() {
   // console.log(queryPicked);
 
   return (
-    <div className="flex flex-col items-center" style={{ width: "100%" }}>
-      <LiveChat />
-      <section className={`${styles.sideBarContainer} fixed left-0 top-0 flex justify-center z-40`}>
-        <div className="flex flex-col gap-5 items-center text-center">
-          <div className="flex flex-col justify-center items-center">
-            {token ? (
-              <>
-                <Link href={`/profile/${tokenDecoded.email}`}>
-                  <a>
-                    <img
-                      src="/building.svg"
-                      alt="profile"
-                      width={137}
-                      height={137}
-                      className="w-[137px] h-[137px] rounded-full object-cover mb-3.5"
-                    />
-                  </a>
-                </Link>
-                <Link href={`/profile/${tokenDecoded.email}`}>
-                  <a className="text-base text-blue capitalize">{tokenDecoded.fullname}</a>
-                </Link>
-              </>
-            ) : (
-              <>
-                <p className="text-xl mb-3">Anda belum masuk</p>
-                <div className="flex gap-2 mb-[25px]">
-                  <Link href="/login">
+    <div>
+      <Head>
+        <title>Officity</title>
+        <link rel="icon" href="/officity-logo.svg" />
+      </Head>
+      <div className="flex flex-col items-center" style={{ width: "100%" }}>
+        <LiveChat />
+        <section
+          className={`${styles.sideBarContainer} fixed left-0 top-0 flex justify-center z-40`}
+        >
+          <div className="flex flex-col gap-5 items-center text-center">
+            <div className="flex flex-col justify-center items-center">
+              {token ? (
+                <>
+                  <Link href={`/profile/${tokenDecoded.email}`}>
                     <a>
-                      <button className="w-[90px] h-[36px] bg-blue text-white text-sm rounded-sm">
-                        Masuk
-                      </button>
+                      <img
+                        src="/building.svg"
+                        alt="profile"
+                        width={137}
+                        height={137}
+                        className="w-[137px] h-[137px] rounded-full object-cover mb-3.5"
+                      />
                     </a>
                   </Link>
-                  <Link href="/signup">
-                    <a>
-                      <button className="w-[90px] h-[36px] border border-blue text-blue text-sm rounded-sm">
-                        Daftar
-                      </button>
+                  <Link href={`/profile/${tokenDecoded.email}`}>
+                    <a className="text-base text-blue capitalize">
+                      {tokenDecoded.fullname}
                     </a>
                   </Link>
-                </div>
-              </>
-            )}
-          </div>
+                </>
+              ) : (
+                <>
+                  <p className="text-xl mb-3">Anda belum masuk</p>
+                  <div className="flex gap-2 mb-[25px]">
+                    <Link href="/login">
+                      <a>
+                        <button className="w-[90px] h-[36px] bg-blue text-white text-sm rounded-sm">
+                          Masuk
+                        </button>
+                      </a>
+                    </Link>
+                    <Link href="/signup">
+                      <a>
+                        <button className="w-[90px] h-[36px] border border-blue text-blue text-sm rounded-sm">
+                          Daftar
+                        </button>
+                      </a>
+                    </Link>
+                  </div>
+                </>
+              )}
+            </div>
 
-          {/* ------- Kode Search Filter ------ */}
-          <Filter state={filterTemp} setState={setFilterTemp} />
-          <FilterByTime date={dateTemp} setDate={setDateTemp} />
-          <FilterButton
-            buildingFilterHandler={buildingApplyHandler}
-            buildingResetHandler={buildingResetHandler}
-          />
-          {/* ------- Kode Search Filter ------ */}
-          {/* <Filter />
+            {/* ------- Kode Search Filter ------ */}
+            <Filter state={filterTemp} setState={setFilterTemp} />
+            <FilterByTime date={dateTemp} setDate={setDateTemp} />
+            <FilterButton
+              buildingFilterHandler={buildingApplyHandler}
+              buildingResetHandler={buildingResetHandler}
+            />
+            {/* ------- Kode Search Filter ------ */}
+            {/* <Filter />
           <FilterByTime />
-          <ButtonsFilter /> */}
-        </div>
-      </section>
+        <ButtonsFilter /> */}
+          </div>
+        </section>
 
-      <section className={`${styles.container} relative flex justify-end`}>
-        <div className={`${styles.moreContainer} flex flex-col`}>
-          <HeaderLogo
-            setQuery={setQuery}
-            query={query}
-            setQueryPicked={setQueryPicked}
-            buildings={buildingSearch}
-          />
-          {/* <header className="w-full flex justify-between">
-            <Search
+        <section className={`${styles.container} relative flex justify-end`}>
+          <div className={`${styles.moreContainer} flex flex-col`}>
+            <HeaderLogo
               setQuery={setQuery}
               query={query}
-              buildings={buildingFilterHandler(buildings)}
+              setQueryPicked={setQueryPicked}
+              buildings={buildingSearch}
+            />
+            {/* <header className="w-full flex justify-between">
+            <Search
+            setQuery={setQuery}
+            query={query}
+            buildings={buildingFilterHandler(buildings)}
             />
             <img src="/officity-logo.svg" alt="logo" />
           </header> */}
-          <FilterResult
-            // result={buildingFilterHandler(buildings)}
-            result={resultFilter}
-          />
-          {resultFilter.length === 0 && (
-            <>
-              <div className="" style={{ marginTop: "33px" }}>
-                <MostViews />
-              </div>
-              <Recomendation />
-            </>
-          )}
-        </div>
-      </section>
-      <Footer />
+            <FilterResult
+              // result={buildingFilterHandler(buildings)}
+              result={resultFilter}
+            />
+            {resultFilter.length === 0 && (
+              <>
+                <div className="" style={{ marginTop: "33px" }}>
+                  <MostViews />
+                </div>
+                <Recomendation />
+              </>
+            )}
+          </div>
+        </section>
+        <Footer />
+      </div>
     </div>
   );
 }
