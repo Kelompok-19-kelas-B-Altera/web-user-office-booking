@@ -14,7 +14,10 @@ export default function BannerDetail({
   rating,
   totalReview,
   images,
-  id_building
+  setQuery,
+  query,
+  setQueryPicked,
+  buildingSearch,
 }) {
   return (
     <>
@@ -26,7 +29,12 @@ export default function BannerDetail({
             className={`${styles.image} object-cover`}
           />
           <div className={`${styles.header} absolute`}>
-            <HeaderLogo />
+            <HeaderLogo
+              setQuery={setQuery}
+              query={query}
+              setQueryPicked={setQueryPicked}
+              buildings={buildingSearch}
+            />
           </div>
         </div>
         <div className="flex justify-center">
