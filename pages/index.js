@@ -25,6 +25,7 @@ export default function Home() {
   const token = Cookies.get("token");
   const tokenDecoded = decodeToken(token);
   console.log(tokenDecoded);
+  let [userImage, setUserImage] = useState();
 
   // FILTER & SEARCH FEATURE
   const [query, setQuery] = useState("");
@@ -92,6 +93,21 @@ export default function Home() {
   // if (isLoading) return <>Loading...</>;
   // if (hasError) return <>Has Error... </>;
 
+  // Get user image
+  useEffect(() => {
+    if (tokenDecoded) {
+      axiosInstance
+        .get(`/api/v1/user/management/${tokenDecoded?.id}`)
+        .then((res) => {
+          setUserImage(res.data.data.pic_url);
+          console.log(res.data.data.pic_url);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [tokenDecoded]);
+
   const keys = ["building_name", "address"];
 
   const buildingApplyHandler = () => {
@@ -108,20 +124,11 @@ export default function Home() {
           let checkIfTrue = true;
           if (date[0] && date[1]) {
             checkIfTrue = item.schedules?.some((schedule) => {
-              const fromDate = moment(
-                schedule.from_date,
-                "DD-MM-YYYY hh:mm:ss"
-              ).toDate();
-              const untilDate = moment(
-                schedule.until_date,
-                "DD-MM-YYYY hh:mm:ss"
-              ).toDate();
+              const fromDate = moment(schedule.from_date, "DD-MM-YYYY hh:mm:ss").toDate();
+              const untilDate = moment(schedule.until_date, "DD-MM-YYYY hh:mm:ss").toDate();
 
               if (schedule.ready === true) {
-                if (
-                  new Date(date[0]) >= fromDate &&
-                  new Date(date[1]) <= untilDate
-                ) {
+                if (new Date(date[0]) >= fromDate && new Date(date[1]) <= untilDate) {
                   return true;
                 } else {
                   return false;
@@ -187,7 +194,7 @@ export default function Home() {
                   <Link href={`/profile/${tokenDecoded.email}`}>
                     <a>
                       <img
-                        src="/building.svg"
+                        src={userImage}
                         alt="profile"
                         width={137}
                         height={137}
@@ -196,9 +203,7 @@ export default function Home() {
                     </a>
                   </Link>
                   <Link href={`/profile/${tokenDecoded.email}`}>
-                    <a className="text-base text-blue capitalize">
-                      {tokenDecoded.fullname}
-                    </a>
+                    <a className="text-base text-blue capitalize">{tokenDecoded.fullname}</a>
                   </Link>
                 </>
               ) : (

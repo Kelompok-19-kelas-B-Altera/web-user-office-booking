@@ -7,11 +7,15 @@ import { useRouter } from "next/router";
 import Home from "../../pages";
 import axiosInstance from "../../networks/apis";
 import Link from "next/link";
+import { decodeToken } from "react-jwt";
 
 const Profile = ({ emailUser, fullNameUser }) => {
   let [email, setEmail] = useState(emailUser);
   let [fullname, setFullname] = useState(fullNameUser);
   let [show, setShow] = useState(false);
+  let [picture, setPicture] = useState();
+  let [userImage, setUserImage] = useState();
+  const decodedToken = decodeToken(Cookies.get("token"));
   // let [isEmailValid, setEmailValid] = useState(false);
   // let [isAllValid, setAllValid] = useState("");
   const router = useRouter();
@@ -41,6 +45,68 @@ const Profile = ({ emailUser, fullNameUser }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (decodedToken) {
+      axiosInstance
+        .get(`/api/v1/user/management/${decodedToken?.id}`)
+        .then((res) => {
+          setUserImage(res.data.data.pic_url);
+          console.log(res.data.data.pic_url);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [decodedToken]);
+
+  const handleInputImage = (e) => {
+    const formData = new FormData();
+    formData.append("id_user", decodedToken?.id);
+    formData.append("file", e?.target.files[0]);
+
+    axiosInstance({
+      method: "post",
+      url: "/api/v1/user/image",
+      data: formData,
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        console.log(res, "res");
+        location.reload()
+      })
+      .catch((err) => {
+        console.log(err, "err");
+      });
+  };
+
+  useEffect(() => {
+    handleInputImage();
+    // let formData = new FormData();
+    // formData.append("id_user", 1);
+    // formData.append("file", picture);
+    // console.log(formData)
+    // axiosInstance({
+    //   method: "post",
+    //   url: "/api/v1/user/image",
+    //   data: formData,
+    //   headers: {
+    //     Authorization: `Bearer ${Cookies.get("token")}`,
+    //     "Content-Type": "multipart/form-data",
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log(res, "res");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err, "err");
+    //   });
+  }, [picture]);
+
+  console.log(Cookies.get("token"));
+
   return (
     <>
       {!Cookies.get("token") ? (
@@ -53,24 +119,20 @@ const Profile = ({ emailUser, fullNameUser }) => {
           <div className="flex justify-center">
             {/* <div className="absolute flex gap-[880px] xl:w-[90%] md:w-[92%] w-[95%] mt-9"> */}
             <div className="absolute flex gap-[880px] mt-9">
-            <button
-              className="bg-white w-[94px] h-[43px] border border-[#197BEB] rounded "
-              onClick={() => {
-                setShow(true);
-              }}
-            >
-              <p className="font-semibold md:text-base text-sm">Keluar</p>
-            </button>
+              <button
+                className="bg-white w-[94px] h-[43px] border border-[#197BEB] rounded "
+                onClick={() => {
+                  setShow(true);
+                }}
+              >
+                <p className="font-semibold md:text-base text-sm">Keluar</p>
+              </button>
               <Link href="/">
                 <a>
-                  <img
-                    src="/officity-logo.svg"
-                    alt="logo"
-                    className="hover:cursor-pointer"
-                  />
+                  <img src="/officity-logo.svg" alt="logo" className="hover:cursor-pointer" />
                 </a>
               </Link>
-          </div>
+            </div>
           </div>
           <div className="flex justify-center">
             <div className="mx-auto md:w-[35%] w-full">
@@ -82,14 +144,25 @@ const Profile = ({ emailUser, fullNameUser }) => {
                   {/* {axiosInstance
                     .get("/api/profile", {
                   } */}
-                  <img
-                    src="https://picsum.photos/200"
-                    className="object-cover rounded-full w-full h-full"
-                  />
-                  <img
-                    src="/camera-icon.svg"
-                    className="absolute m-auto left-0 right-0 bottom-0 translate-y-[22px]"
-                  />
+                  <img src={userImage} className="object-cover rounded-full w-full h-full" />
+                  <div className="relative">
+                    <input
+                      type="file"
+                      className="absolute z-50 w-[45px] h-[55px] left-[105px] top-[-25px] opacity-0"
+                      onChange={(e) => {
+                        e.target.files[0] && (
+                          <>
+                            {handleInputImage(e)}
+                            {setPicture(e.target.files[0])}
+                          </>
+                        );
+                      }}
+                    />
+                    <img
+                      src="/camera-icon.svg"
+                      className="absolute m-auto left-0 right-0 bottom-0 translate-y-[22px]"
+                    />
+                  </div>
                 </div>
               </div>
               <div className="md:w-full w-[80%] mx-auto">
